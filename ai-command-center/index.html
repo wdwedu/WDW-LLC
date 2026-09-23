@@ -116,7 +116,47 @@
     </div>
     <div class="drawer" id="moduleDrawer"></div>
   </section>
-  <footer><span>WDW AI COMMAND CENTER · CURATED WORKFLOW SYSTEM</span><span>Self-contained interface · embedded marks · no remote logo requests · no credentials stored</span></footer>
+  <footer class="wdw-footer">
+  <div class="wrap wdw-footer-grid">
+    <section class="wdw-footer-brand" aria-label="WDW">
+      <div class="wdw-footer-mark">WDW</div>
+      <p>Learning design, educational thinking, AI-supported workflows, and practical tools for better work and learning.</p>
+    </section>
+    <nav class="wdw-footer-col" aria-label="Footer explore navigation">
+      <h3>Explore</h3>
+      <a href="/">Home</a>
+      <a href="/#portfolio">Portfolio</a>
+      <a href="/articles/">Articles</a>
+      <a href="/ai-command-center/">AI Command Center</a>
+    </nav>
+    <nav class="wdw-footer-col" aria-label="WDW social links">
+      <h3>Connect</h3>
+      <a href="https://www.youtube.com/@WDWEDU" target="_blank" rel="noopener">YouTube</a>
+      <button type="button" class="footer-link-button" data-pending-social="LinkedIn">LinkedIn <small>coming soon</small></button>
+      <button type="button" class="footer-link-button" data-pending-social="TikTok">TikTok <small>coming soon</small></button>
+    </nav>
+    <section class="wdw-footer-contact">
+      <h3>Connect with WDW</h3>
+      <p>Questions, collaboration, learning-design work, or a conversation about a project?</p>
+      <a class="footer-contact-button" href="/#contact">Contact WDW</a>
+    </section>
+  </div>
+  <div class="wrap wdw-footer-bottom">
+    <span>© 2026 WDW · All rights reserved.</span>
+    <div class="wdw-legal-links" aria-label="Legal and privacy">
+      <button type="button" data-legal="privacy">Privacy</button>
+      <button type="button" data-legal="terms">Terms</button>
+      <button type="button" data-legal="cookies">Cookies</button>
+      <button type="button" data-legal="disclaimer">Disclaimer</button>
+      <button type="button" data-legal="preferences">Cookie Preferences</button>
+    </div>
+  </div>
+</footer>
+<dialog class="site-legal-dialog" id="siteLegalDialog" aria-labelledby="siteLegalTitle">
+  <div class="site-legal-head"><div><span class="site-legal-kicker">WDW</span><h2 id="siteLegalTitle">Privacy</h2></div><button type="button" class="site-legal-close" data-close-legal aria-label="Close">×</button></div>
+  <div class="site-legal-body" id="siteLegalBody"></div>
+</dialog>
+<div class="site-toast" id="siteToast" role="status" aria-live="polite"></div>
 </main>
 
 <dialog id="replaceDialog"><div class="modal-head"><div><h3 id="replaceTitle">Replace Tool</h3><p id="replaceSubtitle"></p></div><button class="close" data-close="replaceDialog">×</button></div><div class="replace-list" id="replaceList"></div></dialog>
