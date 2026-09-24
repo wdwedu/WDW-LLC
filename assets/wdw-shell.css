@@ -40,3 +40,24 @@
 @media(max-width:960px){.wdw-master-menu{display:block}.wdw-master-nav-row{position:fixed;top:var(--wdw-shell-h);left:12px;right:12px;display:none;grid-template-columns:1fr 1fr;gap:4px;padding:12px;background:rgba(7,26,56,.985);box-shadow:0 22px 50px rgba(2,12,29,.3);border-radius:0 0 13px 13px}.wdw-master-nav-row.open{display:grid}.wdw-master-link,.wdw-master-nav .wdw-master-link{color:#fff!important;justify-content:flex-start;padding:11px}.wdw-master-link.utility{width:auto}.wdw-master-icon{color:#93bbff!important}.wdw-master-sep{display:none}.wdw-footer-grid{grid-template-columns:1.3fr 1fr;gap:30px}.wdw-footer-bottom{align-items:flex-start;flex-direction:column;padding:18px 0}.wdw-legal-links{justify-content:flex-start}}
 @media(max-width:560px){.wdw-master-nav-shell{width:calc(100% - 20px)}.wdw-brand-link{width:96px}.wdw-brand-mark{width:92px}.wdw-master-nav-row{grid-template-columns:1fr}.wdw-footer-grid{grid-template-columns:1fr}.wdw-footer-lockup{width:138px}.wdw-footer-lockup .wdw-brand-mark{width:138px}.wdw-legal-links{gap:2px 12px}}
 @media(prefers-reduced-motion:reduce){.footer-contact-button:hover{animation:none}.wdw-master-link,.footer-contact-button,.wdw-brand-mark{transition:none!important}}
+/* Core 25 affiliate resource card */
+.wdw-affiliate-card{position:relative;margin:34px 0 38px;padding:22px 24px 19px 24px;border:1px solid rgba(47,111,239,.24);border-radius:18px;background:linear-gradient(135deg,rgba(248,251,255,.98),rgba(238,245,255,.96));box-shadow:0 12px 28px rgba(8,32,74,.12),0 26px 58px rgba(20,66,148,.08);overflow:hidden;isolation:isolate;transition:transform .22s ease,box-shadow .22s ease}
+.wdw-affiliate-card:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(8,32,74,.16),0 34px 70px rgba(20,66,148,.12)}
+.wdw-affiliate-card:after{content:"";position:absolute;right:-42px;top:50%;width:190px;height:92px;transform:translateY(-50%);opacity:.13;background:repeating-linear-gradient(90deg,#2f6fef 0 5px,transparent 5px 13px);mask:linear-gradient(90deg,transparent,#000 22%,#000 80%,transparent);border-radius:50%;z-index:-1}
+.wdw-affiliate-inner{display:grid;grid-template-columns:78px 1fr;gap:18px;align-items:start}
+.wdw-affiliate-brand{width:72px;height:72px;border-radius:15px;background:#fff;border:1px solid rgba(11,33,69,.08);display:grid;place-items:center;box-shadow:0 8px 18px rgba(8,32,74,.08)}
+.wdw-eleven-mark{display:flex;flex-direction:column;align-items:center;gap:7px;font:800 .68rem/1 Arial,sans-serif;color:#0a1628}
+.wdw-eleven-bars{display:flex;gap:5px;height:26px;align-items:stretch}.wdw-eleven-bars i{display:block;width:5px;border-radius:2px;background:#0a1628}
+.wdw-affiliate-kicker{margin:1px 0 5px;color:#205bd5;font:800 .69rem/1.2 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.wdw-affiliate-card h3{margin:0 0 7px;color:#0b2145;font:800 clamp(1.05rem,1.6vw,1.35rem)/1.2 Georgia,serif}
+.wdw-affiliate-card p{margin:0 0 13px;color:#4e6079;font:500 .9rem/1.62 Arial,sans-serif;max-width:850px}
+.wdw-affiliate-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.wdw-affiliate-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,#145cff,#397cff);color:#fff!important;text-decoration:none!important;font:800 .82rem/1 Arial,sans-serif;box-shadow:0 8px 18px rgba(31,98,255,.26);overflow:hidden;transition:transform .18s,box-shadow .18s}
+.wdw-affiliate-cta:before{content:"";position:absolute;top:-30%;bottom:-30%;left:-45%;width:28%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg)}
+.wdw-affiliate-cta:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(31,98,255,.36);animation:wdwShimmy .48s ease both}.wdw-affiliate-cta:hover:before{animation:wdwAffiliateSweep .62s ease forwards}
+@keyframes wdwAffiliateSweep{to{left:125%}}
+.wdw-affiliate-note{color:#7b8799;font:italic 500 .68rem/1.35 Arial,sans-serif}
+.wdw-affiliate-bottom{margin:30px 0 10px;padding-top:16px;border-top:1px solid rgba(11,33,69,.09);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.wdw-affiliate-bottom span{color:#62728a;font:600 .8rem/1.4 Arial,sans-serif}.wdw-affiliate-bottom a{color:#205bd5;font:800 .78rem Arial,sans-serif;text-decoration:none}.wdw-affiliate-bottom a:hover{text-decoration:underline}
+@media(max-width:620px){.wdw-affiliate-card{padding:19px 18px}.wdw-affiliate-inner{grid-template-columns:1fr}.wdw-affiliate-brand{width:62px;height:62px}.wdw-affiliate-card:after{right:-75px}}
+@media(prefers-reduced-motion:reduce){.wdw-affiliate-card,.wdw-affiliate-cta{transition:none!important}.wdw-affiliate-cta:hover{animation:none}.wdw-affiliate-cta:hover:before{animation:none}}
