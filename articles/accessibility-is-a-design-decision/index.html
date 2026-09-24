@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Accessibility Is a Design Decision | wdw.llc</title><meta name="description" content="A practical guide to building eLearning that people can actually perceive, operate, understand, and use across keyboard, mobile, audio, captions, motion, and assistive technology."><meta name="author" content="Wayne Williams"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/articles/articles.css"><link rel="stylesheet" href="/assets/wdw-shell.css" data-wdw-shell="1"><script src="/assets/wdw-shell.js" defer></script><meta property="og:type" content="article"><meta property="og:title" content="Accessibility Is a Design Decision"><meta property="og:description" content="A practical guide to building eLearning that people can actually perceive, operate, understand, and use across keyboard, mobile, audio, captions, motion, and assistive technology."><meta property="og:url" content="https://www.wdw.llc/articles/accessibility-is-a-design-decision/"></head><body><main><section class="article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">wdw.llc</a> / <a href="/articles/">Articles</a> / eLearning Development</div><div class="category">eLearning Development</div><h1>Accessibility Is a Design Decision</h1><p class="dek">A practical guide to building eLearning that people can actually perceive, operate, understand, and use across keyboard, mobile, audio, captions, motion, and assistive technology.</p><div class="article-meta article-meta-rich"><span>By <strong>Wayne Williams</strong></span><span>Last reviewed: September 2026</span><span data-reading-time>Calculating read time…</span><button class="meta-action listen-action" type="button" data-audio-toggle title="Play article music"><span>♪</span><span>Music</span></button></div><div class="article-banner article-art" aria-hidden="true"><span class="art-label">Access is architecture</span><span class="art-corner">Perceive · operate · understand · use</span><svg viewBox="0 0 720 300"><circle cx="360" cy="150" r="84" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.28)"/><circle class="accent-fill pulse" cx="360" cy="82" r="13"/><path class="accent-stroke" d="M360 102v88M312 128h96M330 190l-30 62M390 190l30 62"/><g fill="#fff"><circle cx="205" cy="150" r="7"/><circle cx="515" cy="150" r="7"/></g><path class="wire motion" d="M205 150h72M443 150h72"/></svg></div></div></section><section><div class="wrap article-layout"><article class="article-body"><div class="key-takeaway"><b>Key takeaway</b>Accessibility is not a cleanup task at the end of development. It is part of the interaction architecture, media plan, assessment design, and definition of quality from the beginning.</div>
+<h2 id="opening">Accessibility should be visible in the design long before QA</h2>
+<p>Accessibility is often treated as a technical pass at the end of production. Run the checker. Add alt text. Fix contrast. Turn on captions. That approach can catch issues, but it cannot repair a learning experience whose core interaction was inaccessible from the beginning.</p>
+<p>If the course depends on dragging tiny objects, if instructions exist only inside an image, if the scenario relies on color alone, or if keyboard focus jumps unpredictably through layers, the problem is architectural.</p>
+<p>Accessibility is a design decision because every interface makes assumptions about bodies, senses, devices, language, attention, and input. Better design makes fewer unnecessary assumptions.</p>
+<h2 id="wcag">WCAG gives us testable behavior</h2>
+<p>WCAG 2.2 is the current W3C recommendation for accessible web content. It addresses perception, operation, understanding, and robustness across a wide range of disabilities and devices. For eLearning teams, WCAG provides a concrete baseline even when the authoring tool abstracts away the underlying HTML.</p>
+<p>That baseline includes familiar practices such as text alternatives, captions, sufficient contrast, keyboard operability, visible focus, understandable labels, error identification, and controls for certain motion and timing.</p>
+<p>The designer does not need to become a browser engineer to care about these behaviors. We do need to know enough to design interactions that can satisfy them.</p>
+<h2 id="keyboard">Keyboard access is a design test, not only an accommodation</h2>
+<p>Try to complete the experience without touching the mouse. Can you reach every interactive element? Can you see where focus is? Is the order logical? Can you activate controls and close dialogs? Does focus disappear behind an overlay?</p>
+<p>Keyboard testing often reveals general usability problems. If focus order makes no sense, the visual structure may also be unclear. If a control has no accessible name, its purpose may be ambiguous to everyone.</p>
+<h2 id="captions">Captions and transcripts are learning resources</h2>
+<p>Captions support learners who are deaf or hard of hearing, but their usefulness is broader. They help in noisy environments, support unfamiliar terminology, make search and review easier, and can assist people processing a second language.</p>
+<p>Transcripts create another study surface. Learners can scan, annotate, search, and return to a specific idea without scrubbing through video.</p>
+<p>Good captions should reflect meaning, speakers, and relevant non-speech audio. Auto-captioning can accelerate production, but it still needs review where accuracy matters.</p>
+<h2 id="audio">Audio should have an equivalent path when audio is not the construct</h2>
+<p>Audio can add emotion, accessibility, pronunciation, story, and human presence. It should not become the only route to essential information unless listening itself is what we are measuring.</p>
+<p>If a scenario includes a customer call, provide a transcript or equivalent text representation while preserving the spoken-performance goal as appropriate. If background music is optional, let the learner control it. The music icon at the top of wdw.llc articles is intentionally user-controlled for that reason. A visitor can create a mellow reading environment or leave the page quiet.</p>
+<h2 id="images">Alt text is not a caption-writing contest</h2>
+<p>Alternative text should communicate the function or meaning the image contributes in context. Decorative images may need no verbal equivalent. A chart needs the important relationship, not a list of every pixel. An instructional diagram may need a concise description plus a longer explanation nearby.</p>
+<p>Ask what a learner needs to know if they cannot see the image. That question is more useful than mechanically describing appearance.</p>
+<h2 id="color">Color can reinforce meaning. It should not carry meaning alone.</h2>
+<p>Red and green status indicators are common. So are blue links, highlighted correct answers, and color-coded charts. Pair color with labels, patterns, icons, text, or position so meaning survives when colors are not perceived as expected.</p>
+<p>Contrast also matters for readability, but contrast ratios are not a substitute for hierarchy. A page can technically pass and still be visually exhausting.</p>
+<h2 id="motion">Motion needs purpose and control</h2>
+<p>Animation can explain change, direct attention, and bring a concept to life. It can also trigger discomfort, distract attention, or make a page difficult to follow. Respect reduced-motion preferences where possible. Avoid unnecessary movement around reading content. Give learners control over media that plays or moves.</p>
+<p>The SVG banners on wdw.llc use subtle motion because the animation supports identity and metaphor. The article itself should remain readable when motion is reduced or removed.</p>
+<h2 id="drag">Always ask what happens when drag-and-drop is unavailable</h2>
+<p>Drag interactions are popular because they feel physical. They are also frequently difficult on mobile, keyboard, switch devices, and some assistive technologies. If the learning goal is sorting, there are other ways to let the learner classify.</p>
+<p>Provide selectable alternatives, buttons, lists, or another equivalent interaction. Better yet, decide whether dragging adds instructional meaning or merely visual novelty.</p>
+<h2 id="timing">Time limits should come from the performance, not the template</h2>
+<p>Some tasks genuinely require speed. Emergency response, fluent recall, certain production work, and timed decision environments may make time part of competence. Many learning activities do not.</p>
+<p>When time is not the construct, rigid limits can create barriers without improving evidence. Let learners pause, resume, replay, and take the time they need where the real performance allows it.</p>
+<h2 id="structure">Semantic structure is invisible design with visible benefits</h2>
+<p>Real headings, lists, labels, landmarks, and table headers help assistive technologies interpret a page. They also improve consistency, search, scanning, and maintainability.</p>
+<p>When designers treat text simply as objects placed on a canvas, structure can disappear. The course still looks organized visually while becoming flat to a screen reader. Use the authoring tool’s structural features rather than simulating structure with font size alone.</p>
+<h2 id="udl">Accessibility and UDL overlap, but they are not identical</h2>
+<p>Accessibility establishes important requirements for access. UDL asks broader questions about learner variability, agency, representation, engagement, and action. A course can technically meet accessibility criteria and still be instructionally inflexible. It can also offer many learning choices while failing basic accessibility.</p>
+<p>The strongest practice uses both: standards to protect access and instructional design to create meaningful learning.</p>
+<h2 id="workflow">Build accessibility into the workflow</h2>
+<div class="table-wrap"><table><thead><tr><th>Stage</th><th>Accessibility decision</th></tr></thead><tbody>
+<tr><td>Analysis</td><td>Identify devices, assistive technology, language, environment, known barriers</td></tr>
+<tr><td>Design</td><td>Choose accessible interaction patterns, media alternatives, focus order</td></tr>
+<tr><td>Development</td><td>Use semantic components, captions, labels, contrast, keyboard support</td></tr>
+<tr><td>QA</td><td>Test keyboard, screen reader where appropriate, zoom, mobile, reduced motion</td></tr>
+<tr><td>Maintenance</td><td>Retest after content, platform, or component changes</td></tr>
+</tbody></table></div>
+<h2 id="real-people">Automated checkers cannot tell you whether the experience makes sense</h2>
+<p>Automated tools are useful for detecting certain failures. They cannot determine whether alt text communicates the right idea, whether a keyboard sequence is cognitively logical, whether captions support comprehension, or whether the experience becomes exhausting with assistive technology.</p>
+<p>Whenever possible, include people with disabilities in testing and design feedback. Accessibility improves when it is informed by actual use rather than abstract compliance.</p>
+<h2 id="business">Accessibility is also a quality and business decision</h2>
+<p>Accessible design expands reach, reduces rework, supports legal and policy obligations, and often improves the experience for everyone. More importantly, it communicates who the product assumes belongs.</p>
+<p>Learning products are supposed to increase capability. It is contradictory to create a capability-building experience that people cannot enter or operate.</p>
+<h2 id="checklist">A practical eLearning accessibility pass</h2>
+<ol>
+<li>Complete the experience by keyboard.</li>
+<li>Check visible focus and logical order.</li>
+<li>Review headings, labels, and link purpose.</li>
+<li>Verify color contrast and non-color cues.</li>
+<li>Caption meaningful audio and provide transcripts when useful.</li>
+<li>Review alt text for purpose, not decoration.</li>
+<li>Provide alternatives to precision drag or hover-only interaction.</li>
+<li>Respect zoom, mobile, and reduced-motion settings.</li>
+<li>Check timing and pause controls.</li>
+<li>Test with real users and assistive technology when possible.</li>
+</ol>
+<h2 id="conclusion">Accessibility is part of whether the learning works</h2>
+<p>I do not see accessibility as a layer placed over instructional design. It is part of instructional design because access determines whether the learner can perceive the information, operate the experience, practice the skill, and demonstrate the outcome.</p>
+<p>When accessibility is designed in from the beginning, the course becomes easier to maintain, easier to use, and more honest about the range of people we claim to serve.</p><div class="sources"><h2>Sources and further reading</h2><ul class="source-list"><li><a href="https://www.w3.org/TR/wcag/" target="_blank" rel="noopener">W3C Web Content Accessibility Guidelines 2.2</a></li><li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/" target="_blank" rel="noopener">W3C, What’s New in WCAG 2.2</a></li><li><a href="https://udlguidelines.cast.org/" target="_blank" rel="noopener">CAST Universal Design for Learning Guidelines 3.0</a></li><li><a href="https://www.cast.org/what-we-do/universal-design-for-learning/" target="_blank" rel="noopener">CAST, Universal Design for Learning</a></li></ul></div></article><aside class="article-side"><div class="side-card"><h3>eLearning lens</h3><p>Every interaction should have a learning job. If the learner can click without thinking, motion may be hiding weak design.</p></div><div class="side-card light"><h3>See it in practice</h3><p>Explore the branching-scenario articles and future portfolio scenarios to see decision practice become interactive.</p><a class="btn secondary" href="/articles/branching-scenarios-without-big-budget/">Branching scenarios</a></div></aside></div></section></main><script src="/articles/articles.js"></script></body></html>
