@@ -82,7 +82,64 @@
 </div><div data-wdw-depth-topoff="scenario-design-measures-judgment">
 <h2 id="accessibility-scenarios">Accessible scenarios preserve the decision, not one mode of presentation</h2>
 <p>Accessibility does not require removing complexity. It requires ensuring that the critical cues and choices are available through equivalent means. If facial expression matters, describe the relevant expression. If audio tone carries meaning, provide a transcript that communicates the tone. Keyboard navigation, focus order, readable contrast, and sufficient time should support the same judgment task rather than creating a different assessment.</p>
-</div><div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list"><li><a href="https://pubmed.ncbi.nlm.nih.gov/38924975/" target="_blank" rel="noopener">Görücü, Türk &amp; Karaçam — Simulation-Based Learning and Clinical Decision-Making Meta-Analysis</a></li><li><a href="https://github.com/adlnet/xAPI-Spec" target="_blank" rel="noopener">ADL — xAPI Specification</a></li><li><a href="/articles/branching-scenarios-without-big-budget/">WDW — Branching Scenarios Without a Big Software Budget</a></li></ul></div></article><aside class="article-side"><div class="side-card"><h3>In this article</h3><ul class="toc"><li><a href="#problem">Why click-based scenarios underperform</a></li><li><a href="#judgment">Define the judgment first</a></li><li><a href="#distractors">Write distractors from real mental models</a></li><li><a href="#consequence">Let consequences teach</a></li><li><a href="#feedback">Delay answer-reveal thinking</a></li><li><a href="#measurement">Measure patterns, not completion</a></li><li><a href="#branching">Branch only where meaning changes</a></li><li><a href="#sources">Sources and further reading</a></li></ul></div><div class="side-card light"><h3>Use the workflow</h3><p>Turn the concept into a project path with the WDW AI Command Center.</p><a class="btn primary" href="/ai-command-center/">Open Command Center</a></div><div class="side-card light"><h3>Portfolio signal</h3><p>This article is part of the WDW knowledge portfolio: analysis, design rationale, practical frameworks, and maintained sources.</p></div></aside></div></section></main><footer class="wdw-footer">
+</div>
+<h2 id="mental-model">A scenario is useful when the choice reveals a mental model</h2>
+<p>Two learners can make the same wrong choice for different reasons. One misunderstood the policy. Another noticed the wrong cue. A third knew the rule but prioritized speed. If the scenario records only the selected option, those learners look identical.</p>
+<p>Better scenario design tries to expose the reasoning underneath the click. Sometimes that means asking for a rationale. Sometimes the alternative itself is written to represent a specific misconception. Sometimes confidence, sequence, or which information the learner chooses to inspect becomes part of the evidence.</p>
+<p>The purpose is not surveillance. It is diagnosis. If the scenario can tell us why a decision failed, feedback becomes much more targeted.</p>
+
+<h2 id="cue-design">Design around cue recognition</h2>
+<p>Expert performance often depends on seeing the important cue among noise. A novice sees a customer who is upset. An expert notices that the account has already passed verification but the request falls into a high-risk exception. A novice sees a student refusing work. An experienced teacher may notice the task became inaccessible at a specific point.</p>
+<p>Scenarios should make learners practice noticing those cues. Hide them in realistic context rather than listing them neatly in a bullet box. Then ask the learner what information mattered most.</p>
+<div class="framework"><b>Cue-based scenario design</b><strong>Context → Cue → Interpretation → Decision → Consequence → Reflection.</strong><br><br>If the scenario jumps from context directly to answer choice, the designer may be skipping the most valuable part of expert thinking.</div>
+
+<h2 id="information-seeking">Let the learner decide what information to seek</h2>
+<p>Many real decisions begin before all information is available. A strong scenario can give learners options to inspect a record, ask a question, check a policy, or contact another person before committing to an action.</p>
+<p>This changes the assessment. We are no longer measuring only which answer they select. We are also observing what they considered worth knowing.</p>
+<p>Experts often distinguish themselves through information-seeking strategy. They know which question reduces uncertainty fastest.</p>
+
+<h2 id="confidence-judgment">Confidence can reveal dangerous misconceptions</h2>
+<p>A wrong decision with low confidence may indicate uncertainty. A wrong decision with high confidence can be more important because it suggests a stable misconception. A correct answer with very low confidence may signal fragile knowledge.</p>
+<p>Adding a simple confidence prompt after selected decisions can make scenario data more useful. It also encourages metacognition because learners compare how sure they felt with what the consequence reveals.</p>
+
+<h2 id="tradeoff">Good scenarios contain tradeoffs, not just traps</h2>
+<p>Real decisions often involve competing values: speed versus accuracy, empathy versus policy, short-term relief versus long-term risk, individual need versus system consistency. Scenarios become richer when options represent legitimate priorities rather than one good choice and three absurd ones.</p>
+<p>The learning goal may be recognizing when one value should take precedence and why.</p>
+<p>This is particularly important for leadership and ethics scenarios. The designer should avoid pretending every difficult problem has a clean answer if the real profession requires judgment under tension.</p>
+
+<h2 id="feedback-type">Match feedback to the decision</h2>
+<p>For a factual misconception, explanatory feedback may be enough. For an interpersonal decision, consequence-based feedback may be more powerful. For a strategic judgment, comparison with an expert rationale may help. For a safety-critical choice, direct correction may be necessary.</p>
+<p>One feedback format should not be used mechanically across every branch.</p>
+
+<h2 id="second-order">Include second-order consequences</h2>
+<p>The first consequence of a decision may look positive while a later consequence reveals the cost. A manager avoids conflict by postponing a conversation; the meeting ends smoothly, but the performance issue grows. A service representative solves the immediate request by bypassing a control; the customer is happy, but risk increases.</p>
+<p>Second-order consequences teach learners to think beyond immediate reward.</p>
+
+<h2 id="ethical-scenarios">Ethical scenarios need humility</h2>
+<p>When scenarios address ethics, identity, bias, or sensitive human situations, designers should be careful about presenting one culturally narrow response as universally correct. Use subject-matter review, affected perspectives, and transparent criteria.</p>
+<p>If the scenario is meant to surface tension rather than test a single correct answer, say so. The learner can be assessed on the quality of reasoning, evidence, or consideration of stakeholders rather than conformity to a hidden preference.</p>
+
+<h2 id="scoring">Score only what the score can defend</h2>
+<p>A scenario score looks objective because it is numeric. The number is only as valid as the decision model beneath it. If we assign +10 to one choice and -5 to another without evidence or criteria, the interface is precise and the measurement is arbitrary.</p>
+<p>Use scoring when it represents meaningful dimensions such as risk, trust, quality, time, or adherence to explicit standards. Otherwise descriptive feedback may be more honest.</p>
+
+<h2 id="branch-data">What scenario analytics can tell you</h2>
+<p>Useful scenario analytics include which option learners choose, which information they inspect, confidence, time when time is relevant, recovery patterns, and where repeated misconceptions occur. The data can improve both instruction and the scenario itself.</p>
+<p>If almost nobody chooses one branch, the option may be implausible. If almost everyone misses the same cue, the instruction may not have developed that discrimination. If experts and novices take different information paths, you may have discovered a teachable strategy.</p>
+
+<h2 id="design-workshop">A scenario-design workshop in six questions</h2>
+<ol>
+<li>What real decision creates meaningful consequences?</li>
+<li>What cues distinguish strong from weak judgment?</li>
+<li>What misconceptions or competing priorities create plausible alternatives?</li>
+<li>What information would an expert seek before deciding?</li>
+<li>What consequence makes the reasoning visible?</li>
+<li>What evidence would tell us the learner’s judgment improved?</li>
+</ol>
+
+<h2 id="judgment-final">The click should be the smallest part of the interaction</h2>
+<p>The screen records a click because software needs an event. Instructional design should care about everything that led to it: attention, cue recognition, interpretation, tradeoffs, uncertainty, and responsibility.</p>
+<p>A scenario measures judgment when the learner’s thinking has somewhere to show up.</p><div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list"><li><a href="https://pubmed.ncbi.nlm.nih.gov/38924975/" target="_blank" rel="noopener">Görücü, Türk &amp; Karaçam — Simulation-Based Learning and Clinical Decision-Making Meta-Analysis</a></li><li><a href="https://github.com/adlnet/xAPI-Spec" target="_blank" rel="noopener">ADL — xAPI Specification</a></li><li><a href="/articles/branching-scenarios-without-big-budget/">WDW — Branching Scenarios Without a Big Software Budget</a></li></ul></div></article><aside class="article-side"><div class="side-card"><h3>In this article</h3><ul class="toc"><li><a href="#problem">Why click-based scenarios underperform</a></li><li><a href="#judgment">Define the judgment first</a></li><li><a href="#distractors">Write distractors from real mental models</a></li><li><a href="#consequence">Let consequences teach</a></li><li><a href="#feedback">Delay answer-reveal thinking</a></li><li><a href="#measurement">Measure patterns, not completion</a></li><li><a href="#branching">Branch only where meaning changes</a></li><li><a href="#sources">Sources and further reading</a></li></ul></div><div class="side-card light"><h3>Use the workflow</h3><p>Turn the concept into a project path with the WDW AI Command Center.</p><a class="btn primary" href="/ai-command-center/">Open Command Center</a></div><div class="side-card light"><h3>Portfolio signal</h3><p>This article is part of the WDW knowledge portfolio: analysis, design rationale, practical frameworks, and maintained sources.</p></div></aside></div></section></main><footer class="wdw-footer">
   <div class="wrap wdw-footer-grid">
     <section class="wdw-footer-brand" aria-label="WDW">
       <div class="wdw-footer-mark">WDW</div>
