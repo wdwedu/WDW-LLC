@@ -72,7 +72,75 @@
 <h2 id="maintenance">Design for maintenance from the beginning</h2>
 <p>Low-budget builds often become difficult to maintain because they rely on one giant self-contained file or one authoring project nobody else understands. A better structure separates logic, copy, media, and tracking. Name branch IDs clearly. Keep a decision map. Store the source script outside the build. Document which files are final.</p>
 <p>That discipline matters when policy changes, a brand refresh occurs, or one branch needs to be revised without rebuilding the entire experience. The cheapest scenario is not the one with the lowest initial production cost. It is the one that remains editable after launch.</p>
-</div><div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list"><li><a href="https://www.sciencedirect.com/science/article/pii/S1471595326002325" target="_blank" rel="noopener">Kim, Lee & Mun — Scenario-Based Simulation Systematic Review and Meta-Analysis (2026)</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7729777/" target="_blank" rel="noopener">The Effect of Multiple Exposures in Scenario-Based Simulation — Systematic Review</a></li><li><a href="https://github.com/adlnet/xAPI-Spec" target="_blank" rel="noopener">ADL — xAPI Specification</a></li></ul></div>
+</div>
+<h2 id="cheap-is-not-small">Low budget does not have to mean low consequence</h2>
+<p>When people hear “branching scenario,” they often picture an expensive authoring tool, a cast of actors, cinematic video, custom illustration, and weeks of development. Those things can create an impressive experience. They are not what makes a scenario instructional.</p>
+<p>The instructional engine is much simpler: a believable situation, incomplete information, a decision that matters, a consequence that reveals something, and another opportunity to think. If those pieces are strong, the experience can work with text, still images, simple audio, or lightweight web components.</p>
+<p>That is an important lesson for my own portfolio work. I like polished media. I also know production cost can become the design constraint instead of the learning goal. A strong designer should be able to build the same decision architecture at several production levels without changing the core instructional logic.</p>
+
+<h2 id="three-levels">Think in three production levels</h2>
+<p>I use a three-level model when planning scenarios. <strong>Level 1</strong> is text and interface: strong writing, choices, feedback, simple visual structure. <strong>Level 2</strong> adds illustration, audio, character portraits, motion, and richer feedback. <strong>Level 3</strong> adds cinematic video, custom actors or generated scenes, environmental sound, and more complex state tracking.</p>
+<p>The mistake is assuming Level 3 is automatically better. The right level depends on the skill, audience, budget, and how much realism actually changes the decision.</p>
+<div class="table-wrap"><table><thead><tr><th>Production level</th><th>Best use</th><th>Primary design risk</th></tr></thead><tbody>
+<tr><td>Text + interface</td><td>Judgment, policy, coaching, ethics, decision rehearsal</td><td>Weak writing makes the world feel abstract</td></tr>
+<tr><td>Illustration + audio</td><td>Emotion, tone, role-play, customer interaction</td><td>Media can distract from the decision</td></tr>
+<tr><td>Cinematic/video</td><td>High-context interpersonal or environmental performance</td><td>Cost can reduce the number of meaningful branches</td></tr>
+</tbody></table></div>
+
+<h2 id="decision-first">Write the decision before you write the story</h2>
+<p>A common scenario-design failure is starting with characters and dialogue before identifying the decision to be practiced. The story becomes interesting, but the choices do not measure anything important.</p>
+<p>I prefer to begin with the decision model. What cue should an experienced performer notice? What are the plausible alternatives? What misconception or shortcut would lead someone toward each weaker option? What consequence would make the difference visible?</p>
+<p>Once that is clear, the story has a job. The character, setting, conflict, and dialogue exist to create the conditions in which that judgment is required.</p>
+
+<h2 id="plausible">Wrong answers should sound like something a real person might actually do</h2>
+<p>If one option is obviously foolish, the scenario measures test-taking more than judgment. Weak distractors let the learner succeed by eliminating nonsense.</p>
+<p>Strong alternatives come from real errors. Interview experienced performers. Review incident reports or common mistakes. Ask managers what people do when they are rushed, uncertain, overconfident, or trying to be helpful. Those patterns make excellent branches because they reveal the mental shortcut behind the error.</p>
+<p>That also makes feedback more useful. Instead of “Wrong,” we can say why the choice was attractive and which cue should have changed the decision.</p>
+
+<h2 id="state">You do not need a giant decision tree to create consequence</h2>
+<p>Large branching maps look impressive and become difficult to maintain. Many useful scenarios can create consequence through a few state variables rather than dozens of unique pages.</p>
+<p>For example, a conversation scenario might track trust, time, risk, and relationship. Different choices change those values. Later dialogue can reference the state. The learner feels that earlier choices matter without requiring a completely separate story for every click.</p>
+<p>In simple HTML and JavaScript, this can be done with a handful of variables. In authoring tools, it can be done with triggers and conditions. The technical implementation is less important than deciding which consequences matter instructionally.</p>
+
+<h2 id="recovery">Let learners recover</h2>
+<p>Real judgment is not always about making the perfect first choice. Experts also recover from mistakes. A scenario becomes more authentic when a poor decision creates a harder situation rather than an immediate “Game Over.”</p>
+<p>Recovery branches teach something multiple-choice questions usually cannot: how to recognize that a decision is not working, repair trust, gather missing information, or change course.</p>
+<p>This is especially useful in leadership, customer service, teaching, health communication, project management, and other interpersonal work where the next move matters as much as the first one.</p>
+
+<h2 id="audio-scenario">Audio can make low-cost scenarios feel much more real</h2>
+<p>Voice is one of the most efficient ways to add context. Tone, hesitation, pacing, and emotion can carry information that would require paragraphs to describe. That is one reason AI audio tools are so interesting for scenario development. A designer can prototype several characters, test dialogue, and hear whether a choice sounds believable before paying for full production.</p>
+<p>Audio still needs accessibility. Provide transcripts or equivalent text. Do not make a crucial clue available only through subtle vocal tone unless listening to that cue is genuinely part of the skill being assessed.</p>
+
+<h2 id="prototype">Prototype ugly before you produce beautiful</h2>
+<p>Before generating final images, recording polished audio, or building animation, run the scenario as plain text. Give the choices to another person. Ask what they think each option means. Ask what cue they used. Watch where the logic breaks.</p>
+<p>An ugly prototype is cheap to change. A beautiful mistake is expensive.</p>
+<p>This is one of the most important ways to keep scenario budgets under control. Spend production money after the decision architecture has survived contact with real users.</p>
+
+<h2 id="tool-stack">A practical low-cost production stack</h2>
+<p>The exact tools will change, so the workflow matters more than the brands. You need a place to write and version the scenario, a way to create or source visuals, optional audio, a delivery layer, and a testing process. HTML can be a powerful delivery option because it is portable, interactive, and inexpensive to host. Traditional authoring tools can be faster for teams that already own them. Slides can even work for simple prototypes.</p>
+<p>The best tool is the one that lets you preserve the decision model, accessibility, and maintainability without turning the project into a software demonstration.</p>
+
+<h2 id="portfolio">A branching scenario is a portfolio piece because it exposes reasoning</h2>
+<p>A hiring manager looking at a scenario should be able to infer more than technical skill. The piece should show that the designer can analyze a performance problem, identify a decision worth practicing, write realistic alternatives, design feedback, handle accessibility, and connect interaction to evidence.</p>
+<p>That is why I do not want my branching work to be only a flashy demo. The visible interaction should sit on top of a clear instructional rationale.</p>
+
+<h2 id="scenario-checklist">A low-budget scenario checklist</h2>
+<ol>
+<li>Define the real decision and the cues that should drive it.</li>
+<li>Build alternatives from real misconceptions or shortcuts.</li>
+<li>Write consequences before polishing media.</li>
+<li>Prototype in text and test the logic.</li>
+<li>Track only the state variables that matter.</li>
+<li>Allow recovery when the real job allows recovery.</li>
+<li>Add audio, illustration, or video only where context improves the judgment task.</li>
+<li>Provide accessible equivalents for media and interaction.</li>
+<li>Test mobile and keyboard behavior.</li>
+<li>Document the design rationale as part of the portfolio case.</li>
+</ol>
+
+<h2 id="scenario-final">The expensive part should be the thinking</h2>
+<p>Tools will keep getting cheaper. AI will make voice, illustration, video, and code easier to produce. That is good news for independent designers and small teams.</p>
+<p>The part we should not cheapen is the reasoning. A scenario works because someone understood the performance well enough to build a believable decision around it. Production can scale up or down. Judgment is the asset.</p><div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list"><li><a href="https://www.sciencedirect.com/science/article/pii/S1471595326002325" target="_blank" rel="noopener">Kim, Lee & Mun — Scenario-Based Simulation Systematic Review and Meta-Analysis (2026)</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7729777/" target="_blank" rel="noopener">The Effect of Multiple Exposures in Scenario-Based Simulation — Systematic Review</a></li><li><a href="https://github.com/adlnet/xAPI-Spec" target="_blank" rel="noopener">ADL — xAPI Specification</a></li></ul></div>
 </article><aside class="article-side"><div class="side-card"><h3>In this article</h3><ul class="toc"><li><a href="#why">Why branching scenarios are often weaker than they look</a></li><li><a href="#architecture">The five-part architecture of a strong decision scene</a></li><li><a href="#branches">Branch around decisions, not dialogue</a></li><li><a href="#map">Map the logic before choosing the tool</a></li><li><a href="#budget">A low-cost production stack</a></li><li><a href="#feedback">Feedback should preserve the learner’s thinking</a></li><li><a href="#data">What to measure in a branching scenario</a></li><li><a href="#accessibility">Accessibility is part of scenario design</a></li><li><a href="#prototype">Prototype the hardest decision first</a></li><li><a href="#faq">Frequently asked questions</a></li></ul></div><div class="side-card light"><h3>Use the workflow</h3><p>Turn the concept into a project path with the WDW AI Command Center.</p><a class="btn primary" href="/ai-command-center/">Open Command Center</a></div><div class="side-card light"><h3>Portfolio signal</h3><p>This article is part of the WDW knowledge portfolio: analysis, design rationale, practical frameworks, and maintained sources.</p></div></aside></div></section><section class="related"><div class="wrap"><h2>Related articles</h2><div class="article-grid"><article class="article-card"><div class="category">AI + Automation</div><h2>AI-Supported. Human-Directed.</h2><p>A practical governance framework for using generative AI to accelerate learning design without outsourcing judgment, evidence, accessibility, or accountability.</p><a class="read-link" href="/articles/ai-supported-human-directed-learning-design/">Read article →</a></article><article class="article-card"><div class="category">Learning Design</div><h2>Teaching Doesn’t Mean They Learned</h2><p>Why information delivery, familiarity, and successful learning are different—and how retrieval, feedback, spacing, and transfer change what we design.</p><a class="read-link" href="/articles/teaching-doesnt-mean-they-learned/">Read article →</a></article></div></div></section></main><footer class="wdw-footer">
   <div class="wrap wdw-footer-grid">
     <section class="wdw-footer-brand" aria-label="WDW">
