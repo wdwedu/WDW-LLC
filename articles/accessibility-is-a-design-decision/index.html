@@ -67,4 +67,39 @@
 </ol>
 <h2 id="conclusion">Accessibility is part of whether the learning works</h2>
 <p>I do not see accessibility as a layer placed over instructional design. It is part of instructional design because access determines whether the learner can perceive the information, operate the experience, practice the skill, and demonstrate the outcome.</p>
-<p>When accessibility is designed in from the beginning, the course becomes easier to maintain, easier to use, and more honest about the range of people we claim to serve.</p><div class="sources"><h2>Sources and further reading</h2><ul class="source-list"><li><a href="https://www.w3.org/TR/wcag/" target="_blank" rel="noopener">W3C Web Content Accessibility Guidelines 2.2</a></li><li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/" target="_blank" rel="noopener">W3C, What’s New in WCAG 2.2</a></li><li><a href="https://udlguidelines.cast.org/" target="_blank" rel="noopener">CAST Universal Design for Learning Guidelines 3.0</a></li><li><a href="https://www.cast.org/what-we-do/universal-design-for-learning/" target="_blank" rel="noopener">CAST, Universal Design for Learning</a></li></ul></div></article><aside class="article-side"><div class="side-card"><h3>eLearning lens</h3><p>Every interaction should have a learning job. If the learner can click without thinking, motion may be hiding weak design.</p></div><div class="side-card light"><h3>See it in practice</h3><p>Explore the branching-scenario articles and future portfolio scenarios to see decision practice become interactive.</p><a class="btn secondary" href="/articles/branching-scenarios-without-big-budget/">Branching scenarios</a></div></aside></div></section></main><script src="/articles/articles.js"></script></body></html>
+<p>When accessibility is designed in from the beginning, the course becomes easier to maintain, easier to use, and more honest about the range of people we claim to serve.</p>
+<h2 id="accessible-patterns">Use interaction patterns people already know</h2>
+<p>Custom controls can look distinctive and become difficult for keyboard users, screen readers, mobile users, and anyone who relies on familiar behavior. Native buttons, links, checkboxes, headings, and dialogs carry expectations that browsers and assistive technologies understand.</p>
+<p>Innovation belongs in the learning experience more than in reinventing basic controls.</p>
+
+<h2 id="focus-management">Focus management matters when interfaces change</h2>
+<p>Dialogs, popups, branching panels, and dynamically revealed content can leave keyboard or screen-reader focus in the wrong place. When a modal opens, focus should move into it. When it closes, focus should return sensibly. When content updates, the user may need a clear indication of what changed.</p>
+<p>These details are invisible to many designers and essential to some learners.</p>
+
+<h2 id="forms">Forms need useful errors, not just red borders</h2>
+<p>If a learner misses a required field, say what happened and how to fix it. Do not rely on color alone. Preserve entered information when possible. Put errors close to the relevant field and provide a summary when the form is complex.</p>
+<p>Error recovery is part of accessibility because people should not have to restart a task because the interface explained failure poorly.</p>
+
+<h2 id="targets">Target size is a learning issue on touch screens</h2>
+<p>Small controls create accidental taps and motor precision demands unrelated to most learning goals. WCAG 2.2 added criteria related to target size and focus behavior that reflect modern interaction realities.</p>
+<p>On mobile, generous targets and spacing improve the experience for everyone, especially when a learner is moving, tired, using one hand, or has limited dexterity.</p>
+
+<h2 id="documents">Downloads need accessibility too</h2>
+<p>An accessible webpage can link to an inaccessible PDF, slide deck, or worksheet and break the path. If downloadable materials are essential, headings, reading order, alt text, table structure, and document tags matter there as well.</p>
+<p>Accessibility follows the learner across formats.</p>
+
+<h2 id="language-attr">Language metadata and plain language support assistive technology</h2>
+<p>Pages and passages should identify their language so screen readers can pronounce text appropriately. Clear language, meaningful headings, and descriptive links also reduce cognitive burden.</p>
+<p>“Click here” tells a screen-reader user very little when links are navigated out of context. “Read the WCAG 2.2 overview” is much more useful.</p>
+
+<h2 id="qa-matrix">Accessibility QA should combine automated and manual checks</h2>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>What it can reveal</th><th>What it cannot guarantee</th></tr></thead><tbody>
+<tr><td>Automated checker</td><td>Some contrast, labels, structure, code failures</td><td>Meaning, logical flow, quality of alternatives</td></tr><tr><td>Keyboard test</td><td>Reachability, focus, operability</td><td>Screen-reader comprehension</td></tr><tr><td>Screen-reader review</td><td>Names, structure, reading experience</td><td>Every disability or device</td></tr><tr><td>User testing</td><td>Real barriers and workarounds</td><td>Universal coverage</td></tr></tbody></table></div>
+
+<h2 id="procurement">Accessibility belongs in tool selection</h2>
+<p>If an authoring platform cannot produce accessible interactions, the problem cannot be fixed entirely by designer effort. Ask vendors about keyboard support, semantic output, captions, focus, responsive behavior, and accessibility documentation before the team is locked into production.</p>
+<p>Tool capability is part of the design environment.</p>
+
+<h2 id="access-final">The goal is not perfect compliance. It is fewer preventable barriers.</h2>
+<p>Standards matter because they create shared, testable expectations. Real accessibility also requires judgment, testing, and humility. No checklist captures every human experience.</p>
+<p>Design early, test often, listen to users, and treat access as part of whether the learning works at all.</p><div class="sources"><h2>Sources and further reading</h2><ul class="source-list"><li><a href="https://www.w3.org/TR/wcag/" target="_blank" rel="noopener">W3C Web Content Accessibility Guidelines 2.2</a></li><li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/" target="_blank" rel="noopener">W3C, What’s New in WCAG 2.2</a></li><li><a href="https://udlguidelines.cast.org/" target="_blank" rel="noopener">CAST Universal Design for Learning Guidelines 3.0</a></li><li><a href="https://www.cast.org/what-we-do/universal-design-for-learning/" target="_blank" rel="noopener">CAST, Universal Design for Learning</a></li></ul></div></article><aside class="article-side"><div class="side-card"><h3>eLearning lens</h3><p>Every interaction should have a learning job. If the learner can click without thinking, motion may be hiding weak design.</p></div><div class="side-card light"><h3>See it in practice</h3><p>Explore the branching-scenario articles and future portfolio scenarios to see decision practice become interactive.</p><a class="btn secondary" href="/articles/branching-scenarios-without-big-budget/">Branching scenarios</a></div></aside></div></section></main><script src="/articles/articles.js"></script></body></html>
