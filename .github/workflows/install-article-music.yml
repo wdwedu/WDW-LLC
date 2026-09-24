@@ -1,0 +1,27 @@
+name: Install WDW article music
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-article-music.yml"
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Late Head Nod
+        run: |
+          mkdir -p assets
+          curl -L --fail --retry 3 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-01d0-81f5-a966-82e572001d90/raw?se=2026-09-24T01%3A25%3A26Z&sp=r&sv=2026-02-06&sr=b&scid=492a9220-9038-5338-8802-ef05547c541e&skoid=e9d2f8b1-028a-4cff-8eb1-d0e66fbefcca&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T21%3A40%3A21Z&ske=2026-09-24T21%3A40%3A21Z&sks=b&skv=2026-02-06&sig=qSUcFDZZOWpGieeOZy3/Umk7ZRlCDu8pP6OjBAQGf6w%3D' -o 'assets/late-head-nod.mp3'
+          test $(stat -c%s 'assets/late-head-nod.mp3') -gt 4000000
+          file 'assets/late-head-nod.mp3'
+      - name: Remove one-time workflow and commit audio
+        run: |
+          rm -f .github/workflows/install-article-music.yml
+          git config user.name "WDW Site Automation"
+          git config user.email "wdwedu@users.noreply.github.com"
+          git add -A
+          git commit -m "Add shared Late Head Nod article music"
+          git push
