@@ -57,3 +57,8 @@ ready(()=>{
  const read=[...document.querySelectorAll('.article-meta span')].find(x=>/\bmin read\b/i.test(x.textContent)); if(read)read.textContent=mins+' min read';
 });
 })();
+;(()=>{if(window.__wdwCoreReadTimes)return;window.__wdwCoreReadTimes=true;
+const counts={"accessibility-is-a-design-decision":3076,"ai-command-center-workflow-first":3049,"ai-supported-human-directed-learning-design":3112,"ancient-wisdom-for-the-ai-age":3590,"backward-from-performance":3127,"branching-scenarios-without-big-budget":3305,"designing-for-transfer":3083,"designing-for-variability":3193,"feedback-that-changes-performance":3153,"from-ai-toward-agi":3004,"from-problem-to-performance":3074,"human-judgment-is-the-last-mile":3178,"interactive-does-not-mean-engaging":3129,"maat-balance-truth-responsibility":3051,"measure-what-matters":3077,"music-mind-and-meaning":3215,"production-value-vs-learning-value":3073,"scenario-design-measures-judgment":3113,"stoicism-in-the-age-of-ai":3068,"teaching-doesnt-mean-they-learned":3196,"the-10-second-learning-test":3192,"the-performance-gap":3005,"training-is-not-the-solution":3194,"ubuntu-human-centered-technology":3054,"what-should-never-be-automated":3082};
+const run=()=>document.querySelectorAll('.article-card').forEach(card=>{const a=card.querySelector('a.read-link');if(!a)return;const slug=a.getAttribute('href').split('/').filter(Boolean).pop();const words=counts[slug];if(!words)return;const mins=Math.max(1,Math.ceil(words/220));const spans=[...card.querySelectorAll('.meta span')];const read=spans.find(x=>/min read|updates automatically/i.test(x.textContent));if(read)read.textContent=mins+' min read';});
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run,{once:true}):run();
+})();
