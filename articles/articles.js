@@ -30,3 +30,30 @@ const q=document.getElementById('articleSearch'),buttons=[...document.querySelec
  document.querySelectorAll('[data-legal="affiliate"]').forEach(b=>b.addEventListener('click',()=>{if(!legal)return;lt.textContent=ac[0];lb.innerHTML=ac[1];legal.showModal?legal.showModal():legal.setAttribute('open','')}));
 })();
 ;(()=>{if(document.querySelector('script[data-wdw-shell-loader]'))return;const x=document.createElement('script');x.src='/assets/wdw-shell.js';x.defer=true;x.dataset.wdwShellLoader='1';document.head.appendChild(x);})();
+;(()=>{if(window.__wdwAffiliateCard)return;window.__wdwAffiliateCard=true;
+const ready=fn=>document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn,{once:true}):fn();
+ready(()=>{
+ const body=document.querySelector('.article-body'); if(!body)return;
+ const cat=(document.querySelector('.article-hero .category')?.textContent||'').trim().toLowerCase();
+ const slug=location.pathname.split('/').filter(Boolean).pop()||'';
+ const contexts={
+  'learning design':['Give Learning a Voice','A practical extension of this idea is giving learners more ways to hear, rehearse, and experience content.'],
+  'ai + automation':['One Creative AI Stack, Many Workflow Roles','This is where a tool becomes useful when it fits the workflow instead of simply adding another tab.'],
+  'performance + curriculum':['From Script to Practice Without the Production Bottleneck','When audio or conversational practice solves a real performance need, one flexible production tool can replace several handoffs.'],
+  'elearning development':['Bring Scenarios, Characters, and Audio to Life','For scenario work, audio can turn a static choice into a believable conversation without building a recording studio.'],
+  'philosophy':['Turn Ideas Into Voice, Sound, and Conversation','Ideas about voice, language, music, and human presence become more tangible when we can hear them.']
+ };
+ let [headline,lead]=contexts[cat]||['A Creative Tool Worth Knowing','When the workflow needs voice, sound, conversation, or multilingual media, this is one tool worth understanding.'];
+ if(slug==='music-mind-and-meaning'){headline='From Music and Meaning to Modern Audio Creation';lead='If you want to hear how modern generative audio changes the creative side of this conversation, this is one place to experiment. You can also use the music control at the top of this article while you read.';}
+ const card=document.createElement('aside'); card.className='wdw-affiliate-card'; card.setAttribute('aria-label','ElevenLabs affiliate recommendation');
+ card.innerHTML='<div class="wdw-affiliate-logo" aria-hidden="true"><span class="wdw-el-bars">Ⅱ</span><b>ElevenLabs</b></div><div class="wdw-affiliate-copy"><span class="wdw-affiliate-kicker">Tool Worth Knowing</span><h3>'+headline+'</h3><p class="wdw-affiliate-lead">'+lead+'</p><p>ElevenLabs combines expressive speech, transcription, voice cloning, dubbing, conversational agents, music, sound effects, and creative production tools in one ecosystem. Use it for learning, business, professional production, or simply to make something for fun.</p><a class="wdw-affiliate-cta" href="https://try.elevenlabs.io/pa71uwlj1xom" target="_blank" rel="sponsored nofollow noopener">Explore ElevenLabs <span aria-hidden="true">→</span></a><small>Affiliate link. wdw.llc may earn a commission at no additional cost to you.</small></div><div class="wdw-affiliate-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+ const heads=[...body.querySelectorAll(':scope > h2')];
+ const anchor=heads[2]||heads[1]||heads[0];
+ if(anchor) body.insertBefore(card,anchor); else {const ps=body.querySelectorAll(':scope > p'); (ps[4]||ps[ps.length-1]||body.lastElementChild)?.after(card);}
+ const mini=document.createElement('p'); mini.className='wdw-affiliate-mini'; mini.innerHTML='A tool used in this article\'s wider workflow: <a href="https://try.elevenlabs.io/pa71uwlj1xom" target="_blank" rel="sponsored nofollow noopener">Explore ElevenLabs</a> <span>affiliate link</span>';
+ const sources=body.querySelector('.sources'); if(sources)body.insertBefore(mini,sources); else body.appendChild(mini);
+ const obs=('IntersectionObserver'in window)?new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('in-view',e.isIntersecting)),{threshold:.35}):null; if(obs)obs.observe(card); else card.classList.add('in-view');
+ const text=body.innerText.replace(/\s+/g,' ').trim(); const words=text?text.split(' ').length:0; const mins=Math.max(1,Math.ceil(words/220));
+ const read=[...document.querySelectorAll('.article-meta span')].find(x=>/\bmin read\b/i.test(x.textContent)); if(read)read.textContent=mins+' min read';
+});
+})();
