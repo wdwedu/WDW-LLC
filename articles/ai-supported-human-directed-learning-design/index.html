@@ -51,7 +51,33 @@
 <details><summary>Can AI write complete courses?</summary><p>It can generate large amounts of course-shaped content. That is not the same as diagnosing a performance problem, designing valid practice, testing transfer, or ensuring organizational accuracy. The bottleneck is judgment, not word production.</p></details>
 <details><summary>What should stay human?</summary><p>Decisions with high consequences, ambiguous evidence, ethical implications, sensitive learner data, or substantial context dependence should retain explicit human ownership.</p></details>
 </div>
-<div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list">
+<div data-wdw-depth-expansion="1">
+<h2 id="governance">Governance belongs inside the workflow, not in a policy PDF</h2>
+<p>Organizations often write AI guidance as a separate governance document and then leave the production workflow unchanged. That is rarely enough. If the practical steps make it easier to copy sensitive material into an unapproved tool than to use an approved one, policy will lose to convenience. Governance becomes real when the safe path is also the usable path.</p>
+<p>For learning teams, that means defining which data can enter which systems, how generated content is identified, when source checking is required, who approves learner-facing material, and what kinds of decisions must remain human. These controls should appear at the point of work. A checklist inside the build process is more useful than a fifty-page policy that nobody opens while designing.</p>
+<p>A mature workflow can also vary its control level according to risk. Brainstorming a metaphor for a low-stakes tutorial does not need the same review as generating content about workplace safety, disability accommodation, credentialing, medical procedure, or regulated policy. Governance should be proportional rather than theatrical.</p>
+
+<h2 id="evidence">Grounding is a design discipline</h2>
+<p>One of the strongest uses of generative AI is synthesis: comparing source documents, restructuring information, surfacing patterns, and drafting from a constrained evidence set. But that benefit depends on the quality of the source material. If the model is allowed to fill gaps with general world knowledge when the organization actually requires a specific policy, it can produce content that sounds correct and is operationally wrong.</p>
+<p>Designers should therefore distinguish three layers: <strong>authoritative evidence</strong>, <strong>contextual evidence</strong>, and <strong>generated suggestion</strong>. Authoritative evidence includes policies, standards, product documentation, laws, approved procedures, and validated SME input. Contextual evidence includes interviews, learner feedback, performance data, support tickets, and observed work. Generated suggestion is the model’s contribution: examples, structure, alternative wording, possible scenarios, or hypotheses.</p>
+<p>The layers should not be allowed to blur. Generated language can summarize evidence, but it should not silently become evidence.</p>
+<div class="table-wrap"><table><thead><tr><th>Question</th><th>Weak AI practice</th><th>Human-directed practice</th></tr></thead><tbody>
+<tr><td>Where did this claim come from?</td><td>“The model said it.”</td><td>Linked source or named SME evidence</td></tr>
+<tr><td>What if sources conflict?</td><td>Accept the most fluent synthesis</td><td>Surface the conflict and resolve it</td></tr>
+<tr><td>Who approves the final interpretation?</td><td>Undefined</td><td>Named accountable reviewer</td></tr>
+<tr><td>What happens when evidence changes?</td><td>Regenerate everything</td><td>Update the affected source-grounded sections</td></tr>
+</tbody></table></div>
+
+<h2 id="accessibility-ai">AI can accelerate accessibility work, but it cannot own accessibility</h2>
+<p>Generative systems can help draft alt text, simplify language, identify possible contrast problems, propose captions, create alternate examples, and flag dense passages. Those are useful accelerators. Accessibility, however, depends on actual user interaction and context. A technically correct alt description can still be instructionally useless if it describes decoration instead of the meaning the learner needs. A simplified version can become inaccurate. A transcript can be correct and still lack the speaker labels required to follow a discussion.</p>
+<p>The designer’s role is to decide what equivalent access means for the experience. That includes keyboard behavior, focus order, timing, language complexity, sensory alternatives, interaction requirements, and whether the assessment measures the intended skill rather than a disability-related barrier.</p>
+<p>AI should make accessibility review more frequent because it reduces some of the labor, not less frequent because the output looks complete.</p>
+
+<h2 id="professional-identity">The professional advantage is judgment made visible</h2>
+<p>As AI lowers the cost of producing first drafts, employers will have less reason to be impressed by volume alone. A portfolio that shows twenty polished screens but no reasoning can increasingly be reproduced by anyone with access to the same tools. The stronger signal is the decision trail.</p>
+<p>Why was this objective chosen? Why was this scenario branch removed? What evidence showed that training was appropriate? What accessibility constraint changed the interaction? What did the AI produce that you rejected? What did testing reveal? What would you measure after launch?</p>
+<p>Those questions reveal professional judgment. They also make AI use less threatening to professional identity. The value of the designer moves from manually producing every first draft to orchestrating evidence, decisions, practice, quality, and outcomes.</p>
+</div><div class="sources"><h2 id="sources">Sources and further reading</h2><ul class="source-list">
 <li><a href="https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research" target="_blank" rel="noopener">UNESCO — Guidance for Generative AI in Education and Research</a></li>
 <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">NIST — AI Risk Management Framework</a></li>
 <li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" target="_blank" rel="noopener">NIST — Generative AI Profile</a></li>
