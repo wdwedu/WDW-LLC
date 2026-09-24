@@ -29,3 +29,4 @@ const q=document.getElementById('articleSearch'),buttons=[...document.querySelec
  const ac=['Affiliate Disclosure','<h3>Affiliate relationships</h3><p>Some links on wdw.llc may be affiliate links. wdw.llc may receive compensation when a visitor purchases or signs up through those links, at no additional cost to the visitor.</p><h3>Editorial independence</h3><p>Affiliate relationships do not determine tool placement, recommendations, rankings, or editorial conclusions.</p>'];
  document.querySelectorAll('[data-legal="affiliate"]').forEach(b=>b.addEventListener('click',()=>{if(!legal)return;lt.textContent=ac[0];lb.innerHTML=ac[1];legal.showModal?legal.showModal():legal.setAttribute('open','')}));
 })();
+;(()=>{if(document.querySelector('script[data-wdw-shell-loader]'))return;const x=document.createElement('script');x.src='/assets/wdw-shell.js';x.defer=true;x.dataset.wdwShellLoader='1';document.head.appendChild(x);})();
