@@ -62,3 +62,11 @@ const counts={"accessibility-is-a-design-decision":3076,"ai-command-center-workf
 const run=()=>document.querySelectorAll('.article-card').forEach(card=>{const a=card.querySelector('a.read-link');if(!a)return;const slug=a.getAttribute('href').split('/').filter(Boolean).pop();const words=counts[slug];if(!words)return;const mins=Math.max(1,Math.ceil(words/220));const spans=[...card.querySelectorAll('.meta span')];const read=spans.find(x=>/min read|updates automatically/i.test(x.textContent));if(read)read.textContent=mins+' min read';});
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run,{once:true}):run();
 })();
+;(()=>{if(window.__wdwLibrarySponsorReveal)return;window.__wdwLibrarySponsorReveal=true;
+const run=()=>{const card=document.querySelector('.affiliate-library-card');if(!card)return;
+ if(!('IntersectionObserver'in window)){card.classList.add('revealed');return}
+ const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');o.unobserve(e.target)}}),{threshold:.22});
+ o.observe(card);
+};
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run,{once:true}):run();
+})();
