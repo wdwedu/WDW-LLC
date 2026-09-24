@@ -29,3 +29,21 @@
 .art-philosophy{background:radial-gradient(circle at 22% 28%,rgba(105,173,255,.22),transparent 28%),linear-gradient(135deg,#071e42,#13234d 62%,#251d43)}
 .article-card .art-philosophy{background:radial-gradient(circle at 22% 28%,rgba(105,173,255,.20),transparent 28%),linear-gradient(135deg,#071e42,#171d43)}
 @media (prefers-reduced-motion:reduce){.article-banner .motion,.article-banner .float,.article-banner .pulse{animation:none!important}}
+
+
+/* WDW article artwork interaction + palette completion */
+.art-command{--art-accent:#68d7ff}
+.art-agi{--art-accent:#9fd86b}
+.art-test{--art-accent:#ffd166}
+.art-transfer{--art-accent:#5ee0b8}
+.art-training{--art-accent:#ff9d66}
+.art-scenario{--art-accent:#9f8cff}
+.art-value{--art-accent:#ffbf69}
+.art-philosophy{--art-accent:#c8a7ff}
+.article-banner:hover .motion,
+.article-banner:focus-within .motion,
+.article-banner:hover .pulse,
+.article-banner:focus-within .pulse,
+.article-banner:hover .float,
+.article-banner:focus-within .float{animation-play-state:running}
+.article-banner{cursor:default}
