@@ -74,3 +74,41 @@ ready(()=>{
 });
 })();
 ;(()=>{const hydrate=()=>{const src=document.querySelector('source[data-wdw-video-parts]');if(!src||src.dataset.wdwHydrating)return;src.dataset.wdwHydrating='1';const count=Number(src.dataset.wdwVideoParts||0);if(!count)return;const urls=Array.from({length:count},(_,i)=>'/assets/home-video/part-'+String(i).padStart(2,'0')+'.bin');Promise.all(urls.map(u=>fetch(u,{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error(u);return r.arrayBuffer()}))).then(parts=>{const blob=new Blob(parts,{type:'video/mp4'});src.src=URL.createObjectURL(blob);const v=src.closest('video');if(v){v.load();v.addEventListener('emptied',()=>URL.revokeObjectURL(src.src),{once:true})}}).catch(()=>{const v=src.closest('video');if(v)v.setAttribute('data-video-unavailable','true')})};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hydrate,{once:true}):hydrate()})();
+;(()=>{if(window.__wdwCore25Affiliate)return;window.__wdwCore25Affiliate=true;
+const go=()=>{
+  if(!location.pathname.startsWith('/articles/')||location.pathname==='/articles/'||location.pathname==='/articles')return;
+  const body=document.querySelector('.article-body, article.article-body, .article-main article, main article');
+  if(!body||body.querySelector('.wdw-affiliate-card'))return;
+  const slug=(location.pathname.split('/').filter(Boolean)[1]||'').toLowerCase();
+  const map={
+    'branching-scenarios-without-big-budget':['Bring the scenario to life','Voice, character performance, sound effects, and conversational agents can turn a branching scenario from static choice screens into a more believable rehearsal space.'],
+    'scenario-design-measures-judgment':['Make the decision feel human','Use expressive voices, audio cues, sound effects, and agents when they help the learner notice context, emotion, pressure, and consequence.'],
+    'production-value-vs-learning-value':['Use production value where it teaches','Audio, music, voices, dubbing, and sound effects matter when they clarify the experience, not simply because they look or sound impressive.'],
+    'ai-command-center-workflow-first':['One platform, several audio workflows','When a project moves from script to voice, transcription, music, dubbing, agents, or sound design, consolidation can reduce tool switching.'],
+    'ai-supported-human-directed-learning-design':['Keep the human direction, expand the medium','AI audio can accelerate production while the designer still owns the purpose, evidence, accessibility, tone, and final judgment.'],
+    'from-ai-toward-agi':['Listen to what capability expansion looks like','The shift from voice generation to transcription, music, dubbing, and conversational agents is one example of AI systems expanding from single tasks toward broader workflows.'],
+    'ancient-wisdom-for-the-ai-age':['Give reflection another medium','Long-form ideas can become narrated listening experiences, guided reflections, multilingual audio, or conversational experiences without changing the underlying human argument.'],
+    'the-10-second-learning-test':['Turn retrieval into spoken explanation','A learner who can explain an idea aloud without the lesson doing the thinking is giving you stronger evidence than a familiar-looking multiple-choice response.'],
+    'teaching-doesnt-mean-they-learned':['Let learners hear, explain, and rehearse','Audio can support access and rehearsal, but the learning still depends on what the learner must retrieve, explain, decide, and use.'],
+    'designing-for-transfer':['Rehearse beyond the original screen','Voices, scenarios, dubbing, and agents can help practice travel into new contexts when the task changes but the underlying judgment must remain.'],
+    'from-problem-to-performance':['Prototype the performance environment','When communication, customer interaction, coaching, or spoken practice is part of the real job, audio tools can help simulate the conditions before deployment.'],
+    'training-is-not-the-solution':['Use the tool only when it solves the right problem','Audio, agents, and generated media can improve a learning experience, but they cannot repair unclear expectations, broken processes, missing incentives, or bad systems.']
+  };
+  const d=map[slug]||['Turn ideas into richer experiences','ElevenLabs combines expressive AI voices with transcription, dubbing, music, sound effects, voice transformation, and conversational agents in one creative platform. Use it for learning, simulations, podcasts, video, accessibility, customer experiences, business, professional projects, or simply for fun.'];
+  const generic='ElevenLabs combines expressive AI voices with transcription, dubbing, music, sound effects, voice transformation, and conversational agents in one creative platform. Use it for learning, simulations, podcasts, video, accessibility, customer experiences, business, professional projects, or simply for fun.';
+  const card=document.createElement('aside'); card.className='wdw-affiliate-card'; card.setAttribute('aria-label','ElevenLabs affiliate resource');
+  card.innerHTML='<div class="wdw-affiliate-inner"><div class="wdw-affiliate-brand"><div class="wdw-eleven-mark"><span class="wdw-eleven-bars"><i></i><i></i></span><span>ElevenLabs</span></div></div><div><div class="wdw-affiliate-kicker">Tool worth knowing</div><h3>'+d[0]+'</h3><p>'+d[1]+' '+generic+'</p><div class="wdw-affiliate-actions"><a class="wdw-affiliate-cta" href="https://try.elevenlabs.io/pa71uwlj1xom" target="_blank" rel="sponsored noopener">Explore ElevenLabs <span aria-hidden="true">→</span></a><span class="wdw-affiliate-note">Affiliate link. wdw.llc may earn a commission at no additional cost to you.</span></div></div></div>';
+  const heads=[...body.querySelectorAll('h2')].filter(h=>!h.closest('.sources'));
+  const target=heads[Math.min(3,Math.max(1,Math.floor(heads.length*.32)))]||body.children[Math.min(5,body.children.length-1)];
+  if(target)target.before(card);else body.appendChild(card);
+  const sources=body.querySelector('.sources')||body.querySelector('#sources')?.closest('div,section');
+  const tail=document.createElement('div');tail.className='wdw-affiliate-bottom';tail.innerHTML='<span>Want to experiment with AI voice, music, dubbing, transcription, sound design, or agents?</span><a href="https://try.elevenlabs.io/pa71uwlj1xom" target="_blank" rel="sponsored noopener">Explore ElevenLabs →</a>';
+  if(sources)sources.before(tail);else body.appendChild(tail);
+
+  // Reading time is calculated from the actual article body at 220 words per minute.
+  const words=(body.innerText||'').trim().split(/\s+/).filter(Boolean).length;
+  const mins=Math.max(1,Math.ceil(words/220));
+  document.querySelectorAll('.meta span,.article-meta span,[data-reading-time]').forEach(el=>{if(/\b\d+\s*min\s*read\b/i.test(el.textContent||'')||el.hasAttribute('data-reading-time'))el.textContent=mins+' min read';});
+};
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',go,{once:true}):go();
+})();
