@@ -4248,30 +4248,5 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   });
 })();
 </script>
-<script>
-/* WDW HERO VIDEO PARTS LOADER — targeted repair only */
-(async function(){
-  const video=document.getElementById('heroVideo');
-  const source=video?.querySelector('source[data-wdw-video-parts]');
-  if(!video||!source) return;
-  if((source.getAttribute('src')||'').trim()) return;
-
-  const count=Number(source.dataset.wdwVideoParts)||13;
-  try{
-    const parts=await Promise.all(Array.from({length:count},async(_,i)=>{
-      const n=String(i).padStart(2,'0');
-      const response=await fetch('/assets/home-video/part-'+n+'.bin',{cache:'force-cache'});
-      if(!response.ok) throw new Error('Video part '+n+' failed: '+response.status);
-      return response.arrayBuffer();
-    }));
-    const videoUrl=URL.createObjectURL(new Blob(parts,{type:'video/mp4'}));
-    source.setAttribute('src',videoUrl);
-    video.load();
-    window.addEventListener('beforeunload',()=>URL.revokeObjectURL(videoUrl),{once:true});
-  }catch(error){
-    console.error('WDW hero video failed to load.',error);
-  }
-})();
-</script>
 </body>
 </html>
