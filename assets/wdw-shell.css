@@ -216,3 +216,53 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 
 #wdwJukeboxDialog .wdw-jb-save.is-saved{background:#2469d9!important;border-color:#195ac7!important;color:#fff!important}
 #wdwJukeboxDialog .wdw-jb-lecture-play:hover{background:#edf6ff!important}
+
+/* WDW Jukebox compact landing / matching main portfolio graph paper */
+#wdwJukeboxDialog .wdw-jb-box{
+ background-color:#f8fbff!important;
+ background-image:
+ linear-gradient(rgba(47,111,239,.055) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(47,111,239,.055) 1px,transparent 1px),
+ linear-gradient(rgba(47,111,239,.025) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(47,111,239,.025) 1px,transparent 1px)!important;
+ background-size:36px 36px,36px 36px,9px 9px,9px 9px!important;
+}
+#wdwJukeboxDialog .wdw-jb-box:has(.wdw-jb-view.wdw-jb-home){
+ height:auto!important;min-height:0!important;max-height:94dvh!important;
+}
+#wdwJukeboxDialog .wdw-jb-view.wdw-jb-home{
+ flex:0 0 auto!important;min-height:0!important;
+ padding:3px 18px 4px!important;overflow:visible!important;
+}
+#wdwJukeboxDialog .wdw-jb-view.wdw-jb-home .wdw-jb-buttons{
+ gap:8px!important;margin:0!important;
+}
+#wdwJukeboxDialog .wdw-jb-view.wdw-jb-home .wdw-jb-buttons button{
+ min-height:48px!important;padding:10px 6px!important;
+}
+#wdwJukeboxDialog .wdw-jb-view.wdw-jb-home .wdw-jb-lectures-link{
+ display:block!important;margin:9px 0 2px!important;
+ padding:11px 8px!important;
+ background:#fff!important;
+ background-image:none!important;
+ border:1px solid #a4c2e7!important;
+ color:#2f6fef!important;
+ box-shadow:0 3px 12px rgba(15,63,136,.12)!important;
+}
+#wdwJukeboxDialog .wdw-jb-box:has(.wdw-jb-home) .wdw-jb-fixed{
+ padding:7px 0 10px!important;
+}
+#wdwJukeboxDialog .wdw-jb-box:has(.wdw-jb-home) .wdw-jb-playlists{
+ margin-bottom:6px!important;
+}
+#wdwJukeboxDialog .wdw-jb-box:has(.wdw-jb-home) .wdw-jb-heading{
+ padding-top:9px!important;
+}
+@media(max-width:450px){
+ #wdwJukeboxDialog .wdw-jb-view.wdw-jb-home{
+  padding:3px 12px 4px!important;
+ }
+ #wdwJukeboxDialog .wdw-jb-box:has(.wdw-jb-home){
+  height:auto!important;max-height:95dvh!important;
+ }
+}
