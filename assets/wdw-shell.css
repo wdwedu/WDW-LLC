@@ -134,7 +134,7 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 }
 #wdwJukeboxDialog .wdw-jb-box{width:min(520px,96vw);padding:18px;max-height:90dvh}
 #wdwJukeboxDialog .wdw-jb-buttons{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-#wdwJukeboxDialog .wdw-jb-buttons button,#wdwJukeboxDialog .wdw-jb-genre,#wdwJukeboxDialog .wdw-jb-more,#wdwJukeboxDialog .wdw-jb-cta{background:linear-gradient(125deg,#1855c7,#3176ef)!important;color:#fff!important;border:1px solid #2a65d1!important;border-radius:11px!important;padding:12px 10px!important;font:600 14px/1.25 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important;box-shadow:0 5px 12px #0b3c8b28!important}
+#wdwJukeboxDialog .wdw-jb-buttons button,#wdwJukeboxDialog .wdw-jb-genre,#wdwJukeboxDialog .wdw-jb-more,#wdwJukeboxDialog .wdw-jb-cta{background:#0b2c61!important;background-image:none!important;color:#fff!important;border:1px solid #183f78!important;border-radius:11px!important;padding:12px 10px!important;font:600 14px/1.25 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important;box-shadow:0 5px 12px #0b3c8b28!important}
 #wdwJukeboxDialog .wdw-jb-buttons button.selected{outline:2px solid #86b5fc;outline-offset:2px}
 #wdwJukeboxDialog .wdw-jb-view{padding-top:12px}
 #wdwJukeboxDialog .wdw-jb-intro{margin:4px 0 10px;color:#283f5d;font:14px Georgia,serif}
@@ -177,10 +177,10 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 @keyframes wdw-jb-pulse-sweep{0%{left:-50%}100%{left:105%}}
 #wdwJukeboxDialog .wdw-jb-backrow{flex:0 0 auto;padding:0 18px 5px}
 #wdwJukeboxDialog .wdw-jb-backrow[hidden]{display:none!important}
-#wdwJukeboxDialog .wdw-jb-back{padding:6px 12px!important;border:0!important;border-radius:7px!important;background:linear-gradient(125deg,#1d58cc,#397ff0)!important;color:#fff!important;font:13px Georgia,serif!important;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-back{padding:6px 12px!important;border:0!important;border-radius:7px!important;background:#0b2c61!important;background-image:none!important;color:#fff!important;font:13px Georgia,serif!important;cursor:pointer}
 #wdwJukeboxDialog .wdw-jb-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;padding:8px 18px 12px!important;margin:0!important;overscroll-behavior:contain}
 #wdwJukeboxDialog .wdw-jb-view .wdw-jb-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:4px}
-#wdwJukeboxDialog .wdw-jb-view .wdw-jb-primary,#wdwJukeboxDialog .wdw-jb-cta,#wdwJukeboxDialog .wdw-jb-controls button{background:linear-gradient(128deg,#1a56c6,#3079ee)!important;color:white!important;border:1px solid #2f6aca!important;border-radius:11px!important;padding:13px 10px!important;text-align:center!important;box-shadow:0 4px 13px #092b7728!important;font:600 15px/1.2 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-primary,#wdwJukeboxDialog .wdw-jb-cta,#wdwJukeboxDialog .wdw-jb-controls button{background:#0b2c61!important;background-image:none!important;color:white!important;border:1px solid #183f78!important;border-radius:11px!important;padding:13px 10px!important;text-align:center!important;box-shadow:0 4px 13px #092b7728!important;font:600 15px/1.2 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important}
 #wdwJukeboxDialog .wdw-jb-view .wdw-jb-buttons .wdw-jb-primary{min-height:64px}
 #wdwJukeboxDialog .wdw-jb-lectures-link{display:block!important;width:100%!important;margin:13px 0 3px!important}
 #wdwJukeboxDialog .wdw-jb-fixed{flex:0 0 auto!important;position:relative!important;margin:0 18px!important;padding:9px 0 11px!important;border-top:1px solid #b5d0ea!important;background:transparent!important;color:#193756!important}
