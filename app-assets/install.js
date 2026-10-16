@@ -65,7 +65,7 @@
   }
   window.siteInstallApp=install;
   window.__siteExperienceConfig=brand;
-  const experience=document.createElement("script");experience.src=new URL("site-experience.js?v=20261015-quiet",document.currentScript.src).href;document.head.append(experience);
+  // WDW retains its own navigation; the cross-site menu replacement is intentionally disabled.
   function init() {
     // WDW: never inject Install App into the navigation or mobile icon strip.
     // Installation remains available through the footer button below.
