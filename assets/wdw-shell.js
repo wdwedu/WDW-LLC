@@ -61,13 +61,14 @@ const films=[
  {title:'Freedom Writers',year:2007,id:'miz1V13QWsU',cast:'Hilary Swank, Patrick Dempsey',why:'Building classroom trust and learner voice',design:'Authentic writing, reflection, belonging',about:'A teacher uses journaling and lived experience to engage students.'},
  {title:'The Great Debaters',year:2007,id:'VzkeDP1JWA8',cast:'Denzel Washington, Forest Whitaker',why:'Mentorship, scholarship and communicating ideas',design:'Performance-based learning and coached debate',about:'A college debate team develops critical thinking and public-speaking skills.'},
  {title:'Mona Lisa Smile',year:2003,id:'VqexVyd_ybI',cast:'Julia Roberts, Kirsten Dunst, Julia Stiles',why:'Teaching learners to question accepted assumptions',design:'Inquiry, discussion and perspective taking',about:'An art professor encourages students to examine traditional expectations.'},
- {title:'Akeelah and the Bee',year:2006,id:'8Sf4Lwxg6lQ',cast:'Keke Palmer, Laurence Fishburne, Angela Bassett',why:'Practice, community mentorship, and confidence',design:'Deliberate practice, feedback and coaching',about:'A young learner pursues the national spelling bee with support from her community.'}
+ {title:'Akeelah and the Bee',year:2006,id:'8Sf4Lwxg6lQ',cast:'Keke Palmer, Laurence Fishburne, Angela Bassett',why:'Practice, community mentorship, and confidence',design:'Deliberate practice, feedback and coaching',about:'A young learner pursues the national spelling bee with support from her community.'},
+ {title:'Dead Poets Society',year:1989,id:'ye4KFyWu2do',cast:'Robin Williams, Ethan Hawke, Robert Sean Leonard',why:'Finding student voice and intrinsic motivation',design:'Inquiry, dialogue and active interpretation',about:'An English teacher encourages students to think independently through poetry.'}
 ];
 const music=[
  {name:'Jazz',id:'QkqIQtp0Hgc',title:'Smooth jazz instrumentals · 1 hour',credit:'Dr. SaxLove'},
  {name:'Hip-Hop',id:'YqXLVowLaFk',title:'Lo-fi hip-hop instrumentals · 1 hour',credit:'Blissful Music Lounge'},
  {name:'Soul & R&B',id:'Hp99F_INIMU',title:'Smooth R&B instrumentals · 1 hour',credit:'Dazai Beats'},
- {name:'Classical',id:null,title:'Classical study instrumentals',credit:'Selection pending'},
+ {name:'Classical',id:'_RpqiOaoaeI',title:'Classical piano instrumentals · 1 hour',credit:'Just Instrumental Music'},
  {name:'Lo-fi',id:'9eJ7UHoKLG0',title:'Dreamy lo-fi instrumentals · 1 hour',credit:'Lofi Hip Hop'},
  {name:'Instrumental',id:'QkqIQtp0Hgc',title:'Smooth instrumental set · 1 hour',credit:'Dr. SaxLove'},
  {name:'Blues',id:'RZX3gcXDT9I',title:'Blues guitar instrumentals · 1 hour',credit:'Midnight Blues Vibes'},
@@ -110,7 +111,7 @@ function render(){stop();view.replaceChildren();backrow.hidden=current.page==='h
  if(current.page==='home'){const grid=make('div','wdw-jb-buttons');[['Motivation','motivation'],['Music','music'],['Meditation','meditation'],['Movies','movies']].forEach(([label,page])=>grid.append(btn(label,'wdw-jb-primary',()=>navigate({page}))));
  view.append(grid,btn('My Lectures','wdw-jb-primary wdw-jb-lectures-link',()=>navigate({page:'lectures'})));
  }else if(current.page==='lectures'){
- const list=make('div','wdw-jb-list');const renderList=()=>{list.replaceChildren();(lectureExpanded?lectures:lectures.slice(0,25)).forEach(t=>{const row=make('div','wdw-jb-lecture');const name=t.n===21?'Learning Design and Real Results':t.title;row.append(btn(String(t.n).padStart(2,'0')+' · '+name,'wdw-jb-lecture-play',()=>navigate({page:'lecture-player',n:t.n})));const star=btn(saved.includes(t.n)?'★':'☆','wdw-jb-save',()=>{saved=saved.includes(t.n)?saved.filter(n=>n!==t.n):[...saved,t.n];remember();renderList()});star.setAttribute('aria-label',saved.includes(t.n)?'Remove saved lecture':'Save lecture');row.append(star);list.append(row)});};renderList();view.append(list);if(!lectureExpanded)view.append(btn('Show remaining 25 lectures','wdw-jb-primary wdw-jb-more',()=>{lectureExpanded=true;render()}));
+ const list=make('div','wdw-jb-list');const renderList=()=>{list.replaceChildren();(lectureExpanded?lectures:lectures.slice(0,25)).forEach(t=>{const row=make('div','wdw-jb-lecture');const name=t.n===21?'Learning Design and Real Results':t.title;row.append(btn(String(t.n).padStart(2,'0')+' · '+name,'wdw-jb-lecture-play',()=>navigate({page:'lecture-player',n:t.n})));const star=btn(saved.includes(t.n)?'★':'☆','wdw-jb-save',()=>{saved=saved.includes(t.n)?saved.filter(n=>n!==t.n):[...saved,t.n];remember();renderList()});star.setAttribute('aria-label',saved.includes(t.n)?'Remove saved lecture':'Save lecture');if(saved.includes(t.n))star.classList.add('is-saved');row.append(star);list.append(row)});};renderList();view.append(list);if(!lectureExpanded)view.append(btn('Show remaining 25 lectures','wdw-jb-primary wdw-jb-more',()=>{lectureExpanded=true;render()}));
  }else if(current.page==='lecture-player'){
  const t=lectures.find(x=>x.n===current.n);if(t)playLecture(t);
  }else if(current.page==='movies'){
