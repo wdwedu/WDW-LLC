@@ -164,3 +164,52 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 
 /* Tooltip within the header, just above each hovered icon (never off-screen). */
 @media(min-width:1191px){.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item)>span:last-child:not(.wdw-master-icon){top:-2px!important;bottom:auto!important;font-size:10px!important;padding:3px 6px!important;line-height:1!important}}
+
+/* WDW Jukebox: blueprint interface, stable navigation, persistent identity/footer */
+#wdwJukeboxDialog{padding:12px!important;overflow:hidden!important}
+#wdwJukeboxDialog .wdw-jb-box{display:flex!important;flex-direction:column!important;width:min(575px,97vw)!important;height:min(790px,94dvh)!important;max-height:94dvh!important;min-height:0!important;padding:0!important;overflow:hidden!important;border-radius:15px!important;background-color:#eaf2fc!important;background-image:linear-gradient(rgba(35,102,182,.105) 1px,transparent 1px),linear-gradient(90deg,rgba(35,102,182,.105) 1px,transparent 1px),linear-gradient(150deg,#f9fcff,#e5f1fc)!important;background-size:22px 22px,22px 22px,100% 100%!important;box-shadow:0 28px 80px #020c24bb!important;color:#132d51!important}
+#wdwJukeboxDialog .wdw-jb-heading{display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:space-between!important;margin:0!important;padding:13px 17px 5px!important}
+#wdwJukeboxDialog .wdw-jb-brand{display:flex;align-items:center;gap:12px}
+#wdwJukeboxDialog .wdw-jb-logo{display:block;width:99px;height:43px;background:url('/assets/wdw-logo-sprite.svg') center top/100% 200% no-repeat}
+#wdwJukeboxDialog .wdw-jb-heading h2{font:italic 28px Georgia,serif!important;color:#15355c!important}
+#wdwJukeboxDialog .wdw-jb-pulse{height:9px;min-height:9px;margin:0 18px 7px;border-bottom:1px solid #74a7df;position:relative;overflow:hidden}
+#wdwJukeboxDialog .wdw-jb-pulse span{position:absolute;inset:auto 0 0 -45%;width:46%;height:3px;background:linear-gradient(90deg,transparent,#1464e8,#80c9ff,transparent);box-shadow:0 0 8px #1775ee7a;animation:wdw-jb-pulse-sweep 4s ease-in-out infinite}
+@keyframes wdw-jb-pulse-sweep{0%{left:-50%}100%{left:105%}}
+#wdwJukeboxDialog .wdw-jb-backrow{flex:0 0 auto;padding:0 18px 5px}
+#wdwJukeboxDialog .wdw-jb-backrow[hidden]{display:none!important}
+#wdwJukeboxDialog .wdw-jb-back{padding:6px 12px!important;border:0!important;border-radius:7px!important;background:linear-gradient(125deg,#1d58cc,#397ff0)!important;color:#fff!important;font:13px Georgia,serif!important;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;padding:8px 18px 12px!important;margin:0!important;overscroll-behavior:contain}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:4px}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-primary,#wdwJukeboxDialog .wdw-jb-cta,#wdwJukeboxDialog .wdw-jb-controls button{background:linear-gradient(128deg,#1a56c6,#3079ee)!important;color:white!important;border:1px solid #2f6aca!important;border-radius:11px!important;padding:13px 10px!important;text-align:center!important;box-shadow:0 4px 13px #092b7728!important;font:600 15px/1.2 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-buttons .wdw-jb-primary{min-height:64px}
+#wdwJukeboxDialog .wdw-jb-lectures-link{display:block!important;width:100%!important;margin:13px 0 3px!important}
+#wdwJukeboxDialog .wdw-jb-fixed{flex:0 0 auto!important;position:relative!important;margin:0 18px!important;padding:9px 0 11px!important;border-top:1px solid #b5d0ea!important;background:transparent!important;color:#193756!important}
+#wdwJukeboxDialog .wdw-jb-playlists{margin:0 0 8px!important;padding:0!important;border:0!important;background:none!important;color:#23416a!important}
+#wdwJukeboxDialog .wdw-jb-playlists summary{font:italic 14px Georgia,serif!important;list-style:none;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-playlists summary::-webkit-details-marker{display:none}
+#wdwJukeboxDialog .wdw-jb-saved{max-height:110px;overflow-y:auto}
+#wdwJukeboxDialog .wdw-jb-cta{display:block!important;width:100%!important;padding:11px!important;margin:0!important;font-size:14px!important}
+#wdwJukeboxDialog .wdw-jb-ie{display:flex;align-items:center;justify-content:center;gap:6px;padding-top:9px;font:10px Georgia,serif;color:#617793}
+#wdwJukeboxDialog .wdw-jb-ie-logo{display:inline-block;font:bold italic 12px Georgia,serif;letter-spacing:-.06em;color:#1c4a83}
+#wdwJukeboxDialog .wdw-jb-list{margin:0!important;gap:2px!important}
+#wdwJukeboxDialog .wdw-jb-lecture{background:#fff;border:1px solid #d3e2f4;border-radius:7px;min-height:35px;align-items:center!important;padding-right:4px}
+#wdwJukeboxDialog .wdw-jb-lecture-play{white-space:nowrap!important;text-overflow:ellipsis!important;overflow:hidden!important;padding:8px 9px!important;color:#174782!important;background:white!important;min-width:0!important;font:12px/1.2 Georgia,serif!important}
+#wdwJukeboxDialog .wdw-jb-save{flex:0 0 28px!important;color:#fff!important;background:#d5e1f3!important;border:1px solid #7da5d3!important;border-radius:6px!important;font-size:20px!important;line-height:1!important;padding:3px!important;width:28px!important;height:28px!important}
+#wdwJukeboxDialog .wdw-jb-save:has(+*){color:#fff}
+#wdwJukeboxDialog .wdw-jb-lecture:has(.wdw-jb-save) .wdw-jb-save:hover{background:#276bda!important}
+#wdwJukeboxDialog .wdw-jb-player{margin:0!important;background:rgba(8,28,62,.95)!important;color:white!important;border-radius:11px!important;padding:12px!important}
+#wdwJukeboxDialog .wdw-jb-player iframe{width:100%!important;aspect-ratio:16/9!important;background:#000!important;border:0!important;display:block!important}
+#wdwJukeboxDialog .wdw-jb-controls{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+#wdwJukeboxDialog .wdw-jb-controls button{flex:1;padding:9px 7px!important;font-size:13px!important}
+#wdwJukeboxDialog .wdw-jb-drive-note{flex:1 0 100%;font:12px Georgia,serif;color:#c9e2ff}
+#wdwJukeboxDialog .wdw-jb-open{display:inline-block;margin-top:9px;color:#c7e0ff;text-decoration:underline;font:12px Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-tile{display:block;width:100%;margin:5px 0;padding:12px 13px;background:linear-gradient(145deg,#fff,#f2f8ff);border:1px solid #c4d8eb;border-radius:9px;color:#164a8c;text-align:left;font:600 14px Georgia,serif;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-tile small{display:block;margin-top:5px;color:#526d89;font:12px/1.4 Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-genre{display:block;width:100%;margin:7px 0}
+#wdwJukeboxDialog .wdw-jb-explanation{margin-top:10px;padding:12px;border:1px solid #bfd4e9;border-radius:9px;background:#fff;color:#183a60;font:13px/1.5 Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-explanation summary{font-weight:bold;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-explanation strong{display:block;margin-top:7px}
+#wdwJukeboxDialog .wdw-jb-explanation p{margin:3px 0 7px}
+#wdwJukeboxDialog .wdw-jb-intro,#wdwJukeboxDialog .wdw-jb-empty{font:14px/1.5 Georgia,serif;color:#193858}
+@media(max-width:450px){#wdwJukeboxDialog .wdw-jb-box{height:min(780px,95dvh)!important}#wdwJukeboxDialog .wdw-jb-heading{padding:10px 13px 4px!important}#wdwJukeboxDialog .wdw-jb-logo{width:78px;height:35px}#wdwJukeboxDialog .wdw-jb-view{padding:7px 12px 10px!important}#wdwJukeboxDialog .wdw-jb-fixed{margin:0 12px!important}}
+@media(prefers-reduced-motion:reduce){#wdwJukeboxDialog .wdw-jb-pulse span{animation:none;left:27%}}
