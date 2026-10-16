@@ -372,3 +372,8 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-player:fullscreen{display:flex;flex-direction:column;justify-content:center;background:#000!important}
 #wdwJukeboxDialog .wdw-jb-player:fullscreen iframe{width:100%!important;max-height:90vh!important}
 @media(max-width:450px){#wdwJukeboxDialog.wdw-jb-mini{width:min(245px,calc(100vw - 20px))!important;right:10px!important;bottom:10px!important}}
+
+/* Minimal window controls: unboxed line, expand glyph, and close X */
+#wdwJukeboxDialog .wdw-jb-window-actions button{background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;outline:0!important;border-radius:0!important;padding:2px 5px!important;min-width:30px!important;min-height:34px!important;color:#173b6b!important;font-size:23px!important;font-weight:400!important;line-height:1!important;transition:color .2s,transform .2s!important}
+#wdwJukeboxDialog .wdw-jb-window-actions button:hover{color:#3477d6!important;transform:translateY(-1px)!important}
+#wdwJukeboxDialog .wdw-jb-window-actions button:focus-visible{outline:2px solid #3477d6!important;outline-offset:2px!important}
