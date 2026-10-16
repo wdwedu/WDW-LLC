@@ -8,23 +8,28 @@
     bar.innerHTML='<button class="light-toggle" type="button"></button><div class="reader-utilities"></div><div class="reader-right"></div>';
     document.body.append(bar);
 
-    const footer=document.querySelector('.wdw-footer,footer');
+    // Find the current footer on every pass: the WDW shell can replace it.
     let queued=false;
     function place(){
       queued=false;
-      const top=footer?footer.getBoundingClientRect().top:innerHeight;
+      const footer=document.querySelector('.wdw-footer,footer');
+      const top=footer?footer.getBoundingClientRect().top:document.documentElement.scrollHeight;
       const offset=Math.max(0,innerHeight-top);
       bar.style.setProperty('--tools-footer-offset',offset+'px');
-      bar.hidden=top<=0;
+      // Leave the thin bar visible while reading; hide only beyond the footer.
+      bar.hidden=!!footer&&top<=0;
       document.documentElement.style.setProperty('--reader-bottom',offset+(bar.hidden?0:bar.getBoundingClientRect().height)+8+'px');
     }
-    window.addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(place)}},{passive:true});
-    window.addEventListener('resize',place);
-    place();
+    function schedule(){if(!queued){queued=true;requestAnimationFrame(place)}}
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule);
+    window.addEventListener('load',schedule,{once:true});
+    document.addEventListener('visibilitychange',schedule);
     if(typeof ResizeObserver!=='undefined'){
-      const observer=new ResizeObserver(place);
-      [footer,document.querySelector('main'),bar].filter(Boolean).forEach(n=>observer.observe(n));
+      const observer=new ResizeObserver(schedule);
+      [document.querySelector('main'),document.querySelector('footer')].filter(Boolean).forEach(n=>observer.observe(n));
     }
+    place();
   }
 
   const tooltip=document.createElement('div');
