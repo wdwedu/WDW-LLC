@@ -3722,7 +3722,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   function score(q,item){
     const words=q.toLowerCase().split(/\s+/).filter(w=>w.length>2);
     const hay=(item[0]+" "+item[1]).toLowerCase();
-    return words.reduce((n,w)=>n+(hay.includes(w)?2:0),0);
+    const title=item[0].toLowerCase();return words.reduce((n,w)=>n+(title.includes(w)?5:hay.includes(w)?1:0),0)+(title.trim()===q.toLowerCase().trim()?100:0);
   }
   function answer(q){
     const arr=items();
@@ -3732,14 +3732,14 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     }
     let best=arr[0],bestScore=-1;
     arr.forEach(it=>{const s=score(q,it);if(s>bestScore){best=it;bestScore=s}});
-    if(bestScore<=0&&last)best=last;
+    if(bestScore<=0){addMsg("I do not have a verified answer for that question yet. Try a suggested question or ask about a specific interview, portfolio, or instructional-design topic.","bot");return;}
     last=best;
     setTimeout(()=>{addMsg(best[1],"bot");addFollowups(best[2]);},120);
   }
   function render(){
     if(!suggestions)return;
     suggestions.innerHTML="";
-    items().forEach(it=>{
+    items().slice(0,20).forEach(it=>{
       const b=document.createElement("button");
       b.type="button";
       b.textContent=it[0];
@@ -3752,6 +3752,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     last=null;
     document.querySelectorAll(".assistant-mode").forEach(b=>{b.classList.toggle("active",b.dataset.mode===mode);b.setAttribute("aria-pressed",String(b.dataset.mode===mode));});
     render();
+    if(input)input.placeholder=mode==="interview"?"Ask an interview question...":mode==="id"?"Ask an instructional design question...":"Ask a portfolio question...";
     addMsg("Mode changed to "+label+". What would you like to explore?","bot");
   }
 
