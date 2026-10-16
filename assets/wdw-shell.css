@@ -443,3 +443,13 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-cta{margin-top:13px!important;margin-bottom:14px!important}
 #wdwJukeboxDialog .wdw-jb-ie{padding-top:17px!important;justify-content:center!important}
 #wdwJukeboxDialog img.wdw-jb-ie-logo{width:20px!important;height:20px!important;object-fit:contain!important}
+
+/* Build 1: The Mix identity, compact header and actual usable breathing room */
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-box{padding:24px 22px 26px!important}
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{padding:15px 65px 16px!important;margin-bottom:18px!important;min-height:118px!important}
+#wdwJukeboxDialog .wdw-jb-presented{display:block!important;font:400 11px/1.25 Georgia,serif!important;letter-spacing:.07em!important;color:#436287!important}
+#wdwJukeboxDialog .wdw-jb-tagline{display:block!important;white-space:normal!important;text-wrap:balance!important;font:400 clamp(10px,2.4vw,12px)/1.4 Georgia,serif!important;letter-spacing:.015em!important}
+#wdwJukeboxDialog .wdw-jb-brand{max-width:100%!important}
+#wdwJukeboxDialog .wdw-jb-ie-wordmark{display:inline-grid!important;place-items:center!important;width:28px!important;height:28px!important;flex:0 0 28px!important;border:1px solid #91a9c8!important;border-radius:50%!important;background:#092c61!important;color:white!important;font:italic 700 12px/1 Georgia,serif!important;letter-spacing:-.04em!important}
+#wdwJukeboxDialog .wdw-jb-ie{padding:18px 8px 10px!important;gap:10px!important}
+@media(max-width:450px){#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-box{padding:20px 14px 22px!important}#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{padding:13px 78px 14px 4px!important;min-height:118px!important}#wdwJukeboxDialog .wdw-jb-heading h2{font-size:30px!important}#wdwJukeboxDialog .wdw-jb-media-icons{gap:10px!important}}
