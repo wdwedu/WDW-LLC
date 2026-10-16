@@ -123,8 +123,11 @@ function render(){stop();view.replaceChildren();backrow.hidden=current.page==='h
  }else if(current.page==='music-player'){
  const m=music[current.index];if(m){if(m.id)playYoutube(m.id,m.title+' — '+m.credit);else {view.append(make('p','wdw-jb-empty','A verified long-form instrumental will be added to '+m.name+' soon.'));view.append(btn('Back to genres','wdw-jb-primary',()=>back()))}}
  }else if(current.page==='motivation'){
- view.append(make('p','wdw-jb-intro','Learning takes practice, persistence, and the courage to grow.'));
- [['Growth and learning','learn'],['Practice and resilience','practice'],['Purpose and confidence','become']].forEach(([label,search])=>view.append(btn(label,'wdw-jb-tile',()=>navigate({page:'motivation-lectures',search}))));
+ view.append(make('p','wdw-jb-intro','Inspiring educators and researchers on persistence, learning and human potential.'));
+ [['Every Kid Needs a Champion','Rita Pierson','SFnMTHhKdkw','Relationships and belief help students feel seen and supported.'],['Grit: Passion and Perseverance','Angela Duckworth','H14bBuluwB8','Growth and long-term commitment are developed through practice.']].forEach(([label,speaker,id,explanation])=>{const b=btn(label+' — '+speaker,'wdw-jb-tile',()=>navigate({page:'motivation-player',id,title:label+' — '+speaker,explanation}));b.append(make('small','',explanation));view.append(b)});
+ view.append(btn('More mindset lectures by Wayne Williams','wdw-jb-tile',()=>navigate({page:'motivation-lectures',search:'learn'})));
+ }else if(current.page==='motivation-player'){
+ playYoutube(current.id,current.title,{'Why it matters':current.explanation,'Instructional design':'Discuss evidence, reflect on classroom practice, and apply one useful idea.'});
  }else if(current.page==='motivation-lectures'){
  const subset=lectures.filter(t=>t.title.toLowerCase().includes(current.search));if(!subset.length)view.append(make('p','','More talks will be added to this collection.'));subset.forEach(t=>view.append(btn(t.title,'wdw-jb-tile',()=>navigate({page:'lecture-player',n:t.n}))));
  }else if(current.page==='meditation'){
