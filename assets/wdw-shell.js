@@ -130,7 +130,7 @@ window.addEventListener('message',event=>{
  if(videoDuration>0){videoReady=true;playerNote.hidden=true;syncTimeline()}
 });
 frame.addEventListener('load',()=>{if(playing?.kind!=='youtube')return;frame.contentWindow?.postMessage(JSON.stringify({event:'listening',id:'wdwJukebox'}),'https://www.youtube-nocookie.com');applyVolume()});
-const showMedia=(item)=>{stop();player.classList.remove('wdw-jb-is-lecture');lecturePortrait.remove();playing=item;minButton.hidden=false;playerHeading.textContent=item.title;frame.src=item.embed;openMedia.href=item.url;controls.replaceChildren();
+const showMedia=(item)=>{stop();player.classList.remove('wdw-jb-is-lecture');lecturePortrait.remove();lectureStage.remove();playing=item;minButton.hidden=false;playerHeading.textContent=item.title;frame.src=item.embed;openMedia.href=item.url;controls.replaceChildren();
  controls.append(btn('Play','',()=>playerAction('playVideo')),btn('Pause','',()=>playerAction('pauseVideo')),btn('Restart','',()=>{frame.src=item.embed;videoTime=0;syncTimeline()}),btn('Stop','',stop));if(item.kind==='youtube'){controls.append(btn('Fullscreen','',()=>{if(player.requestFullscreen)player.requestFullscreen().catch(()=>{});else if(frame.requestFullscreen)frame.requestFullscreen().catch(()=>{})}));controls.append(btn('−10s','',()=>{if(videoDuration>0){videoTime=Math.max(0,videoTime-10);postPlayer('seekTo',[videoTime,true]);syncTimeline()}}),btn('+10s','',()=>{if(videoDuration>0){videoTime=Math.min(videoDuration,videoTime+10);postPlayer('seekTo',[videoTime,true]);syncTimeline()}}),btn('Mute','',()=>{volume.value='0';volume.dispatchEvent(new Event('input'))}))}
  sliderPanel.hidden=item.kind!=='youtube';playerNote.hidden=item.kind!=='youtube';
  if(item.kind==='drive'){controls.querySelectorAll('button').forEach((b,i)=>{if(i<2)b.hidden=true});controls.prepend(make('span','wdw-jb-drive-note','Use the player controls inside the recording.'))}
@@ -142,8 +142,9 @@ const playYoutube=(id,title,desc)=>showMedia({kind:'youtube',title,url:youtubeUr
 const lecturePortrait=make('div','wdw-jb-lecture-portrait');
 const lecturePhoto=make('img','wdw-jb-lecture-photo');lecturePhoto.src='/assets/wdw%20head%20and%20waist%20black%20suit.png';lecturePhoto.alt='Wayne Williams, lecture host';lecturePhoto.loading='eager';
 const lectureCaption=make('span','wdw-jb-lecture-caption','WAYNE WILLIAMS · AUDIO LECTURE');
+const lectureStage=make('div','wdw-jb-lecture-stage');
 lecturePortrait.append(lecturePhoto,lectureCaption);
-const playLecture=t=>{showMedia({kind:'drive',title:t.title,url:'https://drive.google.com/file/d/'+t.id+'/view',embed:'https://drive.google.com/file/d/'+t.id+'/preview'});player.classList.add('wdw-jb-is-lecture');frame.before(lecturePortrait);};
+const playLecture=t=>{showMedia({kind:'drive',title:t.title,url:'https://drive.google.com/file/d/'+t.id+'/view',embed:'https://drive.google.com/file/d/'+t.id+'/preview'});player.classList.add('wdw-jb-is-lecture');frame.before(lectureStage);lectureStage.append(lecturePortrait,frame);};
 const refreshSaved=()=>{const host=jb.querySelector('.wdw-jb-saved');host.replaceChildren();if(!saved.length){host.append(make('p','','No lectures saved yet. Select ☆ beside a lecture.'));return}saved.forEach(n=>{const t=lectures.find(x=>x.n===n);if(t)host.append(btn(String(n).padStart(2,'0')+' · '+t.title,'wdw-jb-saved-item',()=>navigate({page:'lecture-player',n:t.n})))});};
 jb.querySelector('.wdw-jb-clear').addEventListener('click',()=>{saved=[];remember()});
 function navigate(next,push=true){if(push)pageStack.push(current);current=next;render()}
