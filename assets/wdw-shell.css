@@ -120,3 +120,44 @@
 .wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item):hover{background:rgba(47,111,239,.07)!important}
 #wdwQuickMenu .wdw-quick-links a,#wdwQuickMenu .wdw-quick-links button,#wdwQuickMenu .wdw-quick-links a:hover{animation:none!important;transform:none!important;transition:none!important}
 @media(max-width:1190px){.wdw-master-nav-row{display:none!important}}
+
+/* WDW 2026-10-15 Jukebox and navigation final polish */
+.wdw-master-nav.scrolled .wdw-master-icon,.wdw-master-nav.scrolled .wdw-audio-video{color:#fff!important}
+.wdw-master-nav.scrolled .wdw-master-menu span{background:#fff!important}
+.wdw-master-nav.scrolled .wdw-master-nav-row .wdw-master-link .wdw-master-icon{color:#fff!important}
+@media(min-width:1191px){
+.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item)>span:last-child:not(.wdw-master-icon){
+bottom:calc(100% - 1px)!important;top:auto!important;padding:4px 7px!important;font:11px/1.15 Georgia,serif!important;
+max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:translateX(-50%)!important;
+}
+.wdw-master-nav-row .wdw-master-link:hover>span:last-child:not(.wdw-master-icon),.wdw-master-nav-row .wdw-master-link:focus-visible>span:last-child:not(.wdw-master-icon){transform:translateX(-50%)!important}
+}
+#wdwJukeboxDialog .wdw-jb-box{width:min(520px,96vw);padding:18px;max-height:90dvh}
+#wdwJukeboxDialog .wdw-jb-buttons{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#wdwJukeboxDialog .wdw-jb-buttons button,#wdwJukeboxDialog .wdw-jb-genre,#wdwJukeboxDialog .wdw-jb-more,#wdwJukeboxDialog .wdw-jb-cta{background:linear-gradient(125deg,#1855c7,#3176ef)!important;color:#fff!important;border:1px solid #2a65d1!important;border-radius:11px!important;padding:12px 10px!important;font:600 14px/1.25 Georgia,serif!important;text-decoration:none!important;cursor:pointer!important;box-shadow:0 5px 12px #0b3c8b28!important}
+#wdwJukeboxDialog .wdw-jb-buttons button.selected{outline:2px solid #86b5fc;outline-offset:2px}
+#wdwJukeboxDialog .wdw-jb-view{padding-top:12px}
+#wdwJukeboxDialog .wdw-jb-intro{margin:4px 0 10px;color:#283f5d;font:14px Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-search{width:100%;padding:10px;border:1px solid #94b1d3;border-radius:8px;background:#fff;color:#193859;font:14px Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-list{display:grid;gap:4px;margin:10px 0}
+#wdwJukeboxDialog .wdw-jb-lecture{display:flex;align-items:stretch;gap:4px;border-bottom:1px solid #cedce8}
+#wdwJukeboxDialog .wdw-jb-lecture-play{border:0;background:#ffffffb0;color:#183a60;padding:9px;text-align:left;flex:1;font:13px/1.4 Georgia,serif;cursor:pointer;border-radius:5px}
+#wdwJukeboxDialog .wdw-jb-save{border:0;background:none;color:#295eb5;cursor:pointer;font-size:22px;width:35px}
+#wdwJukeboxDialog .wdw-jb-more{width:100%;margin:4px 0}
+#wdwJukeboxDialog .wdw-jb-more[hidden]{display:none}
+#wdwJukeboxDialog .wdw-jb-player{margin-top:12px;background:#081a32;color:#fff;border-radius:10px;padding:10px}
+#wdwJukeboxDialog .wdw-jb-player-title{font:600 14px Georgia,serif;margin-bottom:8px}
+#wdwJukeboxDialog .wdw-jb-player iframe{width:100%;aspect-ratio:16/9;border:0;background:#000}
+#wdwJukeboxDialog .wdw-jb-external{display:inline-block;color:#b5d6ff;font:12px Georgia,serif;margin-top:7px}
+#wdwJukeboxDialog .wdw-jb-genres{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#wdwJukeboxDialog .wdw-jb-genre{text-align:center}
+#wdwJukeboxDialog .wdw-jb-media-option{display:block;width:100%;text-align:left;padding:11px;margin:6px 0;border:1px solid #bacbdc;border-radius:9px;background:#fff;color:#173e72;font:600 14px Georgia,serif;cursor:pointer;text-decoration:none}
+#wdwJukeboxDialog .wdw-jb-media-option small{display:block;margin-top:4px;font:12px Georgia,serif;color:#61708b}
+#wdwJukeboxDialog .wdw-jb-playlists{margin:13px 0 12px;border-top:1px solid #c6d3df;padding:11px 2px 0;color:#203c5b}
+#wdwJukeboxDialog .wdw-jb-playlists summary{cursor:pointer;font:italic 15px Georgia,serif}
+#wdwJukeboxDialog .wdw-jb-playlists summary span{margin-left:5px}
+#wdwJukeboxDialog .wdw-jb-saved{margin-top:8px}
+#wdwJukeboxDialog .wdw-jb-saved-item{display:block;width:100%;padding:8px;background:#fff;border:0;border-bottom:1px solid #cfdbe8;color:#153c6c;text-align:left;font:13px Georgia,serif;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-clear{margin-top:8px;border:0;background:none;color:#285da1;font:12px Georgia,serif;cursor:pointer;text-decoration:underline}
+#wdwJukeboxDialog .wdw-jb-cta{display:flex;justify-content:center;align-items:center;width:100%;margin-top:10px;text-align:center}
+#wdwJukeboxDialog .wdw-jb-cta span{margin-left:8px;font-size:20px}
