@@ -429,3 +429,10 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
  #wdwJukeboxDialog .wdw-jb-tagline{font-size:10px!important}
  #wdwJukeboxDialog .wdw-jb-media-icons{gap:12px!important;font-size:14px!important}
 }
+
+/* The Mix final breathing room and small footer IE identity */
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{padding-top:17px!important;padding-bottom:13px!important}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-section{margin-top:12px}
+#wdwJukeboxDialog .wdw-jb-cta{margin-bottom:10px!important}
+#wdwJukeboxDialog .wdw-jb-ie{padding-top:15px!important;padding-bottom:7px!important;gap:7px!important}
+#wdwJukeboxDialog img.wdw-jb-ie-logo{width:27px!important;height:27px!important;object-fit:contain!important}
