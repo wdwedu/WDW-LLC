@@ -347,3 +347,28 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
  #wdwJukeboxDialog .wdw-jb-controls button{min-width:0;width:100%;min-height:44px;font-size:12px!important}
  #wdwJukeboxDialog .wdw-jb-slider-row{flex-wrap:wrap}
 }
+
+/* Floating video: retains the same iframe, without restarting playback */
+#wdwJukeboxDialog .wdw-jb-window-actions{display:flex;align-items:center;gap:7px}
+#wdwJukeboxDialog .wdw-jb-window-actions button{min-width:34px;min-height:34px;border-radius:7px;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-window-actions button[hidden]{display:none!important}
+#wdwJukeboxDialog.wdw-jb-mini{inset:auto 12px 12px auto!important;width:min(360px,calc(100vw - 24px))!important;height:auto!important;padding:0!important;background:transparent!important;display:block!important;overflow:visible!important;box-shadow:0 12px 40px rgba(0,0,0,.4);border-radius:12px;z-index:20000}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-box{width:100%!important;height:auto!important;max-height:min(80dvh,340px)!important;padding:0!important;border-radius:12px!important;overflow:hidden!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-heading{padding:6px 10px!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-heading h2{font-size:16px!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-logo{width:47px!important;height:22px!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-pulse,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-backrow,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-fixed,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-player-heading,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-controls,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-sliders,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-player-note,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-open,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-explanation{display:none!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-view{padding:0!important;overflow:hidden!important;flex:0 0 auto!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-player{margin:0!important;padding:0!important;border-radius:0!important}
+#wdwJukeboxDialog.wdw-jb-mini iframe{display:block!important;width:100%!important;aspect-ratio:16/9!important}
+#wdwJukeboxDialog .wdw-jb-player:fullscreen{display:flex;flex-direction:column;justify-content:center;background:#000!important}
+#wdwJukeboxDialog .wdw-jb-player:fullscreen iframe{width:100%!important;max-height:90vh!important}
+@media(max-width:450px){#wdwJukeboxDialog.wdw-jb-mini{width:min(245px,calc(100vw - 20px))!important;right:10px!important;bottom:10px!important}}
