@@ -3772,7 +3772,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 
   function exportBank(print){
     const title="Wayne's AI Assistant — "+({interview:"Interview Wayne",portfolio:"Portfolio",id:"Instructional Design Q&A"}[currentMode]);
-    const body=title+"\\n\\n"+items().map((item,i)=>(i+1)+". "+item[0]+"\\n"+item[1]).join("\\n\\n");
+    const body=title+"\n\n"+items().map((item,i)=>(i+1)+". "+item[0]+"\n"+item[1]).join("\n\n");
     if(print){const w=window.open("","_blank");if(!w)return alert("Allow pop-ups to print the Q&A.");const pre=w.document.createElement("pre");pre.style.cssText="white-space:pre-wrap;font:15px/1.6 Georgia,serif;margin:36px";pre.textContent=body;w.document.title=title;w.document.body.appendChild(pre);w.focus();w.print();}
     else{const url=URL.createObjectURL(new Blob([body],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="wdw-"+currentMode+"-qa.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
   }
@@ -3978,7 +3978,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 <div class="robot-panel-head">
 <div class="robot-large robot-large-bounce"><span class="robot-antenna"></span><span class="robot-head"><i></i><i></i><b></b></span></div>
 <div>
-<div class="eyebrow">Wayne\'s AI Assistant</div>
+<div class="eyebrow">Wayne's AI Assistant</div>
 <p>Interview Wayne, explore the portfolio, or ask instructional-design questions. Choose a mode, use a suggested prompt, or keep asking follow-up questions to continue the conversation.</p>
 </div>
 </div><div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">Portfolio</button><button class="assistant-mode" data-mode="id" type="button">Instructional Design Q&amp;A</button></div>
