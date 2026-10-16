@@ -213,3 +213,6 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-intro,#wdwJukeboxDialog .wdw-jb-empty{font:14px/1.5 Georgia,serif;color:#193858}
 @media(max-width:450px){#wdwJukeboxDialog .wdw-jb-box{height:min(780px,95dvh)!important}#wdwJukeboxDialog .wdw-jb-heading{padding:10px 13px 4px!important}#wdwJukeboxDialog .wdw-jb-logo{width:78px;height:35px}#wdwJukeboxDialog .wdw-jb-view{padding:7px 12px 10px!important}#wdwJukeboxDialog .wdw-jb-fixed{margin:0 12px!important}}
 @media(prefers-reduced-motion:reduce){#wdwJukeboxDialog .wdw-jb-pulse span{animation:none;left:27%}}
+
+#wdwJukeboxDialog .wdw-jb-save.is-saved{background:#2469d9!important;border-color:#195ac7!important;color:#fff!important}
+#wdwJukeboxDialog .wdw-jb-lecture-play:hover{background:#edf6ff!important}
