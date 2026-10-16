@@ -18,7 +18,7 @@ ready(()=>{
  <a class="wdw-master-link ${active==='command'?'active':''}" href="/ai-command-center/"><span class="wdw-master-icon">▦</span><span>AI Command Center</span></a>
  <span class="wdw-master-sep" aria-hidden="true"></span>
  <a class="wdw-master-link" href="/#contact"><span class="wdw-master-icon">✉</span><span>Contact</span></a>
- <button class="wdw-master-link wdw-install-menu-item" type="button" onclick="window.siteInstallApp?.()">Install App</button>
+ <button class="wdw-master-link wdw-install-menu-item" type="button" onclick="window.siteInstallApp?.()"><span class="wdw-master-icon" aria-hidden="true">↓</span><span>Install Web App</span></button>
  </div></div></nav>`;
  const old=document.querySelector('.wdw-master-nav')||document.querySelector('header.topbar')||document.querySelector('nav.site-nav');
  // On the WDW homepage, keep the original icon navigation. Replacing it after load caused the visible snap-left.
@@ -190,7 +190,7 @@ refreshSaved();render();
  const master=document.getElementById('wdwMasterNav'),menu=document.getElementById('wdwMasterMenu'),row=document.getElementById('wdwMasterNavRow');
  const sync=()=>master?.classList.toggle('scrolled',scrollY>22);sync();addEventListener('scroll',sync,{passive:true});
  const quick=document.createElement('div');quick.id='wdwQuickMenu';quick.hidden=true;quick.setAttribute('aria-label','Website menu');
- quick.innerHTML='<div class="wdw-quick-heading"><span class="wdw-quick-heading-rule" aria-hidden="true"></span><span>Explore WDW.LLC</span><span class="wdw-quick-heading-rule" aria-hidden="true"></span></div><nav class="wdw-quick-links" aria-label="Site links">'+[...row.querySelectorAll('a')].map(a=>'<a href="'+a.getAttribute('href')+'">'+a.innerHTML+'</a>').join('')+'<button type="button" class="wdw-quick-install">Install App</button></nav>';
+ quick.innerHTML='<div class="wdw-quick-heading"><span class="wdw-quick-heading-rule" aria-hidden="true"></span><span>Explore wdw.llc</span><span class="wdw-quick-heading-rule" aria-hidden="true"></span></div><nav class="wdw-quick-links" aria-label="Site links">'+[...row.querySelectorAll('a')].map(a=>'<a href="'+a.getAttribute('href')+'">'+a.innerHTML+'</a>').join('')+'<button type="button" class="wdw-quick-install"><span aria-hidden="true">↓</span> Install Web App</button></nav>';
  master.querySelector('.wdw-master-nav-shell').appendChild(quick);
  quick.querySelector('.wdw-quick-install').addEventListener('click',()=>{setMenu(false);window.siteInstallApp?.()});
  const setMenu=o=>{quick.hidden=!o;menu?.setAttribute('aria-expanded',String(o));menu?.setAttribute('aria-label',o?'Close navigation':'Open navigation')};
