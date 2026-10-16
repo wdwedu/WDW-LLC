@@ -6,7 +6,7 @@ ready(()=>{
  const active=path.startsWith('/articles')?'articles':path.startsWith('/ai-command-center')?'command':'home';
  const nav=`<nav class="wdw-master-nav" id="wdwMasterNav" aria-label="Primary navigation"><div class="wdw-master-nav-shell">
  <a class="wdw-brand-link" href="/" aria-label="wdw.llc home"><span class="wdw-brand-mark" aria-hidden="true"></span></a>
- <button class="wdw-master-menu" id="wdwMasterMenu" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="wdwMasterNavRow"><span></span><span></span><span></span></button>
+ <div class="wdw-nav-controls"><button class="wdw-audio-video" id="wdwAudioVideo" type="button" aria-label="Audio & Video" title="Audio & Video"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 13v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="12" width="5" height="9" rx="2"/><rect x="16.5" y="12" width="5" height="9" rx="2"/></svg></button><button class="wdw-master-menu" id="wdwMasterMenu" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="wdwMasterNavRow"><span></span><span></span></button></div>
  <div class="wdw-master-nav-row" id="wdwMasterNavRow">
  <a class="wdw-master-link ${active==='home'?'active':''}" href="/"><span class="wdw-master-icon">⌂</span><span>Home</span></a>
  <a class="wdw-master-link" href="/#about"><span class="wdw-master-icon">◉</span><span>About</span></a>
@@ -19,11 +19,11 @@ ready(()=>{
  <span class="wdw-master-sep" aria-hidden="true"></span>
  <a class="wdw-master-link utility" href="/#contact" aria-label="Contact Wayne" title="Contact Wayne"><span class="wdw-master-icon">✉</span></a>
  <a class="wdw-master-link utility" href="/#announcements" aria-label="Announcements" title="Announcements"><span class="wdw-master-icon">📣</span></a>
- <button class="wdw-master-link utility" id="wdwMusicToggle" type="button" aria-label="Music" title="Music" aria-pressed="false"><span class="wdw-master-icon">♪</span><span class="wdw-sr-only">Music</span></button>
+ <button class="wdw-master-link wdw-install-menu-item" type="button" onclick="window.siteInstallApp?.()">Install App</button>
  </div></div></nav>`;
  const old=document.querySelector('.wdw-master-nav')||document.querySelector('header.topbar')||document.querySelector('nav.site-nav');
  // On the WDW homepage, keep the original icon navigation. Replacing it after load caused the visible snap-left.
- if(active!=='home'){if(old)old.outerHTML=nav;else document.body.insertAdjacentHTML('afterbegin',nav);}
+ if(old)old.outerHTML=nav;else document.body.insertAdjacentHTML('afterbegin',nav);
 
  const footer=`<footer class="wdw-footer" id="footer"><div class="wrap wdw-footer-grid">
  <section class="wdw-footer-brand"><a class="wdw-footer-lockup" href="/" aria-label="wdw.llc home"><span class="wdw-brand-mark" aria-hidden="true"></span></a><p>Learning design, educational thinking, AI-supported workflows, and practical tools for better work and learning.</p></section>
@@ -53,6 +53,8 @@ ready(()=>{
  const toast=document.getElementById('wdwSiteToast');let tt;const say=m=>{if(!toast)return;toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),2200)};
  document.querySelectorAll('[data-wdw-pending]').forEach(b=>b.addEventListener('click',()=>say(b.dataset.wdwPending+' profile will be connected here.')));
 
+ const jb=document.createElement('div');jb.id='wdwJukeboxDialog';jb.hidden=true;jb.setAttribute('role','dialog');jb.setAttribute('aria-modal','true');jb.setAttribute('aria-label','Jukebox');jb.innerHTML='<div class="wdw-jb-box"><div class="wdw-jb-heading"><h2>Jukebox</h2><button type="button" class="wdw-jb-close" aria-label="Close">×</button></div><div class="wdw-jb-buttons"><button type="button">Lectures</button><button type="button">Music</button><button type="button">Motivation</button><button type="button">Movies</button></div><div class="wdw-jb-view" aria-live="polite"></div></div>';document.body.append(jb);
+ const jbView=jb.querySelector('.wdw-jb-view'),openJb=document.getElementById('wdwAudioVideo');openJb?.addEventListener('click',()=>{jb.hidden=false});const closeJb=()=>{jb.hidden=true};jb.querySelector('.wdw-jb-close').addEventListener('click',closeJb);jb.addEventListener('click',e=>{if(e.target===jb)closeJb()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!jb.hidden)closeJb()});jb.querySelectorAll('.wdw-jb-buttons button').forEach(b=>b.addEventListener('click',()=>{jb.querySelectorAll('.wdw-jb-buttons button').forEach(x=>x.classList.toggle('selected',x===b));jbView.textContent=b.textContent==='Lectures'?'Lectures from — Wayne Williams':b.textContent+' collection';}));
  const master=document.getElementById('wdwMasterNav'),menu=document.getElementById('wdwMasterMenu'),row=document.getElementById('wdwMasterNavRow');
  const sync=()=>master?.classList.toggle('scrolled',scrollY>22);sync();addEventListener('scroll',sync,{passive:true});
  const setMenu=o=>{row?.classList.toggle('open',o);menu?.classList.toggle('open',o);menu?.setAttribute('aria-expanded',String(o));menu?.setAttribute('aria-label',o?'Close navigation':'Open navigation')};
