@@ -76,6 +76,7 @@ const jukeboxMusic=[
  {name:'Ambient',id:'9eJ7UHoKLG0',title:'Mellow focus instrumentals · 1 hour',credit:'Lofi Hip Hop'},
  {name:'World Music',id:null,title:'World instrumentals',credit:'Selection pending'}
 ];
+const meditationSessions=[{"title":"Indian Sitar · Shanti of Sitar","style":"Indian classical sitar • 1 hour","id":"A9l9AlmSf3c"},{"title":"Japanese Shakuhachi · Morning Breeze","style":"Japanese bamboo flute • 1 hour","id":"ltOWYSV_diE"},{"title":"Native American Flute · Deep Rest","style":"Indigenous-inspired flute • 1 hour","id":"KlUA5b7kKzc"},{"title":"Tibetan Singing Bowls · Inner Peace","style":"Singing bowls & ambient tones • 1 hour","id":"Qfvq2dy77sY"},{"title":"Solo Harp · Sarah Bhalla","style":"Acoustic harp improvisation • 1 hour","id":"WwVLdowD0Bo"},{"title":"Handpan · Malte Marten I","style":"Handpan sound meditation • 1 hour","id":"uwEaQk5VeS4"},{"title":"Handpan · Malte Marten II","style":"Handpan variations • 1 hour","id":"Q78wQTXlTik"},{"title":"Kalimba · Relaxing Collection","style":"African thumb piano / kalimba • 1 hour","id":"ceXR9FT1_JQ"},{"title":"Kalimba · Familiar Melodies","style":"Kalimba instrumentals • 1 hour","id":"0S09OM697UA"},{"title":"Chinese Zen · Guzheng & Erhu","style":"Chinese strings and bamboo flute • 1 hour","id":"cj_kjJkMQUQ"},{"title":"Chinese Zen · Peaceful Mind","style":"Guzheng, erhu & dizi • 1 hour","id":"gxZxoksFQyw"},{"title":"Japanese Koto · Rain Garden","style":"Koto & rain ambience • 1 hour","id":"JyvQpvmCmko"},{"title":"Japanese Koto · Moonlit Night","style":"Koto and Japanese Zen ambience • 1 hour","id":"EXXTYZy32X4"},{"title":"Sufi Oud · Whirling Meditation","style":"Middle Eastern oud & ney • 1 hour","id":"uuzp7xLvZOY"},{"title":"Arabic Oud · Focus Journey","style":"Oud and gentle lo-fi fusion • 1 hour","id":"An-iBMRMpz8"},{"title":"Celtic Harp · Tranquil Reflection","style":"Celtic harp sound bath • 1 hour","id":"KnOXnvBQl-Y"},{"title":"Celtic Harp · Moonlit Lake","style":"Celtic harp ambience • 1 hour","id":"Fmz8Zjgttw4"},{"title":"Indian Bansuri · Sound Sleep","style":"Indian bamboo flute & tanpura • 90 min","id":"QNmoY_K5MxI"},{"title":"Southeast Asian Flute · Mist","style":"Khmer flute, guzheng & nature • 1 hour","id":"ToucdRS3mI0"},{"title":"Singing Bowls · Natural Sound Bath","style":"Tibetan singing bowls • 1 hour","id":"PDI3mdiQuG0"}];
 const jb=document.createElement('div');jb.id='wdwJukeboxDialog';jb.hidden=true;jb.setAttribute('role','dialog');jb.setAttribute('aria-modal','true');jb.setAttribute('aria-label','WDW Jukebox');
 jb.innerHTML='<div class="wdw-jb-box"><div class="wdw-jb-heading"><span class="wdw-jb-brand"><span class="wdw-jb-logo" aria-label="WDW.LLC"></span><h2>Jukebox</h2></span><button type="button" class="wdw-jb-close" aria-label="Close Jukebox">×</button></div><div class="wdw-jb-pulse" aria-hidden="true"><span></span></div><div class="wdw-jb-backrow" hidden><button type="button" class="wdw-jb-back">← Back</button></div><main class="wdw-jb-view"></main><footer class="wdw-jb-fixed"><details class="wdw-jb-playlists"><summary>My Playlists <span aria-hidden="true">⌄</span></summary><div class="wdw-jb-saved"></div><button type="button" class="wdw-jb-clear">Clear saved playlist</button></details><a class="wdw-jb-cta" href="/ai-command-center/">Explore the AI Command Center →</a><div class="wdw-jb-ie"><span class="wdw-jb-ie-logo">i.e.</span><span>Brought to you by InAct Entertainment LLC</span></div></footer></div>';
 document.body.append(jb);
@@ -107,7 +108,7 @@ const playLecture=t=>showMedia({kind:'drive',title:t.title,url:'https://drive.go
 const refreshSaved=()=>{const host=jb.querySelector('.wdw-jb-saved');host.replaceChildren();if(!saved.length){host.append(make('p','','No lectures saved yet. Select ☆ beside a lecture.'));return}saved.forEach(n=>{const t=lectures.find(x=>x.n===n);if(t)host.append(btn(String(n).padStart(2,'0')+' · '+t.title,'wdw-jb-saved-item',()=>navigate({page:'lecture-player',n:t.n})))});};
 jb.querySelector('.wdw-jb-clear').addEventListener('click',()=>{saved=[];remember()});
 function navigate(next,push=true){if(push)pageStack.push(current);current=next;render()}
-function render(){stop();view.replaceChildren();backrow.hidden=current.page==='home';
+function render(){stop();view.replaceChildren();view.classList.toggle('wdw-jb-home',current.page==='home');backrow.hidden=current.page==='home';
  if(current.page==='home'){const grid=make('div','wdw-jb-buttons');[['Motivation','motivation'],['Music','music'],['Meditation','meditation'],['Movies','movies']].forEach(([label,page])=>grid.append(btn(label,'wdw-jb-primary',()=>navigate({page}))));
  view.append(grid,btn('My Lectures','wdw-jb-primary wdw-jb-lectures-link',()=>navigate({page:'lectures'})));
  }else if(current.page==='lectures'){
@@ -131,9 +132,11 @@ function render(){stop();view.replaceChildren();backrow.hidden=current.page==='h
  }else if(current.page==='motivation-lectures'){
  const subset=lectures.filter(t=>t.title.toLowerCase().includes(current.search));if(!subset.length)view.append(make('p','','More talks will be added to this collection.'));subset.forEach(t=>view.append(btn(t.title,'wdw-jb-tile',()=>navigate({page:'lecture-player',n:t.n}))));
  }else if(current.page==='meditation'){
- view.append(make('p','wdw-jb-intro','Settle in with reflective, instrumental listening.'));
- view.append(btn('Quiet piano · 1 hour','wdw-jb-tile',()=>navigate({page:'meditation-player'})));
- }else if(current.page==='meditation-player'){playYoutube('GDXd3BVyhLQ','Quiet piano instrumental — Lumikeyz')}
+ view.append(make('p','wdw-jb-intro','20 long-form meditation and study selections · Instrumental traditions from around the world.'));
+ meditationSessions.forEach((session,index)=>{const tile=btn(String(index+1).padStart(2,'0')+' · '+session.title,'wdw-jb-tile',()=>navigate({page:'meditation-player',index}));tile.append(make('small','',session.style));view.append(tile)});
+ }else if(current.page==='meditation-player'){
+ const session=meditationSessions[current.index];if(session)playYoutube(session.id,session.title,{'Sound / tradition':session.style,'Best for':'Calm listening, mindful breaks, reading, and quiet study.'});
+ }
 }
 const back=()=>{current=pageStack.pop()||{page:'home'};render()};
 backButton.addEventListener('click',back);
