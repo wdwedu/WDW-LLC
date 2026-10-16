@@ -400,3 +400,32 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-window-actions button[hidden]{display:none!important}
 #wdwJukeboxDialog .wdw-jb-window-actions button:hover{background:#184a96!important;color:#fff!important}
 #wdwJukeboxDialog .wdw-jb-window-actions button:focus-visible{outline:3px solid #83b8ff!important;outline-offset:2px!important}
+
+/* The Mix header-only visual trial: keep jukebox width, divider and controls intact */
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{
+ position:relative!important;display:flex!important;justify-content:center!important;
+ align-items:center!important;padding:12px 70px 8px!important;
+}
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading .wdw-jb-brand{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:3px!important;min-width:0!important;width:100%!important;text-align:center!important;
+}
+#wdwJukeboxDialog .wdw-jb-presented{font:400 10px/1.2 Georgia,serif;color:#5a7190;letter-spacing:.04em}
+#wdwJukeboxDialog .wdw-jb-tagline{font:400 11px/1.35 Georgia,serif;color:#234b78;white-space:nowrap}
+#wdwJukeboxDialog .wdw-jb-media-icons{display:flex;justify-content:center;align-items:center;gap:17px;color:#2b69b4;font:16px/1 Arial,sans-serif;margin-top:3px}
+#wdwJukeboxDialog .wdw-jb-heading h2{font-family:"Brush Script MT","Segoe Script","Lucida Handwriting","Apple Chancery",cursive!important;font-size:36px!important;font-weight:500!important;font-style:normal!important;line-height:1.05!important}
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading .wdw-jb-window-actions{
+ position:absolute!important;right:11px!important;top:10px!important;
+}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-heading .wdw-jb-brand{display:block!important;min-width:0!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-presented,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-tagline,
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-media-icons{display:none!important}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-heading h2{font-size:19px!important}
+@media(max-width:450px){
+ #wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{padding:12px 74px 8px 12px!important}
+ #wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading .wdw-jb-brand{margin-left:45px!important;width:calc(100% - 45px)!important}
+ #wdwJukeboxDialog .wdw-jb-heading h2{font-size:32px!important}
+ #wdwJukeboxDialog .wdw-jb-tagline{font-size:10px!important}
+ #wdwJukeboxDialog .wdw-jb-media-icons{gap:12px!important;font-size:14px!important}
+}
