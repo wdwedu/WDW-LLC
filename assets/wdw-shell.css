@@ -325,3 +325,14 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
  margin:0 4px 5px;
 }
 #wdwQuickMenu .wdw-quick-heading-rule{display:block;flex:1;height:1px;background:linear-gradient(90deg,transparent,#5c8ed0,transparent)}
+
+/* Build 1: integrated audio volume and seek/progress sliders; Jukebox only */
+#wdwJukeboxDialog .wdw-jb-sliders[hidden],#wdwJukeboxDialog .wdw-jb-player-note[hidden]{display:none!important}
+#wdwJukeboxDialog .wdw-jb-sliders{display:grid;gap:11px;margin:11px 0 0;padding:11px;background:#0e315d;border:1px solid #315b87;border-radius:9px}
+#wdwJukeboxDialog .wdw-jb-slider-row{display:grid;grid-template-columns:66px minmax(0,1fr) 82px;gap:9px;align-items:center;min-width:0}
+#wdwJukeboxDialog .wdw-jb-slider-row label{font:12px Georgia,serif;color:#e3efff}
+#wdwJukeboxDialog .wdw-jb-slider-row input[type=range]{width:100%;min-width:0;margin:0;height:20px;accent-color:#89baff;cursor:pointer}
+#wdwJukeboxDialog .wdw-jb-slider-row input[type=range]:disabled{cursor:default;opacity:.48}
+#wdwJukeboxDialog .wdw-jb-time,#wdwJukeboxDialog .wdw-jb-volume-value{text-align:right;font:11px Georgia,serif;color:#e3efff;white-space:nowrap;font-variant-numeric:tabular-nums}
+#wdwJukeboxDialog .wdw-jb-player-note{margin:8px 0 2px;font:11px/1.45 Georgia,serif;color:#d0e4fc}
+@media(max-width:430px){#wdwJukeboxDialog .wdw-jb-sliders{padding:9px 7px}#wdwJukeboxDialog .wdw-jb-slider-row{grid-template-columns:54px minmax(0,1fr) 75px;gap:6px}#wdwJukeboxDialog .wdw-jb-slider-row label{font-size:11px}}
