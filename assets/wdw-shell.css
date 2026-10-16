@@ -107,3 +107,16 @@
  .wdw-nav-controls{margin-left:auto!important}
 }
 @media(prefers-reduced-motion:reduce){.wdw-eq-bars i{animation:none;height:14px}}
+
+/* WDW stable icon navigation recovery 2026-10-15 */
+@media(min-width:1191px){
+.wdw-master-nav-shell{justify-content:space-between!important}
+.wdw-master-nav-row{display:flex!important;align-items:center!important;justify-content:space-evenly!important;flex:1!important;gap:2px!important}
+.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item){position:relative!important;display:inline-flex!important;justify-content:center!important;padding:9px 8px!important;min-width:31px!important;overflow:visible!important}
+.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item)>span:last-child:not(.wdw-master-icon){position:absolute!important;bottom:calc(100% + 5px)!important;left:50%!important;top:auto!important;display:block!important;opacity:0!important;visibility:hidden!important;transform:translateX(-50%)!important;white-space:nowrap!important;padding:6px 9px!important;background:#09234b!important;color:#fff!important;border-radius:6px!important;font:12px/1.2 Georgia,serif!important;pointer-events:none!important;z-index:100!important}
+.wdw-master-nav-row .wdw-master-link:hover>span:last-child:not(.wdw-master-icon),.wdw-master-nav-row .wdw-master-link:focus-visible>span:last-child:not(.wdw-master-icon){opacity:1!important;visibility:visible!important;transform:translateX(-50%)!important}
+}
+.wdw-master-nav-row .wdw-master-link,.wdw-master-nav-row .wdw-master-link:hover,.wdw-master-nav-row .wdw-master-link:focus-visible,.wdw-brand-link,.wdw-brand-link:hover,.wdw-master-menu,.wdw-master-menu:hover{animation:none!important;transition:none!important;translate:none!important;transform:none!important}
+.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item):hover{background:rgba(47,111,239,.07)!important}
+#wdwQuickMenu .wdw-quick-links a,#wdwQuickMenu .wdw-quick-links button,#wdwQuickMenu .wdw-quick-links a:hover{animation:none!important;transform:none!important;transition:none!important}
+@media(max-width:1190px){.wdw-master-nav-row{display:none!important}}
