@@ -98,7 +98,7 @@ const timelineRow=make('div','wdw-jb-slider-row');
 const timelineTitle=make('label','','Progress');const seek=make('input','wdw-jb-seek');seek.type='range';seek.min='0';seek.max='1000';seek.value='0';seek.step='1';seek.disabled=true;seek.setAttribute('aria-label','Skip to a point in the video');const timeLabel=make('span','wdw-jb-time','0:00 / --:--');
 timelineRow.append(timelineTitle,seek,timeLabel);
 const volumeRow=make('div','wdw-jb-slider-row');
-const volumeTitle=make('label','','Volume');const volume=make('input','wdw-jb-volume');volume.type='range';volume.min='0';volume.max='100';volume.step='1';volume.value='70';volume.setAttribute('aria-label','Player volume');const volumeLabel=make('span','wdw-jb-volume-value','70%');
+const volumeTitle=make('label','','Volume');const volume=make('input','wdw-jb-volume');volume.type='range';volume.min='0';volume.max='100';volume.step='1';volume.value='70';try{const stored=Number(localStorage.getItem('wdw-jukebox-volume'));if(Number.isFinite(stored)&&stored>=0&&stored<=100)volume.value=String(stored)}catch(e){}volume.setAttribute('aria-label','Player volume');const volumeLabel=make('span','wdw-jb-volume-value',volume.value+'%');
 volumeRow.append(volumeTitle,volume,volumeLabel);sliderPanel.append(timelineRow,volumeRow);
 const playerNote=make('p','wdw-jb-player-note','The video timeline appears when playback information becomes available.');
 player.append(playerHeading,frame,controls,sliderPanel,playerNote,openMedia);
@@ -110,9 +110,9 @@ const stopTracking=()=>{if(tracking!==null){clearInterval(tracking);tracking=nul
 const stop=()=>{stopTracking();frame.removeAttribute('src');player.remove();playing=null;videoDuration=0;videoTime=0;videoReady=false;syncTimeline()};
 const playerAction=(cmd)=>{if(!playing)return;if(playing.kind==='youtube')postPlayer(cmd);else if(cmd==='playVideo')frame.src=playing.embed};
 const applyVolume=()=>{volumeLabel.textContent=volume.value+'%';if(playing?.kind==='youtube'){if(Number(volume.value)===0)postPlayer('mute');else{postPlayer('unMute');postPlayer('setVolume',[Number(volume.value)])}}};
-volume.addEventListener('input',applyVolume);
+volume.addEventListener('input',()=>{try{localStorage.setItem('wdw-jukebox-volume',volume.value)}catch(e){}applyVolume()});
 seek.addEventListener('pointerdown',()=>{seekChanging=true});
-seek.addEventListener('pointerup',()=>{seekChanging=false});
+seek.addEventListener('pointerup',()=>{seekChanging=false});seek.addEventListener('pointercancel',()=>{seekChanging=false});seek.addEventListener('blur',()=>{seekChanging=false});
 seek.addEventListener('input',()=>{if(videoDuration>0){videoTime=Math.round(Number(seek.value)/1000*videoDuration);timeLabel.textContent=timeFmt(videoTime)+' / '+timeFmt(videoDuration)}});
 seek.addEventListener('change',()=>{seekChanging=false;if(videoDuration>0){const target=Number(seek.value)/1000*videoDuration;videoTime=target;postPlayer('seekTo',[target,true]);syncTimeline()}});
 window.addEventListener('message',event=>{
@@ -127,7 +127,7 @@ window.addEventListener('message',event=>{
 });
 frame.addEventListener('load',()=>{if(playing?.kind!=='youtube')return;frame.contentWindow?.postMessage(JSON.stringify({event:'listening',id:'wdwJukebox'}),'https://www.youtube-nocookie.com');applyVolume()});
 const showMedia=(item)=>{stop();playing=item;playerHeading.textContent=item.title;frame.src=item.embed;openMedia.href=item.url;controls.replaceChildren();
- controls.append(btn('Play','',()=>playerAction('playVideo')),btn('Pause','',()=>playerAction('pauseVideo')),btn('Restart','',()=>{frame.src=item.embed;videoTime=0;syncTimeline()}),btn('Stop','',stop));
+ controls.append(btn('Play','',()=>playerAction('playVideo')),btn('Pause','',()=>playerAction('pauseVideo')),btn('Restart','',()=>{frame.src=item.embed;videoTime=0;syncTimeline()}),btn('Stop','',stop));if(item.kind==='youtube'){controls.append(btn('−10s','',()=>{if(videoDuration>0){videoTime=Math.max(0,videoTime-10);postPlayer('seekTo',[videoTime,true]);syncTimeline()}}),btn('+10s','',()=>{if(videoDuration>0){videoTime=Math.min(videoDuration,videoTime+10);postPlayer('seekTo',[videoTime,true]);syncTimeline()}}),btn('Mute','',()=>{volume.value='0';volume.dispatchEvent(new Event('input'))}))}
  sliderPanel.hidden=item.kind!=='youtube';playerNote.hidden=item.kind!=='youtube';
  if(item.kind==='drive'){controls.querySelectorAll('button').forEach((b,i)=>{if(i<2)b.hidden=true});controls.prepend(make('span','wdw-jb-drive-note','Use the player controls inside the recording.'))}
  else {syncTimeline();tracking=setInterval(()=>{if(!playing||playing.kind!=='youtube')return;frame.contentWindow?.postMessage(JSON.stringify({event:'listening',id:'wdwJukebox'}),'https://www.youtube-nocookie.com')},1000)}
