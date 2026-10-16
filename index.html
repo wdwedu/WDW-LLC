@@ -3720,7 +3720,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     chat.scrollTop=chat.scrollHeight;
   }
   const stopWords=new Set(["what","when","where","which","does","about","with","have","your","would","could","should","tell","more","please","wayne","there","that","this","some","then","into","from","they","them","their","and","the","for","how","can","you","me","my"]);
-  const normalize=q=>q.toLowerCase().replace(/[^a-z0-9\\s]/g," ").replace(/\\s+/g," ").trim();
+  const normalize=q=>q.toLowerCase().replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
   const terms=q=>normalize(q).split(" ").filter(w=>w.length>2&&!stopWords.has(w));
   function score(q,item){
     const query=normalize(q),title=normalize(item[0]),words=terms(q),titleWords=new Set(terms(item[0])),answerWords=new Set(terms(item[1]));
