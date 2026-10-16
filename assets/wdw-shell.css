@@ -436,3 +436,10 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-cta{margin-bottom:10px!important}
 #wdwJukeboxDialog .wdw-jb-ie{padding-top:15px!important;padding-bottom:7px!important;gap:7px!important}
 #wdwJukeboxDialog img.wdw-jb-ie-logo{width:27px!important;height:27px!important;object-fit:contain!important}
+
+/* Final Mix comfort spacing */
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-media-icons{display:flex!important;justify-content:space-around!important;width:min(235px,100%)!important;gap:14px!important;margin:5px auto 0!important}
+#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{margin-bottom:20px!important}
+#wdwJukeboxDialog .wdw-jb-cta{margin-top:13px!important;margin-bottom:14px!important}
+#wdwJukeboxDialog .wdw-jb-ie{padding-top:17px!important;justify-content:center!important}
+#wdwJukeboxDialog img.wdw-jb-ie-logo{width:20px!important;height:20px!important;object-fit:contain!important}
