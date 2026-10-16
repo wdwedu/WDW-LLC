@@ -22,7 +22,8 @@ ready(()=>{
  <button class="wdw-master-link utility" id="wdwMusicToggle" type="button" aria-label="Music" title="Music" aria-pressed="false"><span class="wdw-master-icon">♪</span><span class="wdw-sr-only">Music</span></button>
  </div></div></nav>`;
  const old=document.querySelector('.wdw-master-nav')||document.querySelector('header.topbar')||document.querySelector('nav.site-nav');
- if(old)old.outerHTML=nav;else document.body.insertAdjacentHTML('afterbegin',nav);
+ // On the WDW homepage, keep the original icon navigation. Replacing it after load caused the visible snap-left.
+ if(active!=='home'){if(old)old.outerHTML=nav;else document.body.insertAdjacentHTML('afterbegin',nav);}
 
  const footer=`<footer class="wdw-footer" id="footer"><div class="wrap wdw-footer-grid">
  <section class="wdw-footer-brand"><a class="wdw-footer-lockup" href="/" aria-label="wdw.llc home"><span class="wdw-brand-mark" aria-hidden="true"></span></a><p>Learning design, educational thinking, AI-supported workflows, and practical tools for better work and learning.</p></section>
