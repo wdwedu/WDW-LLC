@@ -64,7 +64,7 @@ const films=[
  {title:'Akeelah and the Bee',year:2006,id:'8Sf4Lwxg6lQ',cast:'Keke Palmer, Laurence Fishburne, Angela Bassett',why:'Practice, community mentorship, and confidence',design:'Deliberate practice, feedback and coaching',about:'A young learner pursues the national spelling bee with support from her community.'},
  {title:'Dead Poets Society',year:1989,id:'ye4KFyWu2do',cast:'Robin Williams, Ethan Hawke, Robert Sean Leonard',why:'Finding student voice and intrinsic motivation',design:'Inquiry, dialogue and active interpretation',about:'An English teacher encourages students to think independently through poetry.'}
 ];
-const music=[
+const jukeboxMusic=[
  {name:'Jazz',id:'QkqIQtp0Hgc',title:'Smooth jazz instrumentals · 1 hour',credit:'Dr. SaxLove'},
  {name:'Hip-Hop',id:'YqXLVowLaFk',title:'Lo-fi hip-hop instrumentals · 1 hour',credit:'Blissful Music Lounge'},
  {name:'Soul & R&B',id:'Hp99F_INIMU',title:'Smooth R&B instrumentals · 1 hour',credit:'Dazai Beats'},
@@ -119,9 +119,9 @@ function render(){stop();view.replaceChildren();backrow.hidden=current.page==='h
  }else if(current.page==='movie-player'){
  const f=films[current.index];if(f)playYoutube(f.id,f.title+' — Trailer',{About:f.about,Featuring:f.cast,'Why it matters':f.why,'Instructional design':f.design});
  }else if(current.page==='music'){
- music.forEach((m,i)=>{const b=btn(m.name,'wdw-jb-primary wdw-jb-genre',()=>navigate({page:'music-player',index:i}));view.append(b)});
+ jukeboxMusic.forEach((m,i)=>{const b=btn(m.name,'wdw-jb-primary wdw-jb-genre',()=>navigate({page:'music-player',index:i}));view.append(b)});
  }else if(current.page==='music-player'){
- const m=music[current.index];if(m){if(m.id)playYoutube(m.id,m.title+' — '+m.credit);else {view.append(make('p','wdw-jb-empty','A verified long-form instrumental will be added to '+m.name+' soon.'));view.append(btn('Back to genres','wdw-jb-primary',()=>back()))}}
+ const m=jukeboxMusic[current.index];if(m){if(m.id)playYoutube(m.id,m.title+' — '+m.credit);else {view.append(make('p','wdw-jb-empty','A verified long-form instrumental will be added to '+m.name+' soon.'));view.append(btn('Back to genres','wdw-jb-primary',()=>back()))}}
  }else if(current.page==='motivation'){
  view.append(make('p','wdw-jb-intro','Inspiring educators and researchers on persistence, learning and human potential.'));
  [['Every Kid Needs a Champion','Rita Pierson','SFnMTHhKdkw','Relationships and belief help students feel seen and supported.'],['Grit: Passion and Perseverance','Angela Duckworth','H14bBuluwB8','Growth and long-term commitment are developed through practice.']].forEach(([label,speaker,id,explanation])=>{const b=btn(label+' — '+speaker,'wdw-jb-tile',()=>navigate({page:'motivation-player',id,title:label+' — '+speaker,explanation}));b.append(make('small','',explanation));view.append(b)});
