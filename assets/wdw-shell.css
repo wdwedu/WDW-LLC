@@ -453,3 +453,12 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-ie-wordmark{display:inline-grid!important;place-items:center!important;width:28px!important;height:28px!important;flex:0 0 28px!important;border:1px solid #91a9c8!important;border-radius:50%!important;background:#092c61!important;color:white!important;font:italic 700 12px/1 Georgia,serif!important;letter-spacing:-.04em!important}
 #wdwJukeboxDialog .wdw-jb-ie{padding:18px 8px 10px!important;gap:10px!important}
 @media(max-width:450px){#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-box{padding:20px 14px 22px!important}#wdwJukeboxDialog:not(.wdw-jb-mini) .wdw-jb-heading{padding:13px 78px 14px 4px!important;min-height:118px!important}#wdwJukeboxDialog .wdw-jb-heading h2{font-size:30px!important}#wdwJukeboxDialog .wdw-jb-media-icons{gap:10px!important}}
+
+/* Wayne's lecture portrait: visible above the actual Google Drive player, not covering its native controls */
+#wdwJukeboxDialog .wdw-jb-lecture-portrait{position:relative;display:none;overflow:hidden;isolation:isolate;width:100%;height:clamp(130px,30vw,190px);background:radial-gradient(ellipse at 50% 30%,#34465a 0%,#121b29 62%,#0b1422 100%);border-radius:9px 9px 0 0;margin:0 0 5px}
+#wdwJukeboxDialog .wdw-jb-is-lecture .wdw-jb-lecture-portrait{display:flex;align-items:center;justify-content:center}
+#wdwJukeboxDialog .wdw-jb-lecture-photo{display:block;width:100%;height:100%;object-fit:contain;object-position:center 28%;transform:scale(1.22);filter:contrast(1.03)}
+#wdwJukeboxDialog .wdw-jb-lecture-caption{position:absolute;bottom:7px;left:10px;z-index:1;background:rgba(6,20,42,.76);color:#e8f1ff;font:700 9px/1.4 Georgia,serif;letter-spacing:.13em;padding:5px 9px;border-radius:4px}
+#wdwJukeboxDialog .wdw-jb-is-lecture iframe{max-height:170px;min-height:120px}
+#wdwJukeboxDialog.wdw-jb-mini .wdw-jb-lecture-portrait{display:none!important}
+@media(max-width:450px){#wdwJukeboxDialog .wdw-jb-lecture-portrait{height:145px}#wdwJukeboxDialog .wdw-jb-is-lecture iframe{max-height:145px}}
