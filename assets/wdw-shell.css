@@ -266,3 +266,31 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
   height:auto!important;max-height:95dvh!important;
  }
 }
+
+/* WDW closeout — all jukebox buttons match the WDW deep-navy navigation */
+#wdwJukeboxDialog .wdw-jb-primary,
+#wdwJukeboxDialog .wdw-jb-buttons button,
+#wdwJukeboxDialog .wdw-jb-genre,
+#wdwJukeboxDialog .wdw-jb-more,
+#wdwJukeboxDialog .wdw-jb-cta,
+#wdwJukeboxDialog .wdw-jb-controls button,
+#wdwJukeboxDialog .wdw-jb-back,
+#wdwJukeboxDialog .wdw-jb-tile{
+  background:#071e42!important;
+  background-image:none!important;
+  color:#fff!important;
+  border:1px solid #153f78!important;
+  box-shadow:0 4px 13px rgba(7,30,66,.15)!important;
+}
+#wdwJukeboxDialog .wdw-jb-primary:hover,
+#wdwJukeboxDialog .wdw-jb-buttons button:hover,
+#wdwJukeboxDialog .wdw-jb-cta:hover,
+#wdwJukeboxDialog .wdw-jb-tile:hover{background:#0b2c61!important}
+#wdwJukeboxDialog .wdw-jb-view .wdw-jb-lectures-link,
+#wdwJukeboxDialog .wdw-jb-view.wdw-jb-home .wdw-jb-lectures-link{
+  background:#fff!important;background-image:none!important;
+  border:1.5px solid #071e42!important;
+  color:#071e42!important;
+}
+#wdwJukeboxDialog .wdw-jb-ie{display:flex!important;align-items:center!important;justify-content:center!important;gap:5px!important}
+#wdwJukeboxDialog img.wdw-jb-ie-logo{display:inline-block!important;width:48px!important;height:18px!important;object-fit:contain!important;flex-shrink:0!important}
