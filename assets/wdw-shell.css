@@ -161,3 +161,6 @@ max-width:150px!important;box-shadow:0 3px 12px #0003!important;transform:transl
 #wdwJukeboxDialog .wdw-jb-clear{margin-top:8px;border:0;background:none;color:#285da1;font:12px Georgia,serif;cursor:pointer;text-decoration:underline}
 #wdwJukeboxDialog .wdw-jb-cta{display:flex;justify-content:center;align-items:center;width:100%;margin-top:10px;text-align:center}
 #wdwJukeboxDialog .wdw-jb-cta span{margin-left:8px;font-size:20px}
+
+/* Tooltip within the header, just above each hovered icon (never off-screen). */
+@media(min-width:1191px){.wdw-master-nav-row .wdw-master-link:not(.wdw-install-menu-item)>span:last-child:not(.wdw-master-icon){top:-2px!important;bottom:auto!important;font-size:10px!important;padding:3px 6px!important;line-height:1!important}}
