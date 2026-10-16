@@ -2880,9 +2880,15 @@ a.robot-fab{
 #curriculum{
   scroll-margin-top:70px;
 }
+.robot-panel-head h2#robotTitle{display:none!important}
+.robot-panel-head .eyebrow{font-size:12px!important;color:#1954a3!important;letter-spacing:.06em!important;font-weight:700!important}
+.assistant-mode.active{background:#0b3d86!important;color:#fff!important;border-color:#0b3d86!important;box-shadow:0 3px 10px #174a8b40!important}
+.robot-suggestions{max-height:195px;overflow-y:auto;align-content:start}
+.assistant-bank-actions{display:flex;gap:9px;justify-content:flex-end;margin:9px 0 12px;flex-wrap:wrap}
+.assistant-bank-actions button{background:#edf4fc;border:1px solid #9cb7d9;color:#173d72;border-radius:6px;padding:7px 11px;cursor:pointer;font:12px Georgia,serif}
 </style>
-<link as="audio" as_="audio" href="/assets/wdw-home-background.mp3" rel="preload"/><link rel="stylesheet" href="/assets/wdw-shell.css?v=wdw-the-mix-header-20261016-19" data-wdw-shell="1">
-<script src="/assets/wdw-shell.js?v=wdw-the-mix-header-20261016-19" defer></script>
+<link as="audio" as_="audio" href="/assets/wdw-home-background.mp3" rel="preload"/><link rel="stylesheet" href="/assets/wdw-shell.css?v=wdw-mix-assistant-20261016-22" data-wdw-shell="1">
+<script src="/assets/wdw-shell.js?v=wdw-mix-assistant-20261016-22" defer></script>
 <script defer src="/app-assets/install.js?v=wdw-recovery-20261015"></script></head>
 <body><div aria-hidden="true" class="mouse-shadow" id="mouseShadow"></div>
 <nav aria-label="Primary navigation" class="site-nav" id="siteNav">
@@ -3733,7 +3739,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   function render(){
     if(!suggestions)return;
     suggestions.innerHTML="";
-    items().slice(0,10).forEach(it=>{
+    items().forEach(it=>{
       const b=document.createElement("button");
       b.type="button";
       b.textContent=it[0];
@@ -3744,7 +3750,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   function selectMode(mode,label){
     currentMode=mode;
     last=null;
-    document.querySelectorAll(".assistant-mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+    document.querySelectorAll(".assistant-mode").forEach(b=>{b.classList.toggle("active",b.dataset.mode===mode);b.setAttribute("aria-pressed",String(b.dataset.mode===mode));});
     render();
     addMsg("Mode changed to "+label+". What would you like to explore?","bot");
   }
@@ -3764,6 +3770,14 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     answer(q);
   });
 
+  function exportBank(print){
+    const title="Wayne's AI Assistant — "+({interview:"Interview Wayne",portfolio:"Portfolio",id:"Instructional Design Q&A"}[currentMode]);
+    const body=title+"\\n\\n"+items().map((item,i)=>(i+1)+". "+item[0]+"\\n"+item[1]).join("\\n\\n");
+    if(print){const w=window.open("","_blank");if(!w)return alert("Allow pop-ups to print the Q&A.");const pre=w.document.createElement("pre");pre.style.cssText="white-space:pre-wrap;font:15px/1.6 Georgia,serif;margin:36px";pre.textContent=body;w.document.title=title;w.document.body.appendChild(pre);w.focus();w.print();}
+    else{const url=URL.createObjectURL(new Blob([body],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="wdw-"+currentMode+"-qa.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  }
+  document.getElementById("assistantPrint")?.addEventListener("click",()=>exportBank(true));
+  document.getElementById("assistantDownload")?.addEventListener("click",()=>exportBank(false));
   currentMode="interview";
   document.querySelectorAll(".assistant-mode").forEach(b=>b.classList.toggle("active",b.dataset.mode==="interview"));
   render();
@@ -3964,12 +3978,11 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 <div class="robot-panel-head">
 <div class="robot-large robot-large-bounce"><span class="robot-antenna"></span><span class="robot-head"><i></i><i></i><b></b></span></div>
 <div>
-<div class="eyebrow">Wayne AI Assistant</div>
-<h2 id="robotTitle">Wayne's AI Assistant</h2>
+<div class="eyebrow">Wayne\'s AI Assistant</div>
 <p>Interview Wayne, explore the portfolio, or ask instructional-design questions. Choose a mode, use a suggested prompt, or keep asking follow-up questions to continue the conversation.</p>
 </div>
 </div><div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">Portfolio</button><button class="assistant-mode" data-mode="id" type="button">Instructional Design Q&amp;A</button></div>
-<div class="robot-suggestions" id="robotSuggestions"></div>
+<div class="robot-suggestions" id="robotSuggestions" aria-label="Suggested questions"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
 <div aria-live="polite" class="robot-chat" id="robotChat"></div>
 <form class="robot-input-row" id="robotForm">
 <input aria-label="Ask a portfolio question" autocomplete="off" id="robotInput" placeholder="Ask a portfolio question..."/>
