@@ -1285,7 +1285,7 @@ body{background-color:#f8fbff}
 #wayneAiAssistant .wayne-mic-button svg{stroke:#fff!important;color:#fff!important}#wayneAiAssistant .robot-input-row button[type="submit"]{background:#173b66!important;color:#fff!important;border:1px solid #173b66!important;border-radius:9px}#wayneAiAssistant .wayne-mic-button:disabled{opacity:.45;cursor:not-allowed}
 @keyframes wayneMicPulse{50%{box-shadow:0 0 0 5px rgba(34,115,212,.15)}}
 #wayneAiAssistant .wayne-voice-welcome{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#f1f6fd;border:1px solid #c8daee;padding:10px 13px;border-radius:10px;margin:12px 0 4px}
-#wayneAiAssistant .wayne-voice-button{border:1px solid #9ebee1;border-radius:999px;padding:10px 15px;background:linear-gradient(120deg,#fff,#e4effe);color:#164a83;font:700 14px Georgia,serif;cursor:pointer}
+#wayneAiAssistant .wayne-voice-button{border:1px solid #0a2f69;border-radius:999px;padding:10px 15px;background:#0a2f69;color:#fff;font:700 14px Georgia,serif;cursor:pointer}
 #wayneAiAssistant .wayne-voice-symbol{margin-right:7px}
 #wayneAiAssistant .wayne-voice-meta{display:flex;gap:10px;align-items:center;flex:1;min-width:145px;color:#52677e;font:12px Georgia,serif}
 #wayneAiAssistant #wayneVoiceProgress{width:100%;max-width:150px;accent-color:#2f6fef;height:7px}
@@ -3929,6 +3929,7 @@ function initAskWayne(){
       welcomeAudio.play().then(sync).catch(()=>{if(status)status.textContent="The welcome recording has not been uploaded to the website yet.";sync();});
     });
     welcomeAudio.addEventListener("timeupdate",()=>{const duration=welcomeAudio.duration;if(Number.isFinite(duration)&&duration>0){if(progress)progress.value=100*welcomeAudio.currentTime/duration;if(time)time.textContent=Math.floor(welcomeAudio.currentTime)+"s / "+Math.floor(duration)+"s";}});
+    welcomeAudio.addEventListener("pause",sync);
     welcomeAudio.addEventListener("ended",()=>{if(progress)progress.value=0;sync();});
     welcomeAudio.addEventListener("error",()=>{if(status)status.textContent="The welcome audio file is missing from the website.";sync();});
     sync();
@@ -4272,7 +4273,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
   function closeAssistantV20(){
     if(!assistant)return;
     const welcomeAudio=document.getElementById("wayneVoiceAudio");
-    if(welcomeAudio&&!welcomeAudio.paused){welcomeAudio.pause();}
+    if(welcomeAudio){welcomeAudio.pause();welcomeAudio.currentTime=0;welcomeAudio.dispatchEvent(new Event("pause"));}
     assistant.classList.remove("v20-open");
     assistant.classList.remove("open");
     assistant.setAttribute("aria-hidden","true");
