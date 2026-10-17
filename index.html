@@ -1259,6 +1259,12 @@ body{background-color:#f8fbff}
 @media(max-width:900px){.engine-grid{grid-template-columns:1fr}.engine-form-card,.engine-output-card{min-height:0}.engine-output-empty{min-height:330px}}
 @media(max-width:620px){.engine-choice-grid{grid-template-columns:1fr}.engine-form-card,.engine-output-card{padding:18px}}
 
+/* Ask Wayne opening prompts: subtle and accessible, with no fixed-question framing. */
+.ask-wayne-questions{display:flex;flex-wrap:wrap;align-items:flex-start;gap:9px;max-height:220px;overflow-y:auto;padding:8px 2px 12px}
+.ask-wayne-invite{width:100%;margin:0 0 3px;color:#3a5f87;font:italic 14px/1.5 Georgia,serif}
+.ask-wayne-questions .ask-wayne-prompt{border:1px solid #b8cce5;border-radius:999px;background:linear-gradient(125deg,#fff,#edf4ff);color:#173b66;padding:10px 15px;font:600 13px/1.4 Georgia,serif;white-space:normal;text-align:left;cursor:pointer;box-shadow:0 2px 7px rgba(12,41,79,.08);transition:transform .18s,box-shadow .18s,border-color .18s}
+.ask-wayne-questions .ask-wayne-prompt:hover,.ask-wayne-questions .ask-wayne-prompt:focus-visible{transform:translateY(-2px);border-color:#2869ba;box-shadow:0 4px 12px rgba(12,41,79,.16)}
+@media(prefers-reduced-motion:reduce){.ask-wayne-questions .ask-wayne-prompt{transition:none}.ask-wayne-questions .ask-wayne-prompt:hover{transform:none}}
 /* AI Assistant */
 .robot-panel{width:min(1020px,100%)!important}
 .assistant-modes{
@@ -3690,7 +3696,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 
 
 // ===== Assistant interaction controller =====
-(function(){
+function initAskWayne(){
   const chat=document.getElementById("robotChat");
   const suggestions=document.getElementById("robotSuggestions");
   const input=document.getElementById("robotInput");
@@ -3750,6 +3756,11 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   }
   function answer(q){
     const raw=q.trim(),low=normalize(raw);
+    if(/(?:how many|number of|years).*?(?:years|worked|experience).*?\b(?:id|instructional design|instructional designer)\b|\b(?:id|instructional design|instructional designer)\b.*?(?:how many years|years of experience)/i.test(raw)){
+      last=null;
+      addMsg("I bring more than 20 years of teaching, curriculum, and instructional leadership experience. My transition into dedicated instructional-design and eLearning work is more recent, so I would not present those 20-plus years as time spent in a corporate instructional-designer title. What I can show is how that experience transfers into analysis, assessment, accessible learning, and digital projects.","bot");
+      return;
+    }
     const vague=/^(more|tell me more|go on|continue|expand|elaborate|give me an example|example|can you expand|why is that|how so|what about that|and then|what happened next|can you explain|explain that|say more|tell me more about that|could you go deeper|go deeper|give an example|can you give an example)$/.test(low);
     if(vague){
       if(!last){addMsg("Sure—what would you like to explore? Pick an interview, portfolio, or learning-design question below.","bot");return;}
@@ -3795,15 +3806,50 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     last=best;
     setTimeout(()=>{addMsg(best[1],"bot");addFollowups(best[2]);},120);
   }
+  // Opening prompts are invitations to explore; visitors may ask anything.
+  const openingQuestions={
+    interview:[
+      ["Tell me about yourself.","Tell me about yourself."],
+      ["What makes your experience valuable?","How does your teaching background help in corporate ID?"],
+      ["What drives your professional mission?","What motivates you at this stage in your career?"],
+      ["Where do you see yourself in five years?","Where do you see yourself in five years?"],
+      ["Why work with you?","Why should we hire you?"],
+      ["What makes your approach different?","What is your greatest strength?"]
+    ],
+    portfolio:[
+      ["What makes your work distinctive?","What makes Wayne different?"],
+      ["Walk me through your portfolio.","Walk me through your portfolio."],
+      ["Which project best showcases your skills?","Which project best represents your instructional design skills?"],
+      ["How do you approach a new project?","How do you decide what to build first?"],
+      ["What experience do you bring?","What experience does Wayne bring?"],
+      ["What have you learned from building your websites?","What have you learned from building your own websites?"]
+    ],
+    id:[
+      ["How do you diagnose a learning problem?","What is a needs assessment?"],
+      ["What is ADDIE useful for?","What is ADDIE useful for?"],
+      ["When is training not the answer?","When is training not the answer?"],
+      ["How do you design engaging scenarios?","What makes a good branching scenario?"],
+      ["How do you measure learning?","How should learning be evaluated?"],
+      ["How do you design for accessibility?","What is UDL?"]
+    ]
+  };
   function render(){
     if(!suggestions)return;
-    suggestions.innerHTML="";
-    (currentMode==="interview"?items().slice(-20):items().slice(0,20)).forEach(it=>{
-      const b=document.createElement("button");
-      b.type="button";
-      b.textContent=it[0];
-      b.addEventListener("click",()=>{addMsg(it[0],"user");answer(it[0])});
-      suggestions.appendChild(b);
+    suggestions.replaceChildren();
+    const intro=document.createElement("p");
+    intro.className="ask-wayne-invite";
+    intro.textContent="A few ways to start—or challenge me with your own question.";
+    suggestions.appendChild(intro);
+    const available=items();
+    openingQuestions[currentMode].forEach(([label,title])=>{
+      const target=available.find(item=>item[0]===title);
+      if(!target)return;
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="ask-wayne-prompt";
+      button.textContent=label;
+      button.addEventListener("click",()=>{addMsg(label,"user");answer(title)});
+      suggestions.appendChild(button);
     });
   }
   function selectMode(mode,label){
@@ -3812,12 +3858,13 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
     document.querySelectorAll(".assistant-mode").forEach(b=>{b.classList.toggle("active",b.dataset.mode===mode);b.setAttribute("aria-pressed",String(b.dataset.mode===mode));});
     render();
     if(input)input.placeholder=mode==="interview"?"Ask an interview question...":mode==="id"?"Ask an instructional design question...":"Ask a portfolio question...";
-    addMsg("Mode changed to "+label+". What would you like to explore?","bot");
+    // Keep the conversation visible; prompts above update with the selected category.
   }
 
   document.querySelector(".assistant-modes")?.addEventListener("click",e=>{
     const b=e.target.closest(".assistant-mode");
     if(!b)return;
+    e.preventDefault();
     selectMode(b.dataset.mode,b.textContent.trim());
   });
 
@@ -3831,7 +3878,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   });
 
   function exportBank(print){
-    const title="Ask Wayne — "+({interview:"Interview Wayne",portfolio:"My Work",id:"Learning Design"}[currentMode]||"Questions & Answers");
+    const title="Ask Wayne — "+({interview:"Interview Wayne",portfolio:"My Work",id:"Instructional Design"}[currentMode]||"Questions & Answers");
     const body=title+"\n\n"+items().map((item,i)=>(i+1)+". "+item[0]+"\n"+item[1]).join("\n\n");
     if(print){const w=window.open("","_blank");if(!w)return alert("Allow pop-ups to print the Q&A.");const pre=w.document.createElement("pre");pre.style.cssText="white-space:pre-wrap;font:15px/1.6 Georgia,serif;margin:36px";pre.textContent=body;w.document.title=title;w.document.body.appendChild(pre);w.focus();w.print();}
     else{const url=URL.createObjectURL(new Blob([body],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="wdw-"+currentMode+"-qa.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -3842,9 +3889,10 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   document.querySelectorAll(".assistant-mode").forEach(b=>b.classList.toggle("active",b.dataset.mode==="interview"));
   render();
   if(chat&&!chat.children.length){
-    addMsg("Hey, welcome! I’m Wayne’s digital counterpart. Want to talk about my background, my work, or learning design? Pick a question or fire away.","bot");
+    addMsg("Hey, welcome! I’m Wayne’s digital counterpart. Want to talk about my background, projects, or instructional design? Start with a question above, or challenge me with your own.","bot");
   }
-})();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initAskWayne,{once:true});else initAskWayne();
 
 // Enhanced branching path
 (function(){
@@ -4008,9 +4056,9 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 <button aria-label="Close portfolio guide" class="robot-close" id="robotClose" type="button">×</button>
 <div class="robot-panel-head ask-wayne-intro">
 <img class="ask-wayne-modal-avatar" src="/favicon.png" alt="" draggable="false">
-<p>Curious about my background, my work, or how I approach learning and instructional design? Pick a question or ask your own.</p>
-</div><div class="ask-wayne-divider" aria-hidden="true"></div><div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">My Work</button><button class="assistant-mode" data-mode="id" type="button">Learning Design</button></div>
-<div class="robot-suggestions ask-wayne-questions" id="robotSuggestions" aria-label="Choose a suggested question"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
+<p>Curious about my background, my work, or how I approach learning and instructional design? Explore a starting point or challenge me with your own question.</p>
+</div><div class="ask-wayne-divider" aria-hidden="true"></div><div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">My Work</button><button class="assistant-mode" data-mode="id" type="button">Instructional Design</button></div>
+<div class="robot-suggestions ask-wayne-questions" id="robotSuggestions" aria-label="Explore opening questions"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
 <div aria-live="polite" class="robot-chat" id="robotChat"></div>
 <form class="robot-input-row" id="robotForm">
 <input aria-label="Ask a portfolio question" autocomplete="off" id="robotInput" placeholder="Ask a portfolio question..."/>
