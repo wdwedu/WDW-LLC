@@ -1297,6 +1297,9 @@ body{background-color:#f8fbff}
 
 
 
+/* Keep the chat physically absent until the first message, overriding older minimum heights. */
+#wayneAiAssistant #robotChat[hidden]{display:none!important;min-height:0!important;height:0!important;padding:0!important;border:0!important;margin:0!important;}
+#wayneAiAssistant #robotChat:not([hidden]){display:block;min-height:0!important;max-height:260px;}
 /* Keep the conversation collapsed until a question or answer actually appears. */
 #wayneAiAssistant #robotChat:empty{min-height:0!important;max-height:0!important;height:0!important;padding:0!important;border:0!important;margin:0!important;overflow:hidden!important;background:none!important;}
 #wayneAiAssistant #robotChat:not(:empty){min-height:0!important;max-height:260px;}
@@ -3776,6 +3779,7 @@ function initAskWayne(){
   function items(){return assistantTopics[currentMode]||assistantTopics.interview||[]}
   function addMsg(text,who="bot"){
     if(!chat)return;
+    chat.hidden=false;
     const d=document.createElement("div");
     d.className="chat-msg "+(who==="user"?"chat-user":"chat-bot");
     d.textContent=text;
@@ -3799,6 +3803,7 @@ function initAskWayne(){
   }
   function addFollowups(list){
     if(!chat||!list||!list.length)return;
+    chat.hidden=false;
     const choices=list.map(findQuestion).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.item[0]===x.item[0])===i).slice(0,3);
     if(!choices.length)return;
     const row=document.createElement("div");
@@ -4195,7 +4200,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <div class="wayne-scenario-explorer" id="wayneScenarioExplorer"><button type="button" id="wayneScenarioToggle" class="wayne-scenario-toggle" aria-expanded="false" aria-controls="wayneScenarioBody">Explore workplace scenarios <span aria-hidden="true">▾</span></button><div id="wayneScenarioBody" hidden><p>Choose a challenge to see how I would approach it.</p><label for="wayneScenarioCategory">Workplace challenge</label><select id="wayneScenarioCategory"><option value="all">All scenarios</option><option value="people">People & leadership</option><option value="training">Training & performance</option><option value="technology">Technology & operations</option><option value="education">Schools & higher education</option></select><label for="wayneScenarioSearch">Find a scenario</label><input id="wayneScenarioSearch" type="search" placeholder="e.g. onboarding, conflict, AI, accessibility"><div id="wayneScenarioResults" class="wayne-scenario-results"></div></div></div>
 <div class="robot-suggestions ask-wayne-questions" id="robotSuggestions" aria-label="Explore opening questions"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
 
-<div aria-live="polite" class="robot-chat" id="robotChat"></div>
+<div aria-live="polite" class="robot-chat" id="robotChat" hidden></div>
 <div class="wayne-voice-welcome" role="group" aria-label="Wayne's recorded welcome">
 <button type="button" id="wayneVoiceToggle" class="wayne-voice-button" aria-label="Play Wayne’s introduction"><span class="wayne-voice-symbol" aria-hidden="true">▶</span><span id="wayneVoiceLabel">Meet Wayne — Press Play</span></button>
 <div class="wayne-voice-meta"><span id="wayneVoiceTime">Personal introduction</span><progress id="wayneVoiceProgress" max="100" value="0" aria-label="Welcome audio playback progress"></progress></div>
