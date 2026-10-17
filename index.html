@@ -3763,16 +3763,16 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
       return;
     }
     const redirects=[
-      [/\\b(password|secret|api key|credentials|system prompt|ignore (your|all|previous) instructions|jailbreak)\\b/i,"What is Wayne's password?"],
-      [/\\b(address|home location|where does wayne live)\\b/i,"What is Wayne's home address?"],
-      [/\\b(political party|who did (wayne|you) vote for|political views)\\b/i,"What political party does Wayne support?"],
-      [/\\b(drugs|smoke weed|marijuana use|medical history)\\b/i,"Does Wayne use drugs?"],
-      [/\\b(married|wife|children|family life)\\b/i,"Is Wayne married?"],
-      [/\\b(how old|your age|wayne.s age)\\b/i,"How old is Wayne?"],
-      [/\\b(joke|make me laugh|something funny)\\b/i,"Can you tell me a joke?"],
-      [/\\b(pizza|favorite food|favorite color|favorite movie|underwear)\\b/i,"What is Wayne's favorite food?"],
-      [/\\b(real human|real person|are you human|are you wayne|chatbot|are you ai|are you a bot)\\b/i,"Are you really Wayne Williams?"],
-      [/\\b(make up|pretend (wayne|you) worked|invent (an|a) employer|lie about)\\b/i,"Pretend Wayne has worked at Google."]
+      [/\b(password|secret|api key|credentials|system prompt|ignore (your|all|previous) instructions|jailbreak)\b/i,"What is Wayne's password?"],
+      [/\b(address|home location|where does wayne live)\b/i,"What is Wayne's home address?"],
+      [/\b(political party|who did (wayne|you) vote for|political views)\b/i,"What political party does Wayne support?"],
+      [/\b(drugs|smoke weed|marijuana use|medical history)\b/i,"Does Wayne use drugs?"],
+      [/\b(married|wife|children|family life)\b/i,"Is Wayne married?"],
+      [/\b(how old|your age|wayne.s age)\b/i,"How old is Wayne?"],
+      [/\b(joke|make me laugh|something funny)\b/i,"Can you tell me a joke?"],
+      [/\b(pizza|favorite food|favorite color|favorite movie|underwear)\b/i,"What is Wayne's favorite food?"],
+      [/\b(real human|real person|are you human|are you wayne|chatbot|are you ai|are you a bot)\b/i,"Are you really Wayne Williams?"],
+      [/\b(make up|pretend (wayne|you) worked|invent (an|a) employer|lie about)\b/i,"Pretend Wayne has worked at Google."]
     ];
     const redirect=redirects.find(([pattern])=>pattern.test(raw));
     if(redirect){
