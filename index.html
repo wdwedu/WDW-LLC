@@ -3810,7 +3810,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   });
 
   function exportBank(print){
-    const title="Wayne's AI Assistant — "+({interview:"Interview Wayne",portfolio:"Portfolio",id:"Instructional Design Q&A"}[currentMode]);
+    const title="Ask Wayne — "+({interview:"Interview Wayne",portfolio:"My Work",id:"Learning Design"}[currentMode]||"Questions & Answers");
     const body=title+"\n\n"+items().map((item,i)=>(i+1)+". "+item[0]+"\n"+item[1]).join("\n\n");
     if(print){const w=window.open("","_blank");if(!w)return alert("Allow pop-ups to print the Q&A.");const pre=w.document.createElement("pre");pre.style.cssText="white-space:pre-wrap;font:15px/1.6 Georgia,serif;margin:36px";pre.textContent=body;w.document.title=title;w.document.body.appendChild(pre);w.focus();w.print();}
     else{const url=URL.createObjectURL(new Blob([body],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="wdw-"+currentMode+"-qa.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -3936,35 +3936,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
 })();
 
 
-// V16 Assistant overlay: open/close without changing scroll position
-(function(){
-  const fab=document.getElementById("robotFab");
-  const modal=document.getElementById("wayneAiAssistant");
-  const close=document.getElementById("robotClose");
-  if(!fab||!modal)return;
-  let restoreScroll=0;
-
-  function openAssistantModal(){
-    restoreScroll=window.scrollY;
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden","false");
-  }
-  function closeAssistantModal(){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-    requestAnimationFrame(()=>window.scrollTo({top:restoreScroll,left:0,behavior:"auto"}));
-  }
-
-  fab.addEventListener("click",openAssistantModal);
-  close?.addEventListener("click",closeAssistantModal);
-  modal.addEventListener("click",e=>{if(e.target===modal)closeAssistantModal()});
-  document.addEventListener("keydown",e=>{
-    if(e.key==="Escape" && modal.classList.contains("open"))closeAssistantModal();
-  });
-})();
-
-
-// V17 reliable testimonial navigation
+// Assistant modal open/close is managed by the V20 handler below.\n\n// V17 reliable testimonial navigation
 (function(){
   const track=document.getElementById("testimonialTrack");
   const prev=document.getElementById("testPrev");
@@ -4143,6 +4115,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
   fab?.addEventListener("click",e=>{e.preventDefault();openAssistantV20()},true);
   assistantClose?.addEventListener("click",e=>{e.preventDefault();closeAssistantV20()},true);
   assistant?.addEventListener("click",e=>{if(e.target===assistant)closeAssistantV20()});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&assistant?.classList.contains("v20-open"))closeAssistantV20()});
 
   /* ---------- Announcement reliable modal shell ---------- */
   const announce=document.getElementById("announcementToggle");
