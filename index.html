@@ -1265,6 +1265,15 @@ body{background-color:#f8fbff}
 .ask-wayne-questions .ask-wayne-prompt{border:1px solid #b8cce5;border-radius:999px;background:linear-gradient(125deg,#fff,#edf4ff);color:#173b66;padding:10px 15px;font:600 13px/1.4 Georgia,serif;white-space:normal;text-align:left;cursor:pointer;box-shadow:0 2px 7px rgba(12,41,79,.08);transition:transform .18s,box-shadow .18s,border-color .18s}
 .ask-wayne-questions .ask-wayne-prompt:hover,.ask-wayne-questions .ask-wayne-prompt:focus-visible{transform:translateY(-2px);border-color:#2869ba;box-shadow:0 4px 12px rgba(12,41,79,.16)}
 @media(prefers-reduced-motion:reduce){.ask-wayne-questions .ask-wayne-prompt{transition:none}.ask-wayne-questions .ask-wayne-prompt:hover{transform:none}}
+
+#wayneAiAssistant .robot-input-row .wayne-mic-button{background:#2268b7!important;color:#fff!important;border-color:#144c8d!important;display:flex;align-items:center;justify-content:center;position:relative}
+#wayneAiAssistant .robot-input-row .wayne-mic-button svg{color:#fff!important;stroke:#fff!important}
+#wayneAiAssistant .robot-input-row .wayne-mic-button.listening{background:#0755a8!important;outline:2px solid #98cfff;outline-offset:2px}
+#wayneAiAssistant .robot-input-row .wayne-mic-button.listening::after{content:"";position:absolute;inset:-7px;border:2px solid #2886ee;border-radius:13px;animation:wayneListenRing 1.2s ease-out infinite;pointer-events:none}
+#wayneAiAssistant .wayne-mic-status{grid-column:1/-1;font:italic 13px Georgia,serif;color:#21588b}
+#wayneAiAssistant .wayne-mic-status[hidden]{display:none}
+@keyframes wayneListenRing{0%{transform:scale(.94);opacity:1}100%{transform:scale(1.12);opacity:0}}
+@media(prefers-reduced-motion:reduce){#wayneAiAssistant .robot-input-row .wayne-mic-button.listening::after{animation:none}}
 /* Ask Wayne premium four-lane voice experience and answer alignment */
 #wayneAiAssistant .robot-chat .chat-bot{margin-left:0!important;margin-right:auto!important;max-width:min(100%,850px)!important;align-self:flex-start;box-sizing:border-box;background:#e7f1ff;border:1px solid #b9d2f4;color:#143b65;border-radius:10px}
 #wayneAiAssistant .robot-chat .chat-user{margin-left:0!important;margin-right:auto!important;max-width:min(100%,850px)!important;box-sizing:border-box;background:#eff3f8;color:#28445e;border:1px solid #d0dce8;border-radius:10px}
@@ -3722,6 +3731,8 @@ function initAskWayne(){
   const welcomeAudio=document.getElementById("wayneVoiceAudio");
   const welcomeButton=document.getElementById("wayneVoiceToggle");
   const micButton=document.getElementById("wayneMicButton");
+  const micStatus=document.getElementById("wayneMicStatus");
+  const setMicStatus=(message)=>{if(micStatus){micStatus.textContent=message;micStatus.hidden=!message;}};
   let currentMode="interview";
   let last=null;
 
@@ -3902,37 +3913,37 @@ function initAskWayne(){
     const label=document.getElementById("wayneVoiceLabel"),symbol=welcomeButton.querySelector(".wayne-voice-symbol");
     const progress=document.getElementById("wayneVoiceProgress"),time=document.getElementById("wayneVoiceTime");
     const status=document.getElementById("wayneVoiceStatus");
-    const sync=()=>{if(label)label.textContent=welcomeAudio.paused?"Hear Wayne's Welcome":"Pause Welcome";if(symbol)symbol.textContent=welcomeAudio.paused?"▶":"Ⅱ";welcomeButton.setAttribute("aria-label",welcomeAudio.paused?"Hear Wayne's welcome":"Pause Wayne's welcome");};
+    const sync=()=>{if(label)label.textContent=welcomeAudio.paused?"Meet Wayne — Press Play":"Pause Welcome";if(symbol)symbol.textContent=welcomeAudio.paused?"▶":"Ⅱ";welcomeButton.setAttribute("aria-label",welcomeAudio.paused?"Play Wayne’s introduction":"Pause Wayne's welcome");};
     welcomeButton.addEventListener("click",()=>{
       if(!welcomeAudio.paused){welcomeAudio.pause();sync();return;}
       if(status)status.textContent="";
-      welcomeAudio.play().then(sync).catch(()=>{if(status)status.textContent="The welcome recording could not be loaded. Please try again later.";sync();});
+      welcomeAudio.play().then(sync).catch(()=>{if(status)status.textContent="The welcome recording has not been uploaded to the website yet.";sync();});
     });
     welcomeAudio.addEventListener("timeupdate",()=>{const duration=welcomeAudio.duration;if(Number.isFinite(duration)&&duration>0){if(progress)progress.value=100*welcomeAudio.currentTime/duration;if(time)time.textContent=Math.floor(welcomeAudio.currentTime)+"s / "+Math.floor(duration)+"s";}});
     welcomeAudio.addEventListener("ended",()=>{if(progress)progress.value=0;sync();});
-    welcomeAudio.addEventListener("error",()=>{if(status)status.textContent="Welcome audio is currently unavailable.";sync();});
+    welcomeAudio.addEventListener("error",()=>{if(status)status.textContent="The welcome audio file is missing from the website.";sync();});
     sync();
   }
   // Browser speech recognition: transcribe into the input, never submit automatically.
   const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(micButton){
-    if(!Recognition){micButton.disabled=true;micButton.title="Speech input is unavailable in this browser. Please type your question.";micButton.setAttribute("aria-label",micButton.title);}
+    if(!Recognition){micButton.disabled=true;micButton.title="Speech input is unavailable in this browser. Please type your question.";micButton.setAttribute("aria-label",micButton.title);setMicStatus("Speech input is not supported here. You can still type your question.");}
     else{
       let active=false,recognizer=null;
       micButton.addEventListener("click",()=>{
-        if(active){recognizer?.stop();return;}
+        if(active){setMicStatus("Finishing transcription…");recognizer?.stop();return;}
         recognizer=new Recognition();recognizer.lang="en-US";recognizer.interimResults=true;recognizer.continuous=false;
         const previous=input?.value.trim()||"";
         let finalText="";
-        recognizer.onstart=()=>{active=true;micButton.classList.add("listening");micButton.setAttribute("aria-pressed","true");micButton.title="Listening — tap to stop";};
+        recognizer.onstart=()=>{active=true;micButton.classList.add("listening");micButton.setAttribute("aria-pressed","true");micButton.title="Listening — tap to stop";setMicStatus("● Listening… Speak your question. Tap the microphone to stop.");};
         recognizer.onresult=e=>{
           let interim="";
           for(let i=e.resultIndex;i<e.results.length;i++){const text=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=text+" ";else interim+=text;}
-          if(input)input.value=[previous,finalText.trim(),interim.trim()].filter(Boolean).join(" ").trim();
+          if(input)input.value=[previous,finalText.trim(),interim.trim()].filter(Boolean).join(" ").trim();setMicStatus("● Listening… Your words are appearing above. Tap again to finish.");
         };
-        recognizer.onerror=e=>{micButton.title=e.error==="not-allowed"?"Microphone permission denied. Type your question instead.":"Speech recognition stopped. Type your question if needed.";};
-        recognizer.onend=()=>{active=false;micButton.classList.remove("listening");micButton.setAttribute("aria-pressed","false");micButton.title="Speak your question";input?.focus();};
-        try{recognizer.start()}catch(_){micButton.title="Unable to start speech input.";}
+        recognizer.onerror=e=>{const msg=e.error==="not-allowed"?"Microphone access was denied. You can type your question instead.":e.error==="no-speech"?"No speech detected. Tap the microphone to try again.":"Speech input stopped. You can type your question instead.";micButton.title=msg;setMicStatus(msg);};
+        recognizer.onend=()=>{active=false;micButton.classList.remove("listening");micButton.setAttribute("aria-pressed","false");micButton.title="Speak your question";if(input?.value.trim())setMicStatus("Question captured. Review the text and press Ask.");else if(micStatus?.textContent.startsWith("●"))setMicStatus("Ready when you are. Tap the microphone or type a question.");input?.focus();};
+        try{setMicStatus("Starting microphone…");recognizer.start()}catch(_){micButton.title="Unable to start speech input.";setMicStatus("Microphone could not start. You can type your question.");}
       });
     }
   }
@@ -4126,7 +4137,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <p>Curious about my background, my work, or how I approach learning and instructional design? Explore a starting point or challenge me with your own question.</p>
 </div><div class="ask-wayne-divider" aria-hidden="true"></div>
 <div class="wayne-voice-welcome" role="group" aria-label="Wayne's recorded welcome">
-<button type="button" id="wayneVoiceToggle" class="wayne-voice-button" aria-label="Hear Wayne's welcome"><span class="wayne-voice-symbol" aria-hidden="true">▶</span><span id="wayneVoiceLabel">Hear Wayne's Welcome</span></button>
+<button type="button" id="wayneVoiceToggle" class="wayne-voice-button" aria-label="Play Wayne’s introduction"><span class="wayne-voice-symbol" aria-hidden="true">▶</span><span id="wayneVoiceLabel">Meet Wayne — Press Play</span></button>
 <div class="wayne-voice-meta"><span id="wayneVoiceTime">Personal introduction</span><progress id="wayneVoiceProgress" max="100" value="0" aria-label="Welcome audio playback progress"></progress></div>
 <audio id="wayneVoiceAudio" preload="none" src="/assets/waynes-digital-counterpart-v2.mp3"></audio>
 <div id="wayneVoiceStatus" class="wayne-voice-status" role="status" aria-live="polite"></div>
@@ -4137,6 +4148,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <input aria-label="Ask Wayne a question" autocomplete="off" id="robotInput" placeholder="Ask Wayne anything about my experience..."/>
 <button type="button" id="wayneMicButton" class="wayne-mic-button" aria-label="Speak your question" title="Speak your question" aria-pressed="false"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5m-4 0h8"/></svg></button>
 <button type="submit">Ask</button>
+<div id="wayneMicStatus" class="wayne-mic-status" role="status" aria-live="polite" hidden></div>
 </form>
 <div class="assistant-research-note">
         Research-informed responses draw from needs assessment/performance analysis, Action Mapping, ADDIE, Backward Design, CAST UDL, and training evaluation principles.
