@@ -1296,6 +1296,11 @@ body{background-color:#f8fbff}
 @media(prefers-reduced-motion:reduce){#wayneAiAssistant .wayne-mic-button.listening{animation:none}}
 
 
+
+/* Keep the conversation collapsed until a question or answer actually appears. */
+#wayneAiAssistant #robotChat:empty{min-height:0!important;max-height:0!important;height:0!important;padding:0!important;border:0!important;margin:0!important;overflow:hidden!important;background:none!important;}
+#wayneAiAssistant #robotChat:not(:empty){min-height:0!important;max-height:260px;}
+
 /* Ask Wayne: compact optional scenario explorer; does not alter the four primary modes. */
 #wayneAiAssistant .wayne-scenario-explorer{margin:12px 0;border:1px solid #b8cce5;border-radius:12px;padding:10px;background:#f5f8fc;color:#173b66}
 #wayneAiAssistant .wayne-scenario-toggle{width:100%;background:#0a2f69;color:white;border:1px solid #0a2f69;border-radius:9px;padding:11px 14px;text-align:left;font:700 14px Georgia,serif;cursor:pointer}
@@ -4189,13 +4194,14 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">My Work</button><button class="assistant-mode" data-mode="id" type="button">Instructional Design</button><button class="assistant-mode" data-mode="history" type="button">Teaching History</button></div>
 <div class="wayne-scenario-explorer" id="wayneScenarioExplorer"><button type="button" id="wayneScenarioToggle" class="wayne-scenario-toggle" aria-expanded="false" aria-controls="wayneScenarioBody">Explore workplace scenarios <span aria-hidden="true">▾</span></button><div id="wayneScenarioBody" hidden><p>Choose a challenge to see how I would approach it.</p><label for="wayneScenarioCategory">Workplace challenge</label><select id="wayneScenarioCategory"><option value="all">All scenarios</option><option value="people">People & leadership</option><option value="training">Training & performance</option><option value="technology">Technology & operations</option><option value="education">Schools & higher education</option></select><label for="wayneScenarioSearch">Find a scenario</label><input id="wayneScenarioSearch" type="search" placeholder="e.g. onboarding, conflict, AI, accessibility"><div id="wayneScenarioResults" class="wayne-scenario-results"></div></div></div>
 <div class="robot-suggestions ask-wayne-questions" id="robotSuggestions" aria-label="Explore opening questions"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
+
+<div aria-live="polite" class="robot-chat" id="robotChat"></div>
 <div class="wayne-voice-welcome" role="group" aria-label="Wayne's recorded welcome">
 <button type="button" id="wayneVoiceToggle" class="wayne-voice-button" aria-label="Play Wayne’s introduction"><span class="wayne-voice-symbol" aria-hidden="true">▶</span><span id="wayneVoiceLabel">Meet Wayne — Press Play</span></button>
 <div class="wayne-voice-meta"><span id="wayneVoiceTime">Personal introduction</span><progress id="wayneVoiceProgress" max="100" value="0" aria-label="Welcome audio playback progress"></progress></div>
 <audio id="wayneVoiceAudio" preload="none" src="/assets/Waynes%20Digital%20Counter%20Part%20v2.mp3"></audio>
 <div id="wayneVoiceStatus" class="wayne-voice-status" role="status" aria-live="polite"></div>
 </div>
-<div aria-live="polite" class="robot-chat" id="robotChat"></div>
 <form class="robot-input-row" id="robotForm">
 <input aria-label="Ask Wayne a question" autocomplete="off" id="robotInput" placeholder="Ask Wayne anything about my experience..."/>
 <button type="button" id="wayneMicButton" class="wayne-mic-button" aria-label="Speak your question" title="Speak your question" aria-pressed="false"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5m-4 0h8"/></svg></button>
