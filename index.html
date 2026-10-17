@@ -1295,6 +1295,11 @@ body{background-color:#f8fbff}
 @media(max-width:620px){#wayneAiAssistant .assistant-modes{grid-template-columns:repeat(2,minmax(0,1fr))}#wayneAiAssistant .wayne-voice-welcome{gap:8px}#wayneAiAssistant .robot-chat .chat-msg{max-width:100%!important}}
 @media(prefers-reduced-motion:reduce){#wayneAiAssistant .wayne-mic-button.listening{animation:none}}
 
+/* Ask Wayne consistent navy controls — scoped to assistant only */
+#wayneAiAssistant .robot-input-row button[type="submit"],
+#wayneAiAssistant .robot-input-row .wayne-mic-button{background:#0a2f69!important;border:1px solid #0a2f69!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+#wayneAiAssistant .robot-input-row .wayne-mic-button svg{color:#fff!important;stroke:#fff!important}
+#wayneAiAssistant .robot-input-row .wayne-mic-button.listening{background:#0a2f69!important;border-color:#7ec4ff!important}
 /* AI Assistant */
 .robot-panel{width:min(1020px,100%)!important}
 .assistant-modes{
@@ -4266,6 +4271,8 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
   }
   function closeAssistantV20(){
     if(!assistant)return;
+    const welcomeAudio=document.getElementById("wayneVoiceAudio");
+    if(welcomeAudio&&!welcomeAudio.paused){welcomeAudio.pause();}
     assistant.classList.remove("v20-open");
     assistant.classList.remove("open");
     assistant.setAttribute("aria-hidden","true");
