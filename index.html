@@ -3957,9 +3957,7 @@ function initAskWayne(){
   currentMode="interview";
   document.querySelectorAll(".assistant-mode").forEach(b=>b.classList.toggle("active",b.dataset.mode==="interview"));
   render();
-  if(chat&&!chat.children.length){
-    addMsg("Ask a question, speak it using the microphone, or explore one of the opening prompts. This is a digital conversation based on my documented professional work.","bot");
-  }
+  // The welcome introduction lives above the tabs; do not duplicate it in the transcript.
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initAskWayne,{once:true});else initAskWayne();
 
@@ -4121,7 +4119,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <img class="ask-wayne-avatar" src="/favicon.png" alt="" draggable="false"><span class="ask-wayne-tooltip" aria-hidden="true">Ask Wayne</span>
 </button>
 <div aria-hidden="true" class="robot-modal assistant-modal-v16" id="wayneAiAssistant">
-<div aria-labelledby="robotTitle" aria-modal="true" class="robot-panel" role="dialog">
+<div aria-label="Ask Wayne digital portfolio conversation" aria-modal="true" class="robot-panel" role="dialog">
 <button aria-label="Close portfolio guide" class="robot-close" id="robotClose" type="button">×</button>
 <div class="robot-panel-head ask-wayne-intro">
 <img class="ask-wayne-modal-avatar" src="/favicon.png" alt="" draggable="false">
