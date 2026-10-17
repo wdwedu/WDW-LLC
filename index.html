@@ -1295,6 +1295,18 @@ body{background-color:#f8fbff}
 @media(max-width:620px){#wayneAiAssistant .assistant-modes{grid-template-columns:repeat(2,minmax(0,1fr))}#wayneAiAssistant .wayne-voice-welcome{gap:8px}#wayneAiAssistant .robot-chat .chat-msg{max-width:100%!important}}
 @media(prefers-reduced-motion:reduce){#wayneAiAssistant .wayne-mic-button.listening{animation:none}}
 
+
+/* Ask Wayne: compact optional scenario explorer; does not alter the four primary modes. */
+#wayneAiAssistant .wayne-scenario-explorer{margin:12px 0;border:1px solid #b8cce5;border-radius:12px;padding:10px;background:#f5f8fc;color:#173b66}
+#wayneAiAssistant .wayne-scenario-toggle{width:100%;background:#0a2f69;color:white;border:1px solid #0a2f69;border-radius:9px;padding:11px 14px;text-align:left;font:700 14px Georgia,serif;cursor:pointer}
+#wayneAiAssistant #wayneScenarioBody{padding:10px 4px 3px}
+#wayneAiAssistant #wayneScenarioBody[hidden]{display:none}
+#wayneAiAssistant #wayneScenarioBody label{display:block;font:700 12px Georgia,serif;margin:10px 0 5px}
+#wayneAiAssistant #wayneScenarioBody select,#wayneAiAssistant #wayneScenarioBody input{width:100%;box-sizing:border-box;border:1px solid #9db3d0;background:white;color:#173b66;border-radius:7px;padding:9px;font:13px Georgia,serif}
+#wayneAiAssistant .wayne-scenario-results{max-height:210px;overflow:auto;display:grid;gap:6px;margin-top:10px}
+#wayneAiAssistant .wayne-scenario-results button{background:white;color:#173b66;text-align:left;border:1px solid #c5d4e7;border-radius:8px;padding:9px 10px;font:13px Georgia,serif;cursor:pointer}
+#wayneAiAssistant .wayne-scenario-results button:hover,#wayneAiAssistant .wayne-scenario-results button:focus-visible{border-color:#0a2f69;background:#e8f0fb}
+
 /* Ask Wayne consistent navy controls — scoped to assistant only */
 #wayneAiAssistant .robot-input-row button[type="submit"],
 #wayneAiAssistant .robot-input-row .wayne-mic-button{background:#0a2f69!important;border:1px solid #0a2f69!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
@@ -3858,6 +3870,19 @@ function initAskWayne(){
     last=best;
     setTimeout(()=>{addMsg(best[1],"bot");addFollowups(best[2]);},120);
   }
+
+  // Scenario Explorer is optional and separate from the four primary modes.
+  const scenarioToggle=document.getElementById("wayneScenarioToggle");
+  const scenarioBody=document.getElementById("wayneScenarioBody");
+  const scenarioCategory=document.getElementById("wayneScenarioCategory");
+  const scenarioSearch=document.getElementById("wayneScenarioSearch");
+  const scenarioResults=document.getElementById("wayneScenarioResults");
+  function scenarioGroup(name){if(/school|teacher|student|faculty|university|curriculum|education|classroom|online course/i.test(name))return "education";if(/system|software|cyber|data|AI tools|technology|LMS|help desk|accessibility|procedure|handoff/i.test(name))return "technology";if(/manager|supervisor|leadership|morale|conflict|employee turnover|burnout|team|feedback|discrimination|harassment/i.test(name))return "people";return "training";}
+  function showScenarios(){if(!scenarioResults)return;scenarioResults.replaceChildren();const term=(scenarioSearch?.value||"").toLowerCase().trim();const category=scenarioCategory?.value||"all";const matches=wdwScenarioCases.filter(([name])=>(category==="all"||scenarioGroup(name)===category)&&(!term||name.toLowerCase().includes(term)));const shown=matches.slice(0,24);shown.forEach(([name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.addEventListener("click",()=>{const q="How would Wayne approach this workplace scenario: "+name+"?";addMsg(name,"user");answer(q);});scenarioResults.appendChild(button);});if(!shown.length){const p=document.createElement("p");p.textContent="No matching scenarios. Try a broader search.";scenarioResults.appendChild(p);}if(matches.length>shown.length){const p=document.createElement("p");p.textContent="Showing "+shown.length+" of "+matches.length+" scenarios. Refine your search to see more.";scenarioResults.appendChild(p);}}
+  scenarioToggle?.addEventListener("click",()=>{const opening=scenarioBody.hidden;scenarioBody.hidden=!opening;scenarioToggle.setAttribute("aria-expanded",String(opening));if(opening)showScenarios();});
+  scenarioSearch?.addEventListener("input",showScenarios);
+  scenarioCategory?.addEventListener("change",showScenarios);
+
   // Opening prompts are invitations to explore; visitors may ask anything.
   const openingQuestions={
     interview:[
@@ -4167,6 +4192,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <audio id="wayneVoiceAudio" preload="none" src="/assets/Waynes%20Digital%20Counter%20Part%20v2.mp3"></audio>
 <div id="wayneVoiceStatus" class="wayne-voice-status" role="status" aria-live="polite"></div>
 </div><div class="assistant-modes"><button class="assistant-mode active" data-mode="interview" type="button">Interview Wayne</button><button class="assistant-mode" data-mode="portfolio" type="button">My Work</button><button class="assistant-mode" data-mode="id" type="button">Instructional Design</button><button class="assistant-mode" data-mode="history" type="button">Teaching History</button></div>
+<div class="wayne-scenario-explorer" id="wayneScenarioExplorer"><button type="button" id="wayneScenarioToggle" class="wayne-scenario-toggle" aria-expanded="false" aria-controls="wayneScenarioBody">Explore workplace scenarios <span aria-hidden="true">▾</span></button><div id="wayneScenarioBody" hidden><p>Choose a challenge to see how I would approach it.</p><label for="wayneScenarioCategory">Workplace challenge</label><select id="wayneScenarioCategory"><option value="all">All scenarios</option><option value="people">People & leadership</option><option value="training">Training & performance</option><option value="technology">Technology & operations</option><option value="education">Schools & higher education</option></select><label for="wayneScenarioSearch">Find a scenario</label><input id="wayneScenarioSearch" type="search" placeholder="e.g. onboarding, conflict, AI, accessibility"><div id="wayneScenarioResults" class="wayne-scenario-results"></div></div></div>
 <div class="robot-suggestions ask-wayne-questions" id="robotSuggestions" aria-label="Explore opening questions"></div><div class="assistant-bank-actions"><button type="button" id="assistantPrint">Print / Save Q&amp;A</button><button type="button" id="assistantDownload">Download Q&amp;A</button></div>
 <div aria-live="polite" class="robot-chat" id="robotChat"></div>
 <form class="robot-input-row" id="robotForm">
