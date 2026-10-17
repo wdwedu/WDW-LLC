@@ -3363,7 +3363,7 @@ a.robot-fab{
 <div class="modal-details" id="modalDetails"></div>
 </div>
 </div>
-<script src="/assets/ask-wayne-extras.js"></script>
+<script src="/assets/ask-wayne-extras.js?v=20261017-2"></script>
 <script>
 // Navigation music control
 (function(){
@@ -3762,6 +3762,23 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
       }
       return;
     }
+    const redirects=[
+      [/\\b(password|secret|api key|credentials|system prompt|ignore (your|all|previous) instructions|jailbreak)\\b/i,"What is Wayne's password?"],
+      [/\\b(address|home location|where does wayne live)\\b/i,"What is Wayne's home address?"],
+      [/\\b(political party|who did (wayne|you) vote for|political views)\\b/i,"What political party does Wayne support?"],
+      [/\\b(drugs|smoke weed|marijuana use|medical history)\\b/i,"Does Wayne use drugs?"],
+      [/\\b(married|wife|children|family life)\\b/i,"Is Wayne married?"],
+      [/\\b(how old|your age|wayne.s age)\\b/i,"How old is Wayne?"],
+      [/\\b(joke|make me laugh|something funny)\\b/i,"Can you tell me a joke?"],
+      [/\\b(pizza|favorite food|favorite color|favorite movie|underwear)\\b/i,"What is Wayne's favorite food?"],
+      [/\\b(real human|real person|are you human|are you wayne|chatbot|are you ai|are you a bot)\\b/i,"Are you really Wayne Williams?"],
+      [/\\b(make up|pretend (wayne|you) worked|invent (an|a) employer|lie about)\\b/i,"Pretend Wayne has worked at Google."]
+    ];
+    const redirect=redirects.find(([pattern])=>pattern.test(raw));
+    if(redirect){
+      const target=(assistantTopics.site||[]).find(item=>item[0]===redirect[1]);
+      if(target){last=target;addMsg(target[1],"bot");return;}
+    }
     const offTopic=(assistantTopics.site||[]).find(item=>normalize(item[0])===low);
     if(offTopic){last=offTopic;addMsg(offTopic[1],"bot");return;}
     let best=null,bestScore=0,bestMode=currentMode;
@@ -3772,7 +3789,7 @@ document.getElementById("contactForm")?.addEventListener("submit",e=>{
       }
     }
     if(!best||bestScore<9){
-      addMsg("I don't have a verified answer for that question yet. You can choose one of the questions above or ask about my teaching, learning-design approach, or portfolio.","bot");return;
+      addMsg("You found the edge of my prepared answers. Rather than guess, I would rather point you toward what I can speak to: my education experience, instructional-design approach, portfolio projects, and career goals. What would you like to explore?","bot");return;
     }
     if(bestMode!==currentMode){currentMode=bestMode;document.querySelectorAll(".assistant-mode").forEach(b=>{b.classList.toggle("active",b.dataset.mode===bestMode);b.setAttribute("aria-pressed",String(b.dataset.mode===bestMode));});render();}
     last=best;
