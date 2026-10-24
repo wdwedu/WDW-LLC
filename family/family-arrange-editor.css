@@ -38,3 +38,4 @@ body.dark-mode #familyArrangeConnectors path{stroke:#84b4ff}
 #familyPhotoModal .family-error{color:#ba2020;font:12px Arial,sans-serif}
 @media(max-width:700px){#familyEditorToolbar{padding-left:0;border-left:0}#familyEditorToolbar button{padding:8px;font-size:12px}.family-user-photo-frame{width:112px;height:130px}}
 @media print{#familyEditorToolbar,.family-upload-btn,#familyPhotoModal{display:none!important}}
+.williams-extension .w-card{position:relative}
