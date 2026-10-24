@@ -1,1 +1,295 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wayne's Family Tree | WDW LLC</title><style>*{box-sizing:border-box}body{margin:0;font-family:Georgia,serif;color:#f8f5e8;background:radial-gradient(circle at top left,#35554d,#101f30 75%);min-height:100vh;display:grid;place-items:center;padding:24px}.card{width:min(570px,100%);padding:clamp(25px,6vw,55px);border:1px solid #baa76e;border-radius:24px;text-align:center;background:#ffffff13;box-shadow:0 20px 55px #0005;backdrop-filter:blur(10px)}.eyebrow{font:12px Arial;letter-spacing:2px;color:#e3cd99}h1{font-size:clamp(32px,6vw,48px);margin:18px 0 10px}p{font-size:17px;line-height:1.5}label{display:block;text-align:left;font:13px Arial;margin-top:26px}input{width:100%;margin:9px 0 10px;padding:13px;border:1px solid #ddd;border-radius:8px;font:16px Arial}button{background:#d8bc75;color:#182b24;font:bold 15px Arial;border:0;border-radius:8px;padding:14px;width:100%;cursor:pointer}.note{font:12px Arial;color:#e9d89e;min-height:18px;margin:14px 0}.small{font:11px/1.4 Arial;color:#d7dfda}a{color:#e3d2a4}.hidden{display:none}</style></head><body><main class="card"><div style="font-size:48px">🌳</div><div class="eyebrow">WILLIAMS · GOODSON · FAMILY LEGACY</div><h1>Wayne's Family Tree</h1><p>Our roots. Our stories. Our legacy.</p><div id="form"><label for="familyphrase">Family entry phrase</label><input id="familyphrase" type="password" placeholder="Enter family phrase"><button id="enter" type="button">Enter Family Tree →</button><div id="error" class="note" aria-live="polite"></div></div><section id="welcome" class="hidden"><h2>Welcome to our family archive</h2><p>The family-tree experience is being finalized for this address. The full interactive archive is not deployed here yet.</p><p><a href="https://www.wdw.llc/">Return to WDW LLC</a></p></section><div class="small">Preview access only. This entry phrase does not provide real security.</div></main><script>const show=()=>{const v=document.getElementById('familyphrase').value.toLowerCase().trim();if(v==="wayne's family"||v==="waynes family"){document.getElementById('form').classList.add('hidden');document.getElementById('welcome').classList.remove('hidden')}else document.getElementById('error').textContent='Incorrect family phrase.'};document.getElementById('enter').onclick=show;document.getElementById('familyphrase').onkeydown=e=>{if(e.key==='Enter')show()};</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wayne's Family Tree</title>
+<style>
+  :root{
+    --bg:#f4f8fc;
+    --panel:rgba(255,255,255,.82);
+    --panel-border:rgba(125,154,198,.35);
+    --text:#0f1720;
+    --muted:#31475f;
+    --primary:#2f62b8;
+    --primary-2:#5f8edf;
+    --shadow:0 20px 60px rgba(17,32,58,.18);
+  }
+  body.dark{
+    --bg:#07111d;
+    --panel:rgba(8,15,28,.72);
+    --panel-border:rgba(102,136,194,.25);
+    --text:#eef4ff;
+    --muted:#c2d3ef;
+    --primary:#4a84ff;
+    --primary-2:#87aaff;
+    --shadow:0 25px 70px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Georgia, "Times New Roman", serif;
+    color:var(--text);
+    background:var(--bg);
+    overflow:hidden;
+    transition:background .25s ease,color .25s ease;
+  }
+  .bg{
+    position:fixed; inset:0;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+    transition:opacity .35s ease;
+  }
+  .bg.light{ background-image:url('assets/tree-light.jpg'); opacity:1; }
+  .bg.dark{ background-image:url('assets/tree-dark.jpg'); opacity:0; }
+  body.dark .bg.light{ opacity:0; }
+  body.dark .bg.dark{ opacity:1; }
+  .veil{
+    position:fixed; inset:0;
+    background:linear-gradient(90deg, rgba(245,249,255,.86) 0%, rgba(245,249,255,.60) 30%, rgba(245,249,255,.20) 58%, rgba(245,249,255,.06) 100%);
+    pointer-events:none;
+  }
+  body.dark .veil{
+    background:linear-gradient(90deg, rgba(5,11,20,.88) 0%, rgba(5,11,20,.72) 30%, rgba(5,11,20,.35) 58%, rgba(5,11,20,.08) 100%);
+  }
+  .shell{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:minmax(300px, 520px) 1fr;
+    min-height:100vh;
+  }
+  .panel{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    padding:28px clamp(18px,4vw,48px) 26px;
+    background:transparent;
+  }
+  .brand{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    margin-bottom:6px;
+  }
+  .brand h1{
+    margin:0; font-size:clamp(28px,5vw,42px); letter-spacing:.2px; line-height:1.02;
+  }
+  .brand p{margin:4px 0 0;font:15px/1.35 Arial,sans-serif;color:var(--muted)}
+  .controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .toggle, .ghost-btn, .primary-btn{
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    min-height:42px;
+    padding:10px 14px;
+    background:var(--panel);
+    color:var(--text);
+    box-shadow:var(--shadow);
+    backdrop-filter: blur(14px);
+  }
+  .toggle{display:flex; align-items:center; gap:10px; cursor:pointer; font:600 13px Arial,sans-serif;}
+  .toggle .knob{
+    width:42px; height:24px; border-radius:999px; background:#dce7f6; position:relative; flex:0 0 auto;
+  }
+  .toggle .knob:after{
+    content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 2px 7px rgba(0,0,0,.18); transition:all .25s ease;
+  }
+  body.dark .toggle .knob{background:#214273}
+  body.dark .toggle .knob:after{left:21px; background:#d9e6ff}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    backdrop-filter: blur(16px);
+    padding:24px;
+  }
+  .hero-tag{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(47,98,184,.10);
+    color:var(--primary);
+    font:700 12px Arial,sans-serif;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+  }
+  .lead{margin:14px 0 0;font-size:clamp(28px,4.6vw,44px);line-height:1.07}
+  .sub{margin:12px 0 0; font:16px/1.55 Arial,sans-serif; color:var(--muted)}
+  .row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+  .ghost-btn,.primary-btn{font:700 14px Arial,sans-serif; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .primary-btn{background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:white; border-color:transparent;}
+  .entry-wrap{margin-top:8px}
+  .entry-wrap label{display:block; font:700 13px Arial,sans-serif; margin-bottom:8px; color:var(--muted)}
+  .entry-wrap input{
+    width:100%; min-height:48px; border-radius:14px; border:1px solid var(--panel-border); background:rgba(255,255,255,.72); padding:12px 14px; font:15px Arial,sans-serif; color:#12202e;
+  }
+  body.dark .entry-wrap input{background:rgba(10,18,34,.72); color:#eef4ff}
+  .hint{margin-top:8px; font:12px/1.5 Arial,sans-serif; color:var(--muted)}
+  .result{display:none; margin-top:12px; font:13px Arial,sans-serif; font-weight:700; color:var(--primary)}
+  .result.show{display:block}
+  .mini-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:18px;}
+  .mini{
+    padding:14px; border-radius:18px; background:rgba(255,255,255,.42); border:1px solid var(--panel-border);
+  }
+  body.dark .mini{background:rgba(255,255,255,.04)}
+  .mini strong{display:block; margin-bottom:4px; font-size:14px}
+  .mini span{font:12px/1.45 Arial,sans-serif; color:var(--muted)}
+  .jukebox{
+    position:fixed; left:16px; bottom:16px; z-index:5;
+    width:min(300px, calc(100vw - 32px));
+    border-radius:20px; padding:14px; background:var(--panel); border:1px solid var(--panel-border); box-shadow:var(--shadow); backdrop-filter:blur(16px);
+  }
+  .jukebox-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px}
+  .jukebox-title{display:flex; align-items:center; gap:10px; font:700 14px Arial,sans-serif}
+  .bars{display:flex; gap:3px; align-items:flex-end; height:18px}
+  .bars span{display:block; width:4px; border-radius:4px; background:var(--primary); animation:bounce 1.05s infinite ease-in-out;}
+  .bars span:nth-child(1){height:8px}
+  .bars span:nth-child(2){height:16px; animation-delay:.15s}
+  .bars span:nth-child(3){height:11px; animation-delay:.3s}
+  @keyframes bounce{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1)}}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap}
+  .tab{flex:1 1 calc(50% - 8px); min-width:120px; text-align:center; font:700 12px Arial,sans-serif; padding:9px 10px; border-radius:12px; background:rgba(47,98,184,.08); border:1px solid var(--panel-border); cursor:pointer}
+  .tab.active{background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; border-color:transparent}
+  .playlist{margin-top:10px; padding-left:18px; font:12px/1.55 Arial,sans-serif; color:var(--muted)}
+  .playlist li{margin:3px 0}
+  .jukebox:not(.open){width:60px;height:60px;padding:13px;border-radius:50%;}
+  .jukebox:not(.open) .tabs,.jukebox:not(.open) .playlist,.jukebox:not(.open) .jukebox-head>span,.jukebox:not(.open) .jukebox-title>span:last-child{display:none}
+  .jukebox:not(.open) .jukebox-head{margin:0;justify-content:center}
+  .jukebox-title{appearance:none;border:0;background:none;box-shadow:none;padding:0;min-height:0;color:var(--text);cursor:pointer}
+  .jukebox-title:hover{opacity:.8}
+  .tree-note{position:absolute; right:3.5vw; top:8vh; z-index:3; color:var(--muted); font:12px Arial,sans-serif; max-width:230px; text-align:right}
+  @media (max-width: 940px){
+    .shell{grid-template-columns:1fr}
+    .panel{padding-bottom:150px}
+    .tree-note{display:none}
+  }
+
+@media(min-width:941px){.panel{max-width:720px}}
+.hero-tag{background:rgba(47,111,239,.11)}
+.lead{font-size:clamp(29px,4vw,43px)}
+@media(max-height:770px){body{overflow:auto}.jukebox{position:relative;margin:15px}}
+</style>
+</head>
+<body>
+  <div class="bg light"></div>
+  <div class="bg dark"></div>
+  <div class="veil"></div>
+
+  <div class="tree-note"></div>
+
+  <div class="shell">
+    <section class="panel">
+      <div class="brand">
+        <div>
+          <h1>Wayne's Family Tree</h1>
+          <p>The Williams & Goodson Family Heritage Archive</p>
+        </div>
+        <button class="toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+          <span class="knob"></span>
+          <span id="themeLabel">Lights Off</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <span class="hero-tag">Family Heritage Portal</span>
+        <h2 class="lead">Our roots. Our stories. Our legacy.</h2>
+        <p class="sub">Explore the photographs, family connections, and stories of the Williams and Goodson families. Use the family phrase to enter the interactive tree.</p>
+
+        <div class="entry-wrap">
+          <label for="entryCode">Enter family phrase</label>
+          <input id="entryCode" placeholder="Type the family phrase" autocomplete="off" type="password" />
+          <div class="hint">This welcome screen uses a demonstration access phrase and does not protect private information.</div>
+          <div class="row">
+            <button class="primary-btn" id="enterBtn" type="button">Enter Family Tree</button>
+            <a class="ghost-btn" href="https://www.wdw.llc/">Visit WDW LLC</a>
+          </div>
+          <div class="result" id="resultMsg">Entry accepted. Opening the family tree…</div>
+        </div>
+
+        <div class="mini-grid" style="display:none">
+          <div class="mini"><strong>Light theme</strong><span>Blue-white canvas, black text, royal-blue action accents, faded winding tree background.</span></div>
+          <div class="mini"><strong>Dark theme</strong><span>Navy-black canvas, white text, royal-blue highlights, matching dark eerie tree background.</span></div>
+          <div class="mini"><strong>Jukebox</strong><span>Animated three-bar music icon with Motivation, Music, Movies, and Meditation tabs.</span></div>
+          <div class="mini"><strong>Family portal</strong><span>Built as a landing experience before entering the larger Goodson + Williams family tree.</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <aside class="jukebox" id="familyJukebox" aria-label="Family jukebox">
+    <div class="jukebox-head">
+      <button class="jukebox-title" id="jukeboxToggle" aria-label="Open the jukebox" aria-expanded="false" type="button">
+        <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>The Mix</span>
+      </button>
+      <span style="font:12px Arial,sans-serif;color:var(--muted)">Listen • Watch • Unwind</span>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="motivation">Motivation</button>
+      <button class="tab" data-tab="music">Music</button>
+      <button class="tab" data-tab="movies">Movies</button>
+      <button class="tab" data-tab="meditation">Meditation</button>
+    </div>
+    <ol class="playlist" id="playlist"></ol>
+  </aside>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const themeLabel = document.getElementById('themeLabel');
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    themeLabel.textContent = dark ? 'Lights On' : 'Lights Off';
+  });
+
+  document.getElementById('enterBtn').addEventListener('click', () => {
+    const val = document.getElementById('entryCode').value.trim().toLowerCase();
+    const ok = val === "wayne's family" || val === 'waynes family';
+    const msg = document.getElementById('resultMsg');
+    if (ok) { window.location.href = './tree.html'; return; }
+    msg.textContent = 'That family phrase is not correct.';
+    msg.classList.add('show');
+  });
+
+  document.getElementById('jukeboxToggle').addEventListener('click',()=>{
+    const box=document.getElementById('familyJukebox');
+    const open=box.classList.toggle('open');
+    const btn=document.getElementById('jukeboxToggle');
+    btn.setAttribute('aria-expanded',String(open));
+    btn.setAttribute('aria-label',open?'Close the jukebox':'Open the jukebox');
+  });
+  document.getElementById('entryCode').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('enterBtn').click(); });
+  const data = {
+    motivation:[
+      'Stay focused on legacy, health, family, and purpose.',
+      'Build what lasts and strengthens the people you love.',
+      'Keep moving, even when progress is slow.'
+    ],
+    music:[
+      'Family playlist concept for celebration and reunions.',
+      'Quiet blue-hour instrumentals for browsing the tree.',
+      'Classic favorites and memory songs by branch.'
+    ],
+    movies:[
+      'Family movie night picks and documentary ideas.',
+      'Ancestry and heritage inspiration viewing list.',
+      'Recorded family interviews and video memories.'
+    ],
+    meditation:[
+      'Breathe in. Honor your roots. Breathe out.',
+      'Reflect on the people who carried the family forward.',
+      'Use this space to remember, restore, and reconnect.'
+    ]
+  };
+  const tabs = document.querySelectorAll('.tab');
+  const playlist = document.getElementById('playlist');
+  function render(tab){
+    playlist.innerHTML = data[tab].map(item => `<li>${item}</li>`).join('');
+    tabs.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+  }
+  tabs.forEach(btn => btn.addEventListener('click', () => render(btn.dataset.tab)));
+  render('motivation');
+</script>
+</body>
+</html>
