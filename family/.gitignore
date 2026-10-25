@@ -1,0 +1,4 @@
+# Family tree — NEVER commit private portrait files to the public repository.
+# An ignore rule helps prevent accidental git add, but it is NOT access control.
+assets/williams-private/
+*Family_Tree_Eight_Card_Update.zip
