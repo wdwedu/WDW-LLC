@@ -1,0 +1,45 @@
+/* October 25 expansion: preserve legacy canvas and browser-saved positions. */
+#viewport {cursor:grab;scrollbar-width:auto;}
+#viewport.grabbing{cursor:grabbing;}
+#canvas{background-size:28px 28px;}
+.tree-art{height:2500px;top:0;opacity:.105;filter:saturate(.60);background-size:100% 100%}
+body.dark .tree-art.night{opacity:.16}
+.tree-art.lower{top:2070px;height:3100px;background-position:bottom center;}
+.tree-art.upper{top:0;height:2150px;background-position:top center;}
+.tree-art.left.upper{transform:scaleX(-1) scaleY(-1)}
+.tree-art.right.upper{transform:scaleY(-1)}
+.tree-art.left.lower{transform:scaleX(-1)}
+.tree-art.right.lower{transform:none}
+/* The old four artwork tiles are replaced by 8 vertically flipped tiles. */
+.tree-art:not(.upper):not(.lower){display:none}
+.connect.marital{stroke:#111722;stroke-width:2.5;stroke-dasharray:5 6;opacity:.92}
+body.dark .connect.marital{stroke:#fff;opacity:.94}
+.connect.cousin{stroke:#532a89;stroke-width:3;opacity:.94}
+body.dark .connect.cousin{stroke:#d7b7ff}
+.connect.provisional{stroke:var(--sub);stroke-width:2;stroke-dasharray:3 9;opacity:.7}
+.person[data-kind='cousin']{border:2px solid #673b97;}
+body.dark .person[data-kind='cousin']{border-color:#c9a8ef}
+.person[data-kind='placeholder']{border-style:dashed;opacity:.9;background:var(--toolbar)}
+.person .visual{display:block;flex:0 0 59px;width:59px;height:72px;border-radius:9px;overflow:hidden;border:1px solid var(--border);background:#d9e8fb;position:relative;}
+.person .visual img{width:100%;height:100%;object-fit:cover;border:0;border-radius:0;margin:0;display:block;max-width:none;transform-origin:center center}
+.person .visual .fallback{border:0;width:100%;height:100%}
+.photo-stage{width:100%;height:250px;overflow:hidden;position:relative;border-radius:13px;border:1px solid var(--border);background:var(--toolbar);display:flex;align-items:center;justify-content:center;margin:12px 0}
+.drawer .photo-stage img{height:100%;width:100%;max-width:none;max-height:none;object-fit:cover;margin:0;border-radius:0;transform-origin:center center}
+.drawer label{margin:13px 0 5px}
+.drawer textarea,.drawer input[type=text]{width:100%;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font:13px/1.4 Arial,sans-serif;padding:10px}
+.drawer textarea{min-height:98px;resize:vertical}
+.drawer .family-summary{color:var(--text);background:var(--toolbar);padding:12px;border-radius:12px;line-height:1.5}
+.drawer .fieldhint{font:11px/1.35 Arial;color:var(--sub)}
+.drawer .profile-save{background:var(--royal);color:#fff}
+#familyLegend{position:fixed;left:16px;bottom:65px;z-index:21;border:1px solid var(--border);background:var(--panel);border-radius:12px;padding:7px 10px;font-size:11px;color:var(--sub);box-shadow:var(--shadow)}
+#familyLegend .dot{display:inline-block;width:25px;vertical-align:middle;border-top:3px dotted #111722;margin:0 5px}
+body.dark #familyLegend .dot{border-color:#fff}
+#familyLegend .purple{border-color:#663c9d;border-top-style:solid}
+body.dark #familyLegend .purple{border-color:#c9a8ef}
+.musicpop{max-height:min(72vh,680px);overflow:auto;width:min(390px,calc(100vw - 25px));}
+.musicpop .media-section{margin-top:10px}
+.musicpop .media-section h4{font:700 12px/1.4 Arial;margin:12px 0 5px;color:var(--text)}
+.musicpop .media-links{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.musicpop .media-links a{display:block;padding:8px 9px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);background:var(--toolbar);font-size:12px;line-height:1.3}
+.musicpop .media-links a:hover,.musicpop .media-links a:focus{outline:2px solid var(--royal)}
+@media(max-width:790px){#familyLegend{bottom:67px;max-width:calc(100vw - 30px);font-size:10px}.musicpop{right:9px}}
