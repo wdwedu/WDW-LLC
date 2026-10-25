@@ -123,7 +123,7 @@
   [girl?.id]:{parents:'Wayne Williams and Michelle Joseph',relationship:'Daughter',notes:'Michelle Joseph is the other parent and is not displayed in this blood-relative tree.'},
   [boy?.id]:{parents:'Wayne Williams and Anika Fountain',relationship:'Son',notes:'Anika Fountain is the other parent and is not displayed in this blood-relative tree.'},
   [ma?.id]:{relationship:'Mother',occupation:'Registered nurse',children:'Wayne Williams Jr.'},
-  [dad?.id]:{relationship:'Father',parents:'Lawrence Williams and Gertrude Smith',children:'Wayne Williams Jr.'},
+  [dad?.id]:{relationship:'Father',parents:'Laurence Williams and Gertrude Smith Williams',children:'Wayne Williams Jr.'},
   [law.id]:{relationship:'Paternal grandfather',spouse:'Gertrude Smith Williams; other partner name unknown',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred',notes:'Laurence Williams is Wayne Williams’s paternal grandfather. He is pictured alongside Gertrude Smith Williams in a family photograph.'},
   [ger.id]:{relationship:'Paternal grandmother',spouse:'Laurence Williams',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred',notes:'Gertrude Smith Williams is Wayne Williams’s paternal grandmother. She is pictured alongside Laurence Williams in a family photograph.'},
   'wa-elaine':{relationship:'Paternal aunt',children:'Derek Henderson, Wendy Henderson, Reginald Henderson'},
@@ -138,11 +138,11 @@
   'g22':{relationship:'Maternal grandfather',spouse:'Mary Alice D’Agostiano (Alice Goodson)',children:'Pamela Jean Goodson, Jacqueline Goodson, William Eugene Goodson Jr., Alicia Goodson (and other descendants as shown)'},
   'alice-robertson-father':{relationship:'Maternal great-grandfather',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'Laura O. Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
   'alice-robertson-mother':{relationship:'Maternal great-grandmother',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'William Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
-  [unknownId]:{relationship:'Other Lawrence family branch (details unconfirmed)',spouse:'Lawrence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
+  [unknownId]:{relationship:'Other Laurence family branch (details unconfirmed)',spouse:'Laurence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
  };
  const siblingNames=siblings.map(id=>shortName(byId.get(id)?.name||'')).filter(Boolean);
  for(const id of siblings){
-    defaults[id]={parents:'Lawrence Williams and Gertrude Smith',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
+    defaults[id]={parents:'Laurence Williams and Gertrude Smith Williams',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
  }
  const getProfile=id=>({...defaults[id],...(saved.profiles?.[id]||{})});
  const drawer=document.getElementById('drawer');
