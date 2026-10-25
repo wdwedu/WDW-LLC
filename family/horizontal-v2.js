@@ -116,6 +116,10 @@
   'wa-elaine':{relationship:'Paternal aunt',children:'Derek Henderson, Wendy Henderson, Reginald Henderson'},
   'wa-brody':{relationship:'Paternal uncle',children:'Isaiah Williams, Jason Williams, Justin Williams, Brianna Williams, daughter (name unknown)'},
   'wa-gary':{relationship:'Paternal uncle',children:'Chloe Williams'},
+  'g3':{relationship:'Maternal grandmother',parents:'William Robertson and Laura O. Robertson',spouse:'William Eugene Goodson Sr. “Willie”',children:'Pamela Jean Goodson, Jacqueline Goodson, William Eugene Goodson Jr., Alicia Goodson (and other descendants as shown)'},
+  'g22':{relationship:'Maternal grandfather',spouse:'Mary Alice D’Agostiano (Alice Goodson)',children:'Pamela Jean Goodson, Jacqueline Goodson, William Eugene Goodson Jr., Alicia Goodson (and other descendants as shown)'},
+  'alice-robertson-father':{relationship:'Maternal great-grandfather',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'Laura O. Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
+  'alice-robertson-mother':{relationship:'Maternal great-grandmother',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'William Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
   [unknownId]:{relationship:'Other Lawrence family branch (details unconfirmed)',spouse:'Lawrence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
  };
  const siblingNames=siblings.map(id=>shortName(byId.get(id)?.name||'')).filter(Boolean);
