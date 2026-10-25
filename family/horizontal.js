@@ -56,7 +56,10 @@ for(const p of PERSONS){if(p.branch==='goodson'&&p.parent&&byId.has(p.parent))kn
 const isMobile=matchMedia('(max-width:790px)').matches;
 let zoom=isMobile?.80:1,arrange=false,focused=null;
 let saved={positions:{},pictures:{},profiles:{},layoutVersion:2};
+// A public family viewer must never read browser-local editor profiles, contact fields, or photo overrides.
+if(document.documentElement.dataset.familyView!=='public'){
 try{const stored=localStorage.getItem('wdw-family-horizontal-v1');if(stored){const parsed=JSON.parse(stored);if(parsed&&typeof parsed==='object')saved={positions:parsed.positions||{},pictures:parsed.pictures||{},profiles:parsed.profiles||{},layoutVersion:parsed.layoutVersion||1}}}catch(e){}
+}
 if(saved.layoutVersion<2){for(const p of Object.values(saved.positions))if(Number.isFinite(p.x)&&Number.isFinite(p.y))p.y+=990;saved.layoutVersion=2;}
 for(const [id,p]of Object.entries(saved.positions))if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y);
 const cardEls=new Map();
