@@ -1,6 +1,6 @@
 const byId=new Map(PERSONS.map(p=>[p.id,p]));
 const board=document.getElementById('canvas'), view=document.getElementById('viewport'), frame=document.getElementById('space'), wire=document.getElementById('links');
-const CENTER={x:6000,y:1030},WIDTH=12000,HEIGHT=2500, CW=188,CH=97;
+const CENTER={x:6000,y:2020},WIDTH=12000,HEIGHT=5200, CW=188,CH=97;
 const pos={},knownLinks=[],primaryLinks=[];
 const whoName='Wayne Williams Jr.';
 const me=PERSONS.find(x=>x.name===whoName), ma=PERSONS.find(x=>x.role==='Your mother'), girl=PERSONS.find(x=>x.name==='Jasmine Williams'), boy=PERSONS.find(x=>x.name==='Jordan Williams'), dad=PERSONS.find(x=>x.name==='Wayne Williams Sr.');
@@ -28,7 +28,7 @@ for(const node of PERSONS.filter(n=>n.branch==='goodson'&&!pathIds.has(n.id))){
 const shelfRules=[
  {x:6650,y:1250,cols:8},{x:7000,y:1250,cols:8},{x:7550,y:1540,cols:12},
  {x:7850,y:390,cols:8},{x:8350,y:590,cols:9},{x:8850,y:1520,cols:9},{x:8800,y:1960,cols:9}
-];
+].map(r=>({...r,y:r.y+990}));
 anchors.forEach((id,i)=>{
  const rule=shelfRules[i]||{x:9000,y:1550,cols:9};
  shelves[id].forEach((p,k)=>position(p.id,rule.x+(k%rule.cols)*220,rule.y+Math.floor(k/rule.cols)*136));
@@ -53,8 +53,9 @@ for(const p of PERSONS){if(p.branch==='goodson'&&p.parent&&byId.has(p.parent))kn
 // mirrored background tree paintings stay attached to the diagram while the user pans.
 const isMobile=matchMedia('(max-width:790px)').matches;
 let zoom=isMobile?.80:1,arrange=false,focused=null;
-let saved={positions:{},pictures:{}};
-try{const stored=localStorage.getItem('wdw-family-horizontal-v1');if(stored){const parsed=JSON.parse(stored);if(parsed&&typeof parsed==='object')saved={positions:parsed.positions||{},pictures:parsed.pictures||{}}}}catch(e){}
+let saved={positions:{},pictures:{},profiles:{},layoutVersion:2};
+try{const stored=localStorage.getItem('wdw-family-horizontal-v1');if(stored){const parsed=JSON.parse(stored);if(parsed&&typeof parsed==='object')saved={positions:parsed.positions||{},pictures:parsed.pictures||{},profiles:parsed.profiles||{},layoutVersion:parsed.layoutVersion||1}}}catch(e){}
+if(saved.layoutVersion<2){for(const p of Object.values(saved.positions))if(Number.isFinite(p.x)&&Number.isFinite(p.y))p.y+=990;saved.layoutVersion=2;}
 for(const [id,p]of Object.entries(saved.positions))if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y);
 const cardEls=new Map();
 function safe(t){return String(t??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
@@ -107,7 +108,7 @@ let pan=null,dragId=null,startPointer={},didDrag=false;
 view.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.person,button,input'))return;pan={x:e.clientX,y:e.clientY,scrollX:view.scrollLeft,scrollY:view.scrollTop};view.setPointerCapture(e.pointerId)});
 view.addEventListener('pointermove',e=>{if(!pan)return;view.scrollLeft=pan.scrollX-(e.clientX-pan.x);view.scrollTop=pan.scrollY-(e.clientY-pan.y)});
 view.addEventListener('pointerup',()=>pan=null);view.addEventListener('pointercancel',()=>pan=null);
-function saveState(){return {version:1,updated:new Date().toISOString(),positions:saved.positions,pictures:saved.pictures}}
+function saveState(){return {version:1,layoutVersion:2,updated:new Date().toISOString(),positions:saved.positions,pictures:saved.pictures,profiles:saved.profiles||{}}}
 function writeSave(){saved.positions=Object.fromEntries(Object.entries(pos).map(([id,p])=>[id,{x:p.x,y:p.y}]));try{localStorage.setItem('wdw-family-horizontal-v1',JSON.stringify(saveState()))}catch(e){showStatus('Your browser storage is full. Use Export Backup to keep the changes.')}}
 function showStatus(t){const el=document.getElementById('status');el.textContent=t;}
 const modeBtn=document.getElementById('modeBtn');modeBtn.onclick=()=>{arrange=!arrange;modeBtn.classList.toggle('active',arrange);modeBtn.textContent=arrange?'✓ Arrange ON':'↔ Arrange';showStatus(arrange?'Drag a card to rearrange it. Tap any card to add or change its photo.':'Normal view. Turn Arrange on to move cards.');cardEls.forEach(el=>el.style.touchAction=arrange?'none':'auto')};
@@ -119,7 +120,7 @@ document.getElementById('photoUpload').addEventListener('change',async e=>{const
 document.getElementById('restorePhoto').onclick=()=>{if(!focused)return;delete saved.pictures[focused];writeSave();updatePhoto(byId.get(focused));openEditor(focused);showStatus('Original picture restored.')};
 function exportJSON(){writeSave();const data=JSON.stringify(saveState());const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Wayne-Family-Tree-Arrangement-and-Photos.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showStatus('Backup downloaded. Upload this JSON here to publish your changes to everyone.')}
 document.getElementById('exportBtn').onclick=exportJSON;
-document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const x=JSON.parse(await f.text());if(x.version!==1||typeof x.positions!=='object'||typeof x.pictures!=='object')throw Error('Invalid version');saved={positions:x.positions,pictures:x.pictures};for(const [id,p]of Object.entries(saved.positions)){if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y)}for(const p of PERSONS){placeOne(p.id);updatePhoto(p)}drawLines();writeSave();showStatus('Backup restored.') }catch(e){showStatus('Cannot import that backup.')}});
+document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const x=JSON.parse(await f.text());if(x.version!==1||typeof x.positions!=='object'||typeof x.pictures!=='object')throw Error('Invalid version');saved={positions:x.positions,pictures:x.pictures,profiles:x.profiles||{},layoutVersion:x.layoutVersion||1};if(saved.layoutVersion<2){for(const p of Object.values(saved.positions))if(Number.isFinite(p.x)&&Number.isFinite(p.y))p.y+=990;saved.layoutVersion=2;}for(const [id,p]of Object.entries(saved.positions)){if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y)}for(const p of PERSONS){placeOne(p.id);updatePhoto(p)}drawLines();writeSave();showStatus('Backup restored.') }catch(e){showStatus('Cannot import that backup.')}});
 document.getElementById('saveBtn').onclick=()=>{writeSave();showStatus('Your arrangement is saved in this browser. Export to publish it.')};
 document.getElementById('resetBtn').onclick=()=>{if(confirm('Reset all positions and uploaded photos in this browser?')){try{localStorage.removeItem('wdw-family-horizontal-v1')}catch(e){}location.reload()}};
 document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();cardEls.forEach((el,id)=>el.classList.toggle('searchhit',q&&byId.get(id).name.toLowerCase().includes(q)));if(q){const match=PERSONS.find(p=>p.name.toLowerCase().includes(q)&&pos[p.id]);if(match)focus(pos[match.id].x,pos[match.id].y)}});
