@@ -2,14 +2,16 @@
 #viewport {cursor:grab;scrollbar-width:auto;}
 #viewport.grabbing{cursor:grabbing;}
 #canvas{background-size:28px 28px;}
-.tree-art{height:2500px;top:0;opacity:.105;filter:saturate(.60);background-size:100% 100%}
-body.dark .tree-art.night{opacity:.16}
-.tree-art.lower{top:2070px;height:3100px;background-position:bottom center;}
-.tree-art.upper{top:0;height:2150px;background-position:top center;}
-.tree-art.left.upper{transform:scaleX(-1) scaleY(-1)}
-.tree-art.right.upper{transform:scaleY(-1)}
-.tree-art.left.lower{transform:scaleX(-1)}
-.tree-art.right.lower{transform:none}
+/* Two distinct panoramas per family side: upper branches reach up and lower branches mirror downward.
+   Image transparency is deliberately readable behind the cards, not invisible. */
+.tree-art{height:2400px;top:0;opacity:.245;filter:contrast(1.18) saturate(.7);background-size:100% 100%;background-repeat:no-repeat}
+body.dark .tree-art.night{opacity:.29;filter:contrast(1.35) saturate(.88)}
+.tree-art.upper{top:0;height:2200px;background-position:center bottom;}
+.tree-art.lower{top:2020px;height:3180px;background-position:center top;}
+.tree-art.left.upper{transform:scaleX(-1)}
+.tree-art.right.upper{transform:none}
+.tree-art.left.lower{transform:scaleX(-1) scaleY(-1)}
+.tree-art.right.lower{transform:scaleY(-1)}
 /* The old four artwork tiles are replaced by 8 vertically flipped tiles. */
 .tree-art:not(.upper):not(.lower){display:none}
 .connect.marital{stroke:#111722;stroke-width:2.5;stroke-dasharray:5 6;opacity:.92}
@@ -44,3 +46,5 @@ body.dark #familyLegend .purple{border-color:#c9a8ef}
 .musicpop .media-links a:hover,.musicpop .media-links a:focus{outline:2px solid var(--royal)}
 @media(max-width:790px){#familyLegend{bottom:67px;max-width:calc(100vw - 30px);font-size:10px}.musicpop{right:9px}}
 .person.family-reference{border:2px dashed var(--royal);opacity:.94}.person.family-reference .relation{font-size:10px}
+
+.person[data-kind='maternal-robertson']{border-color:#9471bf;background:var(--panel)}
