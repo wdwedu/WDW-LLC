@@ -140,6 +140,34 @@
   'alice-robertson-mother':{relationship:'Maternal great-grandmother',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'William Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
   [unknownId]:{relationship:'Other Laurence family branch (details unconfirmed)',spouse:'Laurence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
  };
+
+ // Phase 6: concise family-supplied summaries, keyed to existing IDs only.
+ // Dates, occupations and unverified Ancestry records deliberately omitted.
+ const phase6Bios={
+  'wa-jimmy':{relationship:'Paternal uncle',notes:'Jimmy Williams is one of the children listed for Laurence Williams and Gertrude Smith Williams.'},
+  'wa-roseanne':{relationship:'Paternal aunt',notes:'Roseanne Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-derek':{relationship:'Paternal uncle',notes:'Derek Williams is Wayne’s paternal uncle. He is distinct from Wayne’s cousin Derek Henderson.'},
+  'wa-patrice':{relationship:'Paternal aunt',notes:'Patrice Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-thelma':{relationship:'Paternal aunt',notes:'Thelma Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-elaine':{relationship:'Paternal aunt',children:'Derek Henderson, Wendy Henderson, Reginal Henderson',notes:'Elaine Williams is Wayne’s paternal aunt. Her children include Derek Henderson, Wendy Henderson and Reginal Henderson.'},
+  'wa-teresa':{relationship:'Paternal aunt',notes:'Teresa Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-fred':{relationship:'Paternal uncle',notes:'Fred Williams is Wayne’s paternal uncle, in the Williams sibling group.'},
+  'wa-henderson-wendy':{relationship:'Paternal first cousin',parents:'Elaine Williams',notes:'Wendy Henderson is a child of Wayne’s aunt Elaine Williams.'},
+  'wa-gary-chloe':{relationship:'Paternal first cousin',parents:'Gary Williams',notes:'Chloe Williams is Wayne’s cousin and the daughter of Gary Williams.'},
+  'wa-brody-isaiah':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Isaiah Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-jason':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Jason Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-justin':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Justin Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-brianna':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Brianna Williams is a child of Wayne’s uncle Brody Williams.'},
+  'g9':{relationship:'Maternal great-grandfather',notes:'Hubert Benjamin Goodson Sr. is shown in the existing Goodson family tree. Additional events await source verification.'},
+  'g15':{relationship:'Maternal great-grandmother',notes:'Mattie Derushia Siler Goodson is shown in the existing Goodson family tree. Dates and name variants require documentary review.'},
+  'g0':{relationship:'Goodson ancestor',notes:'Henry Rufus Goodson is an earlier Goodson family ancestor. The current Ancestry intake has not verified his life dates.'},
+  'w3':{relationship:'Paternal great-grandfather',notes:'Henry Williams is an earlier paternal ancestor shown in the existing Williams branch. Dates have not been validated.'},
+  'w5':{relationship:'Paternal great-grandfather',notes:'Henry J. Smith is an ancestor on Wayne’s paternal grandmother’s family line; biographical dates require verification.'},
+  'w6':{relationship:'Paternal great-grandmother',notes:'Violet Jackson is an ancestor on Wayne’s paternal grandmother’s family line; biographical dates require verification.'}
+ };
+ for(const [id,record] of Object.entries(phase6Bios)){
+   if(byId.has(id))defaults[id]={...record,...(defaults[id]||{})};
+ }
  const siblingNames=siblings.map(id=>shortName(byId.get(id)?.name||'')).filter(Boolean);
  for(const id of siblings){
     defaults[id]={parents:'Laurence Williams and Gertrude Smith Williams',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
