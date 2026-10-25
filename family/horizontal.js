@@ -20,6 +20,8 @@ const pathIds=new Set([...path.map(x=>x.id),me.id,girl.id,boy.id]);
 const shelves={};const anchors=[ma.id,...path.slice(1).map(x=>x.id)];
 for(const a of anchors)shelves[a]=[];
 for(const node of PERSONS.filter(n=>n.branch==='goodson'&&!pathIds.has(n.id))){
+ // Keep Alice in the former William-card location without inventing a Sarah Hall parent link.
+ if(node.id==='g3'){shelves['g1'].push(node);continue;}
  let ancestor=node.parent?byId.get(node.parent):null;
  while(ancestor&&!shelves[ancestor.id])ancestor=ancestor.parent?byId.get(ancestor.parent):null;
  if(ancestor)shelves[ancestor.id].push(node);
