@@ -43,3 +43,4 @@ body.dark #familyLegend .purple{border-color:#c9a8ef}
 .musicpop .media-links a{display:block;padding:8px 9px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);background:var(--toolbar);font-size:12px;line-height:1.3}
 .musicpop .media-links a:hover,.musicpop .media-links a:focus{outline:2px solid var(--royal)}
 @media(max-width:790px){#familyLegend{bottom:67px;max-width:calc(100vw - 30px);font-size:10px}.musicpop{right:9px}}
+.person.family-reference{border:2px dashed var(--royal);opacity:.94}.person.family-reference .relation{font-size:10px}
