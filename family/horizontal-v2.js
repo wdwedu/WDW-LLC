@@ -22,10 +22,10 @@
  const railX=pos[ger.id].x-20;
  const firstY=CENTER.y+180,spacing=177;
  const activeSiblings=siblings.filter(id=>id!=='w0');
- let siblingIndex=0;
- for(const id of siblings){
-   if(id==='w0')continue; // Wayne Sr. is already shown at the middle, not duplicated as another person.
-   extraPosition(id,railX,firstY+(siblingIndex++)*spacing);
+ const fatherReference={x:railX,y:firstY+siblings.indexOf('w0')*spacing};
+ for(const [i,id] of siblings.entries()){
+   if(id==='w0')continue; // Show a reference in the siblings column but keep Wayne Sr.'s single identity.
+   extraPosition(id,railX,firstY+i*spacing);
  }
  const unknownId='wa-lawrence-other-partner';
  extraPosition(unknownId,pos[law.id].x-250,CENTER.y-740);
@@ -46,6 +46,8 @@
      if(person.kind==='cousin')card.classList.add('cousin');
    }
  }
+ const dadReference=document.createElement('button');dadReference.type='button';dadReference.className='person family-reference';dadReference.style.left=fatherReference.x+'px';dadReference.style.top=fatherReference.y+'px';dadReference.innerHTML='<span class="visual"><span class="fallback">W</span></span><span class="details"><span class="name">Wayne Williams Sr.</span><span class="relation">Father · see center ↗</span></span>';dadReference.addEventListener('click',()=>openEditor(dad.id));board.append(dadReference);
+ const fatherPhoto=getPic(dad);if(fatherPhoto){const im=document.createElement('img');im.src=fatherPhoto;im.alt='Wayne Sr.';dadReference.querySelector('.visual').replaceChildren(im)}
  const marriagePairs=[['w0',ma.id],['w1','w2'],['w3','w4'],['w5','w6']];
  const rawDrawLines=drawLines;
  function addLine(a,b,kind=''){
@@ -70,6 +72,14 @@
       if(id==='w0')continue;
       addLine(law.id,id);
       addLine(ger.id,id);
+   }
+   // Reference for the existing Wayne Sr. card completes the visible group of 12.
+   for(const parent of [law.id,ger.id]){
+     const A=pos[parent];if(!A)continue;
+     const x1=A.x+CW/2,y1=A.y+CH/2,x2=fatherReference.x+CW/2,y2=fatherReference.y+CH/2;
+     const line=document.createElementNS('http://www.w3.org/2000/svg','path');
+     line.setAttribute('d',`M ${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}`);
+     line.setAttribute('class','connect');wire.append(line);
    }
    for(const id of otherSlots){addLine(law.id,id,'provisional');addLine(unknownId,id,'provisional')}
    for(const [parent,children] of Object.entries(cousinFamilies))
@@ -108,6 +118,10 @@
   'wa-gary':{relationship:'Paternal uncle',children:'Chloe Williams'},
   [unknownId]:{relationship:'Other Lawrence family branch (details unconfirmed)',spouse:'Lawrence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
  };
+ const siblingNames=siblings.map(id=>shortName(byId.get(id)?.name||'')).filter(Boolean);
+ for(const id of siblings){
+    defaults[id]={parents:'Lawrence Williams and Gertrude Smith',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
+ }
  const getProfile=id=>({...defaults[id],...(saved.profiles?.[id]||{})});
  const drawer=document.getElementById('drawer');
  const relation=document.getElementById('personRelation');
@@ -182,7 +196,9 @@
  const musicSection=document.createElement('div');musicSection.className='media-section';
  musicList.replaceWith(musicSection);
  function renderMusic(tab){musicSection.replaceChildren();const intro=document.createElement('p');intro.textContent=tab==='Music'?'Family-friendly selections across genres and generations. Tap to open a listening search.':tab==='Movies'?'Family film favorites. Tap to find a trailer.':tab==='Motivation'?'Motivational video topics. Tap to browse videos.':'Quiet videos for reflection; no autoplay.';musicSection.append(intro);const links=document.createElement('div');links.className='media-links';
- for(const [name,query]of groups[tab]){const a=document.createElement('a');a.href=searchURL(query);a.target='_blank';a.rel='noopener noreferrer';a.textContent=name;links.append(a)}musicSection.append(links)}
+ const originalSelections=tab==='Music'?(window.FAMILY_IEPLR_TRACKS||[]).map(item=>[`${item.genre} · ${item.artist} — ${item.title}`,`https://www.youtube.com/watch?v=${encodeURIComponent(item.videoId)}`]):[];
+ const otherSelections=groups[tab].map(([name,query])=>[name,searchURL(query)]);
+ for(const [name,url] of [...originalSelections,...otherSelections]){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name;links.append(a)}musicSection.append(links)}
  for(const button of document.querySelectorAll('[data-mtab]'))button.addEventListener('click',()=>renderMusic(button.dataset.mtab));
  renderMusic('Motivation');
  const textUnder=document.querySelector('.musicpop p:last-child');if(textUnder?.textContent?.includes('placeholders'))textUnder.textContent='Listening and video links open external searches; no autoplay or downloads.';
