@@ -36,3 +36,18 @@ body.dark .family-art-tile{background-image:url('./assets/tree-dark.jpg');opacit
 #canvas .person.family-collapsed{display:flex!important}
 #familySeasonPicker{max-width:148px;min-width:102px;cursor:pointer}
 @media(max-width:750px){#familySeasonPicker{max-width:112px}}
+
+/* Crystal-clear seasonal scenery stays stationary inside viewport.
+   The cards and SVG connections are the moving, zoomable layer. */
+#viewport{background-position:center center;background-repeat:no-repeat;background-size:cover;background-attachment:scroll}
+#familySeasonalBackdrop{display:none!important}
+#canvas .person{box-shadow:0 0 0 2px rgba(255,255,255,.68),0 0 18px 5px rgba(90,156,255,.55),0 12px 24px rgba(0,24,58,.35);background:var(--panel)}
+body.dark #canvas .person{box-shadow:0 0 0 2px rgba(255,233,164,.72),0 0 20px 6px rgba(255,200,89,.45),0 12px 30px rgba(0,0,0,.65);background:rgba(12,29,54,.96)}
+#familyBackgroundButton{min-width:112px}
+.family-background-controls{position:relative;display:inline-flex;align-items:center}
+.family-background-panel{position:absolute;right:0;top:calc(100% + 12px);z-index:200;width:244px;padding:15px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:13px;color:var(--text)}
+.family-background-panel[hidden]{display:none!important}
+.family-background-panel label{display:block;font-weight:700;margin-bottom:12px;font-size:12px}
+.family-background-panel select{display:block;margin-top:4px;padding:10px;width:100%;border:1px solid var(--border);border-radius:8px;color:var(--text);background:var(--toolbar);font:inherit}
+.family-background-panel small{color:var(--sub)}
+@media(max-width:750px){.family-background-panel{right:auto;left:0;width:min(244px,calc(100vw - 30px))}}
