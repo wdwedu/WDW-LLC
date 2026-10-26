@@ -74,7 +74,7 @@ for(const el of cardEls.values())el.classList.remove('family-collapsed');
 const wire=document.getElementById('links');if(wire)wire.style.visibility='visible';
 // Keep the portrait editor zoom cropped inside the same fixed picture frame.
 const photo=document.getElementById('drawerImage');
-if(photo&&!photo.closest('.family-photo-frame')){
+if(photo&&!photo.closest('.photo-stage,.family-photo-frame')){
  const stage=document.createElement('div');stage.className='family-photo-frame';
  photo.parentNode.insertBefore(stage,photo);stage.append(photo);
 }
@@ -139,3 +139,4 @@ if(pop){
  // Previous listener remains installed: allow original toggle but don't add a second toggle handler.
 }
 })();
+
