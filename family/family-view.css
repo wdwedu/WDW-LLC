@@ -1,0 +1,24 @@
+/* Phase 7 family-facing read-only presentation. Not an authentication boundary. */
+html[data-family-view="public"] #modeBtn,
+html[data-family-view="public"] #saveBtn,
+html[data-family-view="public"] #exportBtn,
+html[data-family-view="public"] #resetBtn,
+html[data-family-view="public"] #restorePhoto,
+html[data-family-view="public"] #photoUpload,
+html[data-family-view="public"] #profileFields,
+html[data-family-view="public"] #cropX,
+html[data-family-view="public"] #cropY,
+html[data-family-view="public"] #cropZoom,
+html[data-family-view="public"] .drawer label,
+html[data-family-view="public"] .drawer h3,
+html[data-family-view="public"] .drawer p:has(#restorePhoto),
+html[data-family-view="public"] .drawer p:has(#exportBtn),
+html[data-family-view="public"] .drawer > p:last-of-type,
+html[data-family-view="public"] .tools > label:has(#importFile){display:none!important}
+html[data-family-view="public"] #drawer .photo-stage{pointer-events:none}
+html[data-family-view="public"] #drawer{background:var(--panel)}
+html[data-family-view="public"] #closeDrawer{background:var(--royal);color:white;border-color:transparent;font-size:0}
+html[data-family-view="public"] #closeDrawer::after{content:"✕";font-size:16px}
+html[data-family-view="public"] #familySummary{overflow-wrap:anywhere}
+html[data-family-view="public"] .tools{gap:5px}
+html[data-family-view="public"] .person{cursor:pointer}

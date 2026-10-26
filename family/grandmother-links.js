@@ -3,6 +3,7 @@
 (()=>{
  'use strict';
  const alice=byId.get('g3');
+ const willie=byId.get('g22');
  const father=byId.get('alice-robertson-father');
  const mother=byId.get('alice-robertson-mother');
  if(!alice||!father||!mother||!pos[alice.id])return;
@@ -23,6 +24,17 @@
    previousDraw();
    edge(father.id,alice.id);
    edge(mother.id,alice.id);
+   // Draw the confirmed grandmother-grandfather marriage in the same
+   // black/white dotted style as the other couples, even after rearranging.
+   if(willie && pos[willie.id]){
+     const A=pos[alice.id],B=pos[willie.id];
+     const x1=A.x+CW/2,y1=A.y+CH/2,x2=B.x+CW/2,y2=B.y+CH/2;
+     const line=document.createElementNS('http://www.w3.org/2000/svg','path');
+     line.setAttribute('d',`M ${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}`);
+     line.setAttribute('class','connect marital');
+     line.setAttribute('data-couple','g3-g22');
+     wire.append(line);
+   }
    const A=pos[father.id],B=pos[mother.id];
    if(A&&B){
      const x1=A.x+CW/2,y1=A.y+CH/2,x2=B.x+CW/2,y2=B.y+CH/2;

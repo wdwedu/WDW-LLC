@@ -3,6 +3,19 @@
 (()=>{
  'use strict';
  const familyId=(id)=>byId.get(id);
+ // Names verified from the family photo descriptions (card IDs and saved positions remain stable).
+ const nameUpdates={
+   'w1':'Laurence Williams',
+   'w2':'Gertrude Smith Williams',
+   'wa-henderson-reginald':'Reginal Henderson'
+ };
+ for(const [id,label] of Object.entries(nameUpdates)){
+   const person=byId.get(id);if(!person)continue;
+   person.name=label;
+   const card=cardEls.get(id);
+   if(card){card.setAttribute('aria-label',label+' — '+person.role);const name=card.querySelector('.name');if(name)name.textContent=label;}
+ }
+
  const law=familyId('w1'), ger=familyId('w2');
  const siblings=['wa-larry','wa-jimmy','wa-roseanne','wa-gary','w0','wa-derek','wa-brody','wa-patrice','wa-thelma','wa-elaine','wa-teresa','wa-fred'];
  const cousinFamilies={
@@ -110,21 +123,54 @@
   [girl?.id]:{parents:'Wayne Williams and Michelle Joseph',relationship:'Daughter',notes:'Michelle Joseph is the other parent and is not displayed in this blood-relative tree.'},
   [boy?.id]:{parents:'Wayne Williams and Anika Fountain',relationship:'Son',notes:'Anika Fountain is the other parent and is not displayed in this blood-relative tree.'},
   [ma?.id]:{relationship:'Mother',occupation:'Registered nurse',children:'Wayne Williams Jr.'},
-  [dad?.id]:{relationship:'Father',parents:'Lawrence Williams and Gertrude Smith',children:'Wayne Williams Jr.'},
-  [law.id]:{relationship:'Paternal grandfather',spouse:'Gertrude Smith; other partner name unknown',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred'},
-  [ger.id]:{relationship:'Paternal grandmother',spouse:'Lawrence Williams',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred'},
+  [dad?.id]:{relationship:'Father',parents:'Laurence Williams and Gertrude Smith Williams',children:'Wayne Williams Jr.'},
+  [law.id]:{relationship:'Paternal grandfather',spouse:'Gertrude Smith Williams; other partner name unknown',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred',notes:'Laurence Williams is Wayne Williams’s paternal grandfather. He is pictured alongside Gertrude Smith Williams in a family photograph.'},
+  [ger.id]:{relationship:'Paternal grandmother',spouse:'Laurence Williams',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred',notes:'Gertrude Smith Williams is Wayne Williams’s paternal grandmother. She is pictured alongside Laurence Williams in a family photograph.'},
   'wa-elaine':{relationship:'Paternal aunt',children:'Derek Henderson, Wendy Henderson, Reginald Henderson'},
-  'wa-brody':{relationship:'Paternal uncle',children:'Isaiah Williams, Jason Williams, Justin Williams, Brianna Williams, daughter (name unknown)'},
-  'wa-gary':{relationship:'Paternal uncle',children:'Chloe Williams'},
+  'wa-brody':{relationship:'Paternal uncle',children:'Isaiah Williams, Jason Williams, Justin Williams, Brianna Williams, daughter (name unknown)',notes:'Brody Williams is Wayne’s paternal uncle. In a family gathering photograph, he stands in the middle with Gary Williams (left) and Larry Williams (right).'},
+  'wa-gary':{relationship:'Paternal uncle',children:'Chloe Williams',notes:'Gary Williams is Wayne’s paternal uncle. In a family gathering photograph, he stands on the left with Brody Williams (middle) and Larry Williams (right).'},
+
+  'wa-larry':{relationship:'Paternal uncle',notes:'Larry Williams is Wayne’s paternal uncle. In a family gathering photograph, he appears on the right with his brothers Brody and Gary Williams.'},
+  'wa-henderson-derek':{relationship:'Paternal first cousin',parents:'Elaine Williams',notes:'Derek Henderson is the oldest son of Wayne’s aunt Elaine Williams and is part of the Williams–Henderson family branch.'},
+  'wa-henderson-reginald':{relationship:'Paternal first cousin',parents:'Elaine Williams',notes:'Reginal Henderson is the youngest son of Wayne’s aunt Elaine Williams and is part of the Williams–Henderson family branch.'},
+  'w4':{relationship:'Paternal great-grandmother',notes:'Eloise Williams is Wayne Williams’s paternal great-grandmother. She appears in a family photograph outdoors beside a car.'},
   'g3':{relationship:'Maternal grandmother',parents:'William Robertson and Laura O. Robertson',spouse:'William Eugene Goodson Sr. “Willie”',children:'Pamela Jean Goodson, Jacqueline Goodson, William Eugene Goodson Jr., Alicia Goodson (and other descendants as shown)'},
   'g22':{relationship:'Maternal grandfather',spouse:'Mary Alice D’Agostiano (Alice Goodson)',children:'Pamela Jean Goodson, Jacqueline Goodson, William Eugene Goodson Jr., Alicia Goodson (and other descendants as shown)'},
   'alice-robertson-father':{relationship:'Maternal great-grandfather',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'Laura O. Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
   'alice-robertson-mother':{relationship:'Maternal great-grandmother',children:'Mary Alice D’Agostiano (Alice Goodson)',spouse:'William Robertson',notes:'Listed on supplied Ancestry screenshot. Additional records and dates await confirmation.'},
-  [unknownId]:{relationship:'Other Lawrence family branch (details unconfirmed)',spouse:'Lawrence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
+  [unknownId]:{relationship:'Other Laurence family branch (details unconfirmed)',spouse:'Laurence Williams',notes:'Name and partnership/marital status need confirmation. Nine blank child slots are provided for manual completion.'}
  };
+
+ // Phase 6: concise family-supplied summaries, keyed to existing IDs only.
+ // Dates, occupations and unverified Ancestry records deliberately omitted.
+ const phase6Bios={
+  'wa-jimmy':{relationship:'Paternal uncle',notes:'Jimmy Williams is one of the children listed for Laurence Williams and Gertrude Smith Williams.'},
+  'wa-roseanne':{relationship:'Paternal aunt',notes:'Roseanne Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-derek':{relationship:'Paternal uncle',notes:'Derek Williams is Wayne’s paternal uncle. He is distinct from Wayne’s cousin Derek Henderson.'},
+  'wa-patrice':{relationship:'Paternal aunt',notes:'Patrice Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-thelma':{relationship:'Paternal aunt',notes:'Thelma Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-elaine':{relationship:'Paternal aunt',children:'Derek Henderson, Wendy Henderson, Reginal Henderson',notes:'Elaine Williams is Wayne’s paternal aunt. Her children include Derek Henderson, Wendy Henderson and Reginal Henderson.'},
+  'wa-teresa':{relationship:'Paternal aunt',notes:'Teresa Williams is Wayne’s paternal aunt, in the Williams sibling group.'},
+  'wa-fred':{relationship:'Paternal uncle',notes:'Fred Williams is Wayne’s paternal uncle, in the Williams sibling group.'},
+  'wa-henderson-wendy':{relationship:'Paternal first cousin',parents:'Elaine Williams',notes:'Wendy Henderson is a child of Wayne’s aunt Elaine Williams.'},
+  'wa-gary-chloe':{relationship:'Paternal first cousin',parents:'Gary Williams',notes:'Chloe Williams is Wayne’s cousin and the daughter of Gary Williams.'},
+  'wa-brody-isaiah':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Isaiah Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-jason':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Jason Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-justin':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Justin Williams is a child of Wayne’s uncle Brody Williams.'},
+  'wa-brody-brianna':{relationship:'Paternal first cousin',parents:'Brody Williams',notes:'Brianna Williams is a child of Wayne’s uncle Brody Williams.'},
+  'g9':{relationship:'Maternal great-grandfather',notes:'Hubert Benjamin Goodson Sr. is shown in the existing Goodson family tree. Additional events await source verification.'},
+  'g15':{relationship:'Maternal great-grandmother',notes:'Mattie Derushia Siler Goodson is shown in the existing Goodson family tree. Dates and name variants require documentary review.'},
+  'g0':{relationship:'Goodson ancestor',notes:'Henry Rufus Goodson is an earlier Goodson family ancestor. The current Ancestry intake has not verified his life dates.'},
+  'w3':{relationship:'Paternal great-grandfather',notes:'Henry Williams is an earlier paternal ancestor shown in the existing Williams branch. Dates have not been validated.'},
+  'w5':{relationship:'Paternal great-grandfather',notes:'Henry J. Smith is an ancestor on Wayne’s paternal grandmother’s family line; biographical dates require verification.'},
+  'w6':{relationship:'Paternal great-grandmother',notes:'Violet Jackson is an ancestor on Wayne’s paternal grandmother’s family line; biographical dates require verification.'}
+ };
+ for(const [id,record] of Object.entries(phase6Bios)){
+   if(byId.has(id))defaults[id]={...record,...(defaults[id]||{})};
+ }
  const siblingNames=siblings.map(id=>shortName(byId.get(id)?.name||'')).filter(Boolean);
  for(const id of siblings){
-    defaults[id]={parents:'Lawrence Williams and Gertrude Smith',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
+    defaults[id]={parents:'Laurence Williams and Gertrude Smith Williams',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
  }
  const getProfile=id=>({...defaults[id],...(saved.profiles?.[id]||{})});
  const drawer=document.getElementById('drawer');
