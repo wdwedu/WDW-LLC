@@ -1,48 +1,48 @@
-/* Family tree experience enhancement. No personal contact information stored in public code. */
+/* Family seasonal tree backgrounds and curated family jukebox.
+   Artwork only changes behind the cards; no cards or connection lines are hidden. */
 (()=>{
 'use strict';
 const board=document.getElementById('canvas'),view=document.getElementById('viewport');
 if(!board||!view)return;
-// Nine separate image panels across three rows: each column mirrors its neighbor.
-for(const old of board.querySelectorAll('.tree-art'))old.remove();
-const layer=document.createElement('div');layer.id='familyArtNine';layer.setAttribute('aria-hidden','true');
-for(let i=0;i<9;i++){const tile=document.createElement('div');tile.className='family-art-tile tile-'+i;layer.append(tile);}
-board.prepend(layer);
-// Photo drawer image is clipped within its own viewport; existing crop sliders remain active.
-const photo=document.getElementById('drawerImage');
-if(photo){const stage=document.createElement('div');stage.className='family-photo-frame';photo.parentNode.insertBefore(stage,photo);stage.append(photo);}
-// Put expand/restore alongside existing navigation; do not change stable IDs or saves.
+for(const old of board.querySelectorAll('.tree-art,#familyArtNine'))old.remove();
+const backdrop=document.createElement('div');
+backdrop.id='familySeasonalBackdrop';
+backdrop.setAttribute('aria-hidden','true');
+board.prepend(backdrop);
+const nowSeason=()=>{
+ const month=new Date().getMonth()+1;
+ return month>=9&&month<=11?'fall':month===12||month<=2?'winter':'spring';
+};
+const options=[['auto','Automatic'],['fall','Fall'],['winter','Winter'],['spring','Spring / Summer']];
+const picker=document.createElement('select');
+picker.id='familySeasonPicker';
+picker.className='navbtn';
+picker.setAttribute('aria-label','Family tree season');
+picker.title='Seasonal tree background';
+for(const [id,title]of options){const option=document.createElement('option');option.value=id;option.textContent=title;picker.append(option)}
+let stored='auto';try{stored=localStorage.getItem('wdw-family-tree-season')||'auto'}catch(e){}
+picker.value=options.some(x=>x[0]===stored)?stored:'auto';
+const themeBtn=document.getElementById('themeBtn');
 const nav=document.querySelector('nav .tools');
-const expand=document.createElement('button');expand.type='button';expand.className='navbtn';expand.id='expandFamily';expand.textContent='Expand All';
-nav?.insertBefore(expand,document.getElementById('modeBtn'));
-const featured=new Set([me?.id,girl?.id,boy?.id,ma?.id,dad?.id,'w1','w2','g3','g22'].filter(Boolean));
-let expanded=false;
-function applyView(){
-  for(const [id,el] of cardEls)el.classList.toggle('family-collapsed',!expanded&&!featured.has(id));
-  const connectors=document.getElementById('links');
-  // Hide connectors in the simple starting view to avoid lines pointing to invisible cards.
-  if(connectors)connectors.style.visibility=expanded?'visible':'hidden';
-  expand.textContent=expanded?'Family Focus':'Expand All';
-  expand.setAttribute('aria-pressed',String(expanded));
+if(themeBtn)nav?.insertBefore(picker,themeBtn);else nav?.append(picker);
+function applySeason(){
+ const season=picker.value==='auto'?nowSeason():picker.value;
+ const isDark=document.body.classList.contains('dark');
+ backdrop.style.backgroundImage='url("./assets/seasonal/'+season+'-'+(isDark?'dark':'light')+'.webp")';
+ backdrop.dataset.season=season;
+ backdrop.dataset.mode=isDark?'dark':'light';
 }
-expand.addEventListener('click',()=>{
- expanded=!expanded;applyView();
- if(expanded){updateZoom(.25);focus(CENTER.x,CENTER.y,true)}
- else{updateZoom(.8);focus(CENTER.x,CENTER.y,true)}
-});
-applyView();
-// Existing zoom lower-bound may still be used by the original controls. Give the family map a smaller overview step.
-const zoomOut=document.getElementById('zoomOut');
-zoomOut?.addEventListener('click',()=>{if(expanded&&zoom<=.4){updateZoom(Math.max(.2,zoom-.05));focus(CENTER.x,CENTER.y,true)}});
-// Two small card actions. Opening a biography continues to use the established profile drawer.
-for(const [id,el] of cardEls){
-  if(el.querySelector('.family-card-actions'))continue;
-  const controls=document.createElement('span');controls.className='family-card-actions';
-  const detail=document.createElement('span');detail.className='family-card-action';detail.title='Open family biography';detail.textContent='▣';
-  const locate=document.createElement('span');locate.className='family-card-action';locate.title='Focus on family member';locate.textContent='⊕';
-  controls.append(detail,locate);el.append(controls);
-  detail.addEventListener('click',e=>{e.stopPropagation();openEditor(id)});
-  locate.addEventListener('click',e=>{e.stopPropagation();if(!expanded){expanded=true;applyView()}updateZoom(Math.max(zoom,.7));focus(pos[id].x,pos[id].y)});
+picker.addEventListener('change',()=>{try{localStorage.setItem('wdw-family-tree-season',picker.value)}catch(e){}applySeason()});
+themeBtn?.addEventListener('click',()=>requestAnimationFrame(applySeason));
+applySeason();
+// Preserve all existing visible cards and SVG connection lines; never collapse them.
+for(const el of cardEls.values())el.classList.remove('family-collapsed');
+const wire=document.getElementById('links');if(wire)wire.style.visibility='visible';
+// Keep the portrait editor zoom cropped inside the same fixed picture frame.
+const photo=document.getElementById('drawerImage');
+if(photo&&!photo.closest('.family-photo-frame')){
+ const stage=document.createElement('div');stage.className='family-photo-frame';
+ photo.parentNode.insertBefore(stage,photo);stage.append(photo);
 }
 // Jukebox: existing catalog provides music genres, family topics link to searches/videos.
 const toggle=document.getElementById('musicToggle'),pop=document.getElementById('musicPop');
