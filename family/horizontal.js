@@ -54,8 +54,8 @@ addKin('Gertrude Smith','Henry J. Smith');addKin('Gertrude Smith','Violet Jackso
 for(const p of PERSONS){if(p.branch==='goodson'&&p.parent&&byId.has(p.parent))knownLinks.push([p.id,p.parent])}
 // mirrored background tree paintings stay attached to the diagram while the user pans.
 const isMobile=matchMedia('(max-width:790px)').matches;
-let zoom=isMobile?.80:1,arrange=false,focused=null;
-let saved={positions:{},pictures:{},profiles:{},layoutVersion:2};
+let zoom=.70,arrange=false,focused=null;
+let saved={positions:{},pictures:{},profiles:{},layoutVersion:3};
 try{const stored=localStorage.getItem('wdw-family-horizontal-v1');if(stored){const parsed=JSON.parse(stored);if(parsed&&typeof parsed==='object')saved={positions:parsed.positions||{},pictures:parsed.pictures||{},profiles:parsed.profiles||{},layoutVersion:parsed.layoutVersion||1}}}catch(e){}
 if(saved.layoutVersion<2){for(const p of Object.values(saved.positions))if(Number.isFinite(p.x)&&Number.isFinite(p.y))p.y+=990;saved.layoutVersion=2;}
 for(const [id,p]of Object.entries(saved.positions))if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y);
@@ -97,11 +97,12 @@ drawLines();
 function label(text,x,y,sub=''){const el=document.createElement('div');el.className='landmark';el.style.left=x+'px';el.style.top=y+'px';el.innerHTML=safe(text)+(sub?`<span>${safe(sub)}</span>`:'');board.append(el)}
 label('WILLIAMS · PATERNAL',CENTER.x-1900,200,'Scroll left to explore your father’s family');
 label('GOODSON · MATERNAL',CENTER.x+1000,200,'Scroll right to explore your mother’s family');
-const marriage=document.createElement('div');marriage.className='marriage';marriage.textContent='Marriage';marriage.style.left=(CENTER.x-25)+'px';marriage.style.top=(CENTER.y-210)+'px';board.append(marriage);
 function updateZoom(value,center=false){zoom=Math.max(.2,Math.min(1.5,value));frame.style.width=(WIDTH*zoom)+'px';frame.style.height=(HEIGHT*zoom)+'px';board.style.transform=`scale(${zoom})`;document.getElementById('zoomLabel').textContent=Math.round(zoom*100)+'%';if(center)focus(CENTER.x,CENTER.y-60)}
 function focus(x,y,instant=false){view.scrollTo({left:Math.max(0,x*zoom-view.clientWidth/2),top:Math.max(0,y*zoom-view.clientHeight/2),behavior:instant?'instant':'smooth'})}
-updateZoom(zoom);requestAnimationFrame(()=>focus(CENTER.x,CENTER.y,true));
-document.getElementById('centerBtn').onclick=()=>focus(CENTER.x,CENTER.y);
+function focusWayne(instant=false){const p=pos[me.id];view.scrollTo({left:Math.max(0,(p.x+CW/2)*zoom-view.offsetWidth*.5),top:Math.max(0,(p.y+CH/2)*zoom-view.clientHeight*.63),behavior:instant?'instant':'smooth'})}
+updateZoom(zoom);requestAnimationFrame(()=>focusWayne(true));
+window.addEventListener('pageshow',()=>{updateZoom(.70);requestAnimationFrame(()=>focusWayne(true))});
+document.getElementById('centerBtn').onclick=()=>focusWayne();
 document.getElementById('leftBtn').onclick=()=>focus(CENTER.x-1900,CENTER.y);
 document.getElementById('rightBtn').onclick=()=>focus(CENTER.x+1900,CENTER.y);
 document.getElementById('zoomIn').onclick=()=>{const x=(view.scrollLeft+view.clientWidth/2)/zoom,y=(view.scrollTop+view.clientHeight/2)/zoom;updateZoom(zoom+.15);focus(x,y)};
@@ -110,7 +111,7 @@ let pan=null,dragId=null,startPointer={},didDrag=false;
 view.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.person,button,input'))return;pan={x:e.clientX,y:e.clientY,scrollX:view.scrollLeft,scrollY:view.scrollTop};view.setPointerCapture(e.pointerId)});
 view.addEventListener('pointermove',e=>{if(!pan)return;view.scrollLeft=pan.scrollX-(e.clientX-pan.x);view.scrollTop=pan.scrollY-(e.clientY-pan.y)});
 view.addEventListener('pointerup',()=>pan=null);view.addEventListener('pointercancel',()=>pan=null);
-function saveState(){return {version:1,layoutVersion:2,updated:new Date().toISOString(),positions:saved.positions,pictures:saved.pictures,profiles:saved.profiles||{}}}
+function saveState(){return {version:1,layoutVersion:saved.layoutVersion||3,updated:new Date().toISOString(),positions:saved.positions,pictures:saved.pictures,profiles:saved.profiles||{}}}
 function writeSave(){saved.positions=Object.fromEntries(Object.entries(pos).map(([id,p])=>[id,{x:p.x,y:p.y}]));try{localStorage.setItem('wdw-family-horizontal-v1',JSON.stringify(saveState()))}catch(e){showStatus('Your browser storage is full. Use Export Backup to keep the changes.')}}
 function showStatus(t){const el=document.getElementById('status');el.textContent=t;}
 const modeBtn=document.getElementById('modeBtn');modeBtn.onclick=()=>{arrange=!arrange;modeBtn.classList.toggle('active',arrange);modeBtn.textContent=arrange?'✓ Edit ON':'✎ Edit';showStatus(arrange?'Edit mode: move cards or select a relative to edit their biography, photograph and device-local details.':'View mode. Select Edit to change profiles, photos or card positions.');cardEls.forEach(el=>el.style.touchAction=arrange?'none':'auto')};
@@ -120,7 +121,7 @@ for(const id of ['cropX','cropY','cropZoom'])document.getElementById(id).addEven
 document.getElementById('closeDrawer').onclick=()=>{document.getElementById('drawer').hidden=true;cardEls.forEach(x=>x.classList.remove('selected'))};
 document.getElementById('photoUpload').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file||!focused)return;if(!file.type.startsWith('image/')){showStatus('Please choose an image.');return}const id=focused;const url=URL.createObjectURL(file);const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const k=Math.min(1,750/Math.max(img.naturalWidth,img.naturalHeight));c.width=Math.max(1,Math.round(img.naturalWidth*k));c.height=Math.max(1,Math.round(img.naturalHeight*k));c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);saved.pictures[id]={data:c.toDataURL('image/jpeg',.78),x:50,y:50,zoom:1};writeSave();updatePhoto(byId.get(id));if(focused===id)openEditor(id);showStatus('Picture updated in your browser. Export a backup to share the change.')};img.onerror=()=>showStatus('That picture could not be opened.');img.src=url});
 document.getElementById('restorePhoto').onclick=()=>{if(!focused)return;delete saved.pictures[focused];writeSave();updatePhoto(byId.get(focused));openEditor(focused);showStatus('Original picture restored.')};
-function exportJSON(){writeSave();const data=JSON.stringify(saveState());const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Wayne-Family-Tree-Editment-and-Photos.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showStatus('Backup downloaded. Upload this JSON here to publish your changes to everyone.')}
+function exportJSON(){writeSave();const data=JSON.stringify(saveState());const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Wayne-Family-Tree-Arrangement-and-Photos.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showStatus('Backup downloaded. Upload this JSON here to publish your changes to everyone.')}
 document.getElementById('exportBtn').onclick=exportJSON;
 document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const x=JSON.parse(await f.text());if(x.version!==1||typeof x.positions!=='object'||typeof x.pictures!=='object')throw Error('Invalid version');saved={positions:x.positions,pictures:x.pictures,profiles:x.profiles||{},layoutVersion:x.layoutVersion||1};if(saved.layoutVersion<2){for(const p of Object.values(saved.positions))if(Number.isFinite(p.x)&&Number.isFinite(p.y))p.y+=990;saved.layoutVersion=2;}for(const [id,p]of Object.entries(saved.positions)){if(byId.has(id)&&Number.isFinite(p.x)&&Number.isFinite(p.y))position(id,p.x,p.y)}for(const p of PERSONS){placeOne(p.id);updatePhoto(p)}drawLines();writeSave();showStatus('Backup restored.') }catch(e){showStatus('Cannot import that backup.')}});
 document.getElementById('saveBtn').onclick=()=>{writeSave();showStatus('Your arrangement is saved in this browser. Export to publish it.')};
@@ -136,3 +137,4 @@ function showTheme(){themeBtn.textContent=document.body.classList.contains('dark
 themeBtn.onclick=()=>{document.body.classList.toggle('dark');showTheme();try{localStorage.setItem('wdw-family-theme',document.body.classList.contains('dark')?'dark':'light')}catch(e){}};
 // Visible data-integrity disclosure: ancestry screenshots contain more names than this existing source site.
 document.getElementById('countLabel').textContent=PERSONS.length+' existing family cards preserved';
+
