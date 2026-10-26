@@ -98,7 +98,7 @@ function label(text,x,y,sub=''){const el=document.createElement('div');el.classN
 label('WILLIAMS · PATERNAL',CENTER.x-1900,200,'Scroll left to explore your father’s family');
 label('GOODSON · MATERNAL',CENTER.x+1000,200,'Scroll right to explore your mother’s family');
 const marriage=document.createElement('div');marriage.className='marriage';marriage.textContent='Marriage';marriage.style.left=(CENTER.x-25)+'px';marriage.style.top=(CENTER.y-210)+'px';board.append(marriage);
-function updateZoom(value,center=false){zoom=Math.max(.4,Math.min(1.5,value));frame.style.width=(WIDTH*zoom)+'px';frame.style.height=(HEIGHT*zoom)+'px';board.style.transform=`scale(${zoom})`;document.getElementById('zoomLabel').textContent=Math.round(zoom*100)+'%';if(center)focus(CENTER.x,CENTER.y-60)}
+function updateZoom(value,center=false){zoom=Math.max(.2,Math.min(1.5,value));frame.style.width=(WIDTH*zoom)+'px';frame.style.height=(HEIGHT*zoom)+'px';board.style.transform=`scale(${zoom})`;document.getElementById('zoomLabel').textContent=Math.round(zoom*100)+'%';if(center)focus(CENTER.x,CENTER.y-60)}
 function focus(x,y,instant=false){view.scrollTo({left:Math.max(0,x*zoom-view.clientWidth/2),top:Math.max(0,y*zoom-view.clientHeight/2),behavior:instant?'instant':'smooth'})}
 updateZoom(zoom);requestAnimationFrame(()=>focus(CENTER.x,CENTER.y,true));
 document.getElementById('centerBtn').onclick=()=>focus(CENTER.x,CENTER.y);
