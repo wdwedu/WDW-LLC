@@ -1,105 +1,156 @@
-/* Family Jukebox: compact IEPLR-inspired branching selection and in-panel playback. */
+/* Family Jukebox: IEPLR browsing, publisher players and device-local playlists. */
 (()=>{
 'use strict';
-const pop=document.getElementById('musicPop');
-const trigger=document.getElementById('musicToggle');
-if(!pop)return;
-const movieCatalog=[{"title":"Daughters of the Dust","video":"zdMxR2M_ddM","category":"Family Heritage"},{"title":"A Raisin in the Sun","video":"g4nRjTRDo6E","category":"Family Relationships"},{"title":"Crooklyn","video":"HYVHCtw3DdQ","category":"Family Heritage"},{"title":"Sounder","video":"N_arLbvbsFo","category":"Family Heritage"},{"title":"Claudine","video":"UP-v7kxrwdE","category":"Family Relationships"},{"title":"Coming to America","video":"e5BtKlO-LnA","category":"Family Comedy"},{"title":"Fences","video":"spCxVd9ctFs","category":"Family Relationships"},{"title":"To Sleep with Anger","video":"JyQNmlioEeE","category":"Family Heritage"},{"title":"Miss Juneteenth","video":"Vb3oREG_DdA","category":"Family Relationships"},{"title":"Soul Food","video":"uqg19AMm07Q","category":"Family Heritage"},{"title":"Fast Color","video":"tySUZIiXObc","category":"Family Heritage"},{"title":"The Burial of Kojo","video":"PNe5rdF3JIM","category":"Family Heritage"}];
-const tracks=window.FAMILY_IEPLR_TRACKS||[];
-const guides={
- 'Communication & Listening':['The Gottman Institute','Esther Perel'],
- 'Healthy Boundaries':['Nedra Glover Tawwab','Esther Perel'],
- 'Conflict & Forgiveness':['John Gottman','Esther Perel'],
- 'Marriage & Partnership':['The Gottman Institute','Esther Perel'],
- 'Parenting & Teens':['Dr. Becky Kennedy','Child Mind Institute'],
- 'Adult Children & Parents':['Nedra Glover Tawwab','Dr. Ramani'],
- 'Caregiving & Aging':['AARP Family Caregiving','Family Caregiver Alliance'],
- 'Grief & Loss':['David Kessler','Megan Devine'],
- 'Mental Health Support':['NAMI','Dr. Thema Bryant'],
- 'Addiction & Recovery':['SAMHSA','Hazelden Betty Ford'],
- 'Trust & Rebuilding':['Brené Brown','Esther Perel'],
- 'Blended Families':['Stepfamily Foundation','Family Therapy']
+const movieCatalog=[{"videoId": "zdMxR2M_ddM", "title": "Daughters of the Dust · Trailer", "artist": "Cohen Media Group", "category": "Family Heritage", "section": "Movies", "description": "Its patient attention to Gullah women makes ancestral memory the starting point of this collection.", "discussion": "What would you carry from your family's past into a new beginning?", "meta": "1991 · Julie Dash", "source": "https://www.youtube.com/watch?v=zdMxR2M_ddM"}, {"videoId": "g4nRjTRDo6E", "title": "A Raisin in the Sun · Trailer", "artist": "Scene and Heard", "category": "Family Relationships", "section": "Movies", "description": "It makes home, dignity and competing aspirations a family conversation that still matters.", "discussion": "What makes a house a home worth defending?", "meta": "1961 · Daniel Petrie", "source": "https://www.youtube.com/watch?v=g4nRjTRDo6E"}, {"videoId": "tJ3njLoAmxc", "title": "Crooklyn · Trailer", "artist": "UniversalMoviesINTL", "category": "Family Heritage", "section": "Movies", "description": "It honors childhood, caregiving and neighborhood life through a girl's perspective.", "discussion": "Which small childhood detail best captures your sense of home?", "meta": "1994 · Spike Lee", "source": "https://www.youtube.com/watch?v=tJ3njLoAmxc"}, {"videoId": "N_arLbvbsFo", "title": "Sounder · Trailer", "artist": "Klokline Cinema", "category": "Family Heritage", "section": "Movies", "description": "It honors a rural Black family's endurance and a child's pursuit of education.", "discussion": "How does education change what a child imagines is possible?", "meta": "1972 · Martin Ritt", "source": "https://www.youtube.com/watch?v=N_arLbvbsFo"}, {"videoId": "UP-v7kxrwdE", "title": "Claudine · Trailer", "artist": "BlackCinemaClub", "category": "Family Relationships", "section": "Movies", "description": "It depicts a Black mother's desires and family responsibilities with unusual warmth and complexity.", "discussion": "When do rules meant to help become obstacles?", "meta": "1974 · John Berry", "source": "https://www.youtube.com/watch?v=UP-v7kxrwdE"}, {"videoId": "ZDme5Y5E-bI", "title": "Coming to America · Trailer", "artist": "Paramount Movies", "category": "Family Comedy", "section": "Movies", "description": "Its joyful fantasy lets Black characters occupy romance, royalty and comic possibility.", "discussion": "How does status interfere with getting to know a person?", "meta": "1988 · John Landis", "source": "https://www.paramountmovies.com/movies/coming-to-america"}, {"videoId": "spCxVd9ctFs", "title": "Fences · Trailer", "artist": "Paramount Pictures", "category": "Family Relationships", "section": "Movies", "description": "It brings August Wilson's language and working-class family conflicts to the screen with force.", "discussion": "How do parents' disappointments affect their children's possibilities?", "meta": "2016 · Denzel Washington", "source": "https://www.youtube.com/watch?v=spCxVd9ctFs"}, {"videoId": "JyQNmlioEeE", "title": "To Sleep with Anger · Trailer", "artist": "Nintendementia", "category": "Family Heritage", "section": "Movies", "description": "It places migration, folklore and family tension in a layered Black domestic world.", "discussion": "When does a familiar story become a warning?", "meta": "1990 · Charles Burnett", "source": "https://www.youtube.com/watch?v=JyQNmlioEeE"}, {"videoId": "Vb3oREG_DdA", "title": "Miss Juneteenth · Trailer", "artist": "Vertical", "category": "Family Relationships", "section": "Movies", "description": "It honors a mother's hope while allowing her daughter an independent imagination.", "discussion": "Whose dream is being pursued?", "meta": "2020 · Channing Godfrey Peoples", "source": "https://www.youtube.com/watch?v=Vb3oREG_DdA"}, {"videoId": "uqg19AMm07Q", "title": "Soul Food · Trailer", "artist": "Black Film History", "category": "Family Heritage", "section": "Movies", "description": "It uses food and family rituals to explore care, conflict and continuity.", "discussion": "Who does the unseen work behind a family tradition?", "meta": "1997 · George Tillman Jr.", "source": "https://www.youtube.com/watch?v=uqg19AMm07Q"}, {"videoId": "tySUZIiXObc", "title": "Fast Color · Trailer", "artist": "ONE Media", "category": "Family Heritage", "section": "Movies", "description": "It imagines Black women's extraordinary power through family repair and survival.", "discussion": "What would power look like if care were its central purpose?", "meta": "2018 · Julia Hart", "source": "https://www.youtube.com/watch?v=tySUZIiXObc"}, {"videoId": "PNe5rdF3JIM", "title": "The Burial of Kojo · Trailer", "artist": "Blitz Bazawule", "category": "Family Heritage", "section": "Movies", "description": "Its Ghanaian storytelling connects a child's perspective with dreamlike images and family history.", "discussion": "Can a dream reveal something a factual account misses?", "meta": "2018 · Blitz Bazawule", "source": "https://www.youtube.com/watch?v=PNe5rdF3JIM"}];
+const pop=document.getElementById('musicPop'),trigger=document.getElementById('musicToggle');
+if(!pop||!trigger)return;
+const sections=['Music','Movies','Motivation','Family Guidance'];
+const tips={
+ 'September':'A joyful starting point for sharing memories of family celebrations.',
+ 'What a Wonderful World':'Notice the everyday scenes that bring you a sense of gratitude.',
+ 'Lovely Day':'Think of someone whose presence can change the direction of your day.',
+ 'I Smile':'An encouraging selection for a family moment of hope.',
+ 'Three Little Birds':'A relaxed invitation to take a breath and reconnect.',
+ 'By Your Side':'Use this selection to talk about showing up for the people you love.',
+ 'Wake Me Up':'Reflect on growing older, discovering yourself and finding direction.',
+ 'African Queen':'A warm selection for celebrating love and appreciation.',
+ 'La Vida Es Un Carnaval':'A lively reminder to make room for joy alongside difficulty.',
+ "Don't Stop Believin'":'Share a time when persistence helped your family move forward.',
+ 'One More Time':'A dance selection for a celebratory family playlist.',
+ 'Keep Ya Head Up':'Reflect on dignity, care and encouragement through difficult circumstances.',
+ 'My Favorite Things':'Which familiar things help you feel grounded?',
+ 'Aruarian Dance':'An instrumental selection for quiet reflection or browsing family memories.',
+ 'Für Elise':'A familiar piano work for a quieter moment in the family jukebox.',
+ 'Holding Back the Years':'An opportunity to reflect on time, memory and growing up.',
+ 'Rockit':'Listen for the inventive rhythm and electronic textures.',
+ 'Chariots of Fire':'An instrumental selection for reflecting on effort and achievement.'
 };
-const motivations={
- 'Purpose & Legacy':['Les Brown','Maya Angelou'],
- 'Encouragement':['Steve Harvey','Les Brown'],
- 'Resilience':['Brené Brown','Dr. Thema Bryant'],
- 'Gratitude':['Oprah Winfrey','TEDx'],
- 'Positive Family Bonds':['TEDx family relationships','Family Legacy']
-};
-const categories={
- Music:[...new Set(tracks.map(t=>t.genre))].sort(),
- Movies:['Family Heritage','Family Relationships','Family Comedy'],
- Motivation:Object.keys(motivations),
- 'Family Guidance':Object.keys(guides)
-};
-pop.replaceChildren();pop.classList.add('family-jukebox');
-const head=document.createElement('div');head.className='family-jukebox-head';
-const title=document.createElement('strong');title.textContent='Family Jukebox';
-const min=document.createElement('button');min.type='button';min.textContent='−';min.setAttribute('aria-label','Minimize jukebox');
-const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label','Close jukebox');
-head.append(title,min,close);pop.append(head);
-const tabs=document.createElement('div');tabs.className='music-tabs';
-const content=document.createElement('div');content.className='family-jukebox-body';
-const categoriesEl=document.createElement('div');categoriesEl.className='family-jukebox-categories';
-const choices=document.createElement('div');choices.className='family-music-links';
-const player=document.createElement('section');player.className='family-embedded-player';player.hidden=true;
-const playerTitle=document.createElement('div');playerTitle.className='family-player-title';
-const frameWrap=document.createElement('div');frameWrap.className='family-player-frame';
-const stop=document.createElement('button');stop.type='button';stop.className='navbtn';stop.textContent='■ Stop video';stop.onclick=clearPlayer;
-player.append(playerTitle,frameWrap,stop);
-content.append(categoriesEl,choices,player);
-pop.append(tabs,content);
-const brand=document.createElement('div');brand.className='family-jukebox-brand';
-const logo=document.createElement('img');
-logo.src='https://raw.githubusercontent.com/inactentertainment/ie/main/assets/ie-logo.svg';
-logo.alt='InAct Entertainment logo';logo.loading='lazy';logo.width=22;logo.height=22;
-const brandText=document.createElement('span');brandText.textContent='Brought to you by InAct Entertainment';
-brand.append(logo,brandText);pop.append(brand);
-function clearPlayer(){frameWrap.replaceChildren();player.hidden=true;playerTitle.textContent=''}
-function play(item){
- clearPlayer();playerTitle.textContent=item.label;
- const frame=document.createElement('iframe');
- frame.title=item.label;frame.loading='eager';
- frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(item.video)+'?rel=0&playsinline=1&autoplay=1';
- frame.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
- frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';
- frameWrap.append(frame);player.hidden=false;
+const music=(window.FAMILY_IEPLR_TRACKS||[]).map(t=>({...t,section:'Music',category:t.genre,description:tips[t.title]||'A '+t.genre+' selection by '+t.artist+' from the InAct Entertainment catalog.',discussion:'What person, place or family memory does this music bring to mind?'}));
+function resource(videoId,title,artist,description,discussion,categories,section='Family Guidance',source=''){
+ return{videoId,title,artist,description,discussion,categories,section,source};
 }
-function item(label,video){
- const button=document.createElement('button');button.type='button';button.className='family-video-choice';
- button.textContent='▶ '+label;button.onclick=()=>play({label,video});choices.append(button);
+// Video IDs resolved from publisher pages/search results, 26 October 2026.
+const resources=[
+ resource('1o30Ps-_8is','Four Horsemen of the Apocalypse','The Gottman Institute','An introduction to four damaging conflict habits and healthier ways to respond.','Which habit could we replace with a calmer response?',['Communication & Listening','Conflict & Forgiveness','Marriage & Partnership'],'Family Guidance','https://www.gottman.com/blog/the-four-horsemen-the-antidotes/'),
+ resource('mWr2KmHrt-0','How to set boundaries and find peace','Nedra Glover Tawwab · TED Podcasts','A conversation with a therapist about naming limits and communicating needs.','What is one boundary we can express clearly and respectfully?',['Healthy Boundaries','Adult Children & Parents'],'Family Guidance','https://www.ted.com/podcasts/how-to-be-a-better-human/set-boundaries-and-find-peace-w-nedra-glover-tawwab-transcript'),
+ resource('PHpPtdk9rco','The single most important parenting strategy','Dr. Becky Kennedy · TED','A clinical psychologist discusses repairing a relationship after a difficult parenting moment.','What could a meaningful repair sound like in our family?',['Parenting & Teens','Trust & Rebuilding'],'Family Guidance','https://www.ted.com/talks/becky_kennedy_the_single_most_important_parenting_strategy'),
+ resource('2-MCayFJmtQ','Create a Caregiving Plan','AARP Live','A starting point for organizing care and sharing responsibilities.','Who can help, and which responsibility needs a clear plan?',['Caregiving & Aging']),
+ resource('khkJkR-ipfw',"We don't move on from grief. We move forward with it",'Nora McInerny · TED','A personal perspective on carrying memories and love while living with loss.','How can we honor a loved one without asking someone to hurry their grief?',['Grief & Loss'],'Family Guidance','https://www.ted.com/talks/nora_mcinerny_we_don_t_move_on_from_grief_we_move_forward_with_it'),
+ resource('PKGy08YTC00',"A caregiver's struggle to find help and hope",'NAMI','Lynne Malloy shares a personal caregiving journey involving mental health challenges and advocacy.','What kind of support would help a caregiver feel less alone?',['Mental Health Support']),
+ resource('w84_p2-uqiA','Understanding Substance Use Disorders','Pennsylvania Department of Drug and Alcohol Programs','An educational introduction to addiction, treatment and the role of family support. Some service information is specific to Pennsylvania.','What can we learn before deciding how to offer support?',['Addiction & Recovery'],'Family Guidance','https://www.pa.gov/agencies/ddap/treatment-and-support/family-learning-series'),
+ resource('00sxTGIXxME','What to Expect in Recovery','Pennsylvania Department of Drug and Alcohol Programs','An overview of recovery over time and ways family members can participate. Some resources are specific to Pennsylvania.','What would realistic encouragement look like over time?',['Addiction & Recovery'],'Family Guidance','https://www.pa.gov/agencies/ddap/treatment-and-support/family-learning-series'),
+ resource('qfvdrm8NtUk','Becoming a successful blended family','Dr. Patricia Papernow','A public lecture about the distinctive challenges of stepfamily relationships.','Which existing traditions should we respect as we build new ones?',['Blended Families'],'Family Guidance','https://stepfamilyrelationships.com/watch-videos/'),
+ resource('V7H7lGeVkaE','Building a new family culture','Dr. Patricia Papernow · BYU Social Sciences','A short resource about making room for old and new traditions in a stepfamily.','What new tradition could everyone help shape?',['Blended Families'],'Family Guidance','https://stepfamilyrelationships.com/watch-videos/'),
+ resource('iCvmsMzlF7o','The power of vulnerability','Brené Brown · TED','A researcher explores vulnerability, belonging and connection.','What helps us feel safe enough to be honest?',['Trust & Rebuilding']),
+ resource('y9Trdafp83U',"There's more to life than being happy",'Emily Esfahani Smith · TED','A reflection on finding meaning through belonging, purpose and the stories we tell about our lives.','What do we want the next generation to remember about us?',['Purpose & Legacy'],'Motivation','https://www.emilyesfahanismith.com/videos'),
+ resource('iCvmsMzlF7o','The power of vulnerability','Brené Brown · TED','An invitation to consider courage, openness and human connection.','Who could use an encouraging, honest conversation today?',['Encouragement'],'Motivation','https://brenebrown.com/videos/ted-talk-the-power-of-vulnerability/'),
+ resource('9-5SMpg7Q0k','3 secrets of resilient people','Dr. Lucy Hone · TED','A resilience researcher shares her perspective on navigating adversity and loss.','What small action would help us through a difficult day?',['Resilience'],'Motivation','https://www.ted.com/talks/lucy_hone_3_secrets_of_resilient_people'),
+ resource('UtBsl3j0YRQ','Want to be happy? Be grateful','David Steindl-Rast · TED','A talk about noticing opportunities for gratitude in everyday life.','What is one ordinary thing we appreciate today?',['Gratitude'],'Motivation','https://www.ted.com/talks/david_steindl_rast_want_to_be_happy_be_grateful'),
+ resource('8KkKuTCFvzI','What makes a good life?','Dr. Robert Waldinger · TED','A psychiatrist reflects on long-term research into relationships and well-being.','Which relationship deserves more of our time this week?',['Family Bonds'],'Motivation','https://ed.ted.com/lessons/zt8LPHB1')
+];
+const guideNames=['Communication & Listening','Healthy Boundaries','Conflict & Forgiveness','Marriage & Partnership','Parenting & Teens','Adult Children & Parents','Caregiving & Aging','Grief & Loss','Mental Health Support','Addiction & Recovery','Trust & Rebuilding','Blended Families'];
+let custom=[],favorites=[];
+try{const a=JSON.parse(localStorage.getItem('wdw-family-jukebox-links')||'[]');if(Array.isArray(a))custom=a.filter(t=>/^[\w-]{11}$/.test(t.videoId)&&typeof t.title==='string').map(t=>({...t,section:'Music',category:'My links',custom:true,description:'A YouTube video added to your personal playlist on this device.'}));const b=JSON.parse(localStorage.getItem('wdw-family-jukebox-favorites')||'[]');if(Array.isArray(b))favorites=b.filter(x=>typeof x==='string')}catch{}
+const locals=[];const key=t=>t.id||t.videoId;
+const catalog=()=>[...music,...movieCatalog,...resources,...custom,...locals];
+const musicCategories=()=>[...new Set(music.map(t=>t.genre))].sort().concat(['My playlist']);
+function categories(section){return section==='Music'?musicCategories():section==='Movies'?['Family Heritage','Family Relationships','Family Comedy']:section==='Motivation'?['Purpose & Legacy','Encouragement','Resilience','Gratitude','Family Bonds']:guideNames}
+function entries(section,category){if(category==='My playlist')return catalog().filter((t,i,a)=>favorites.includes(key(t))&&a.findIndex(x=>key(x)===key(t))===i);return catalog().filter(t=>t.section===section&&(t.category===category||t.categories?.includes(category)))}
+const el=(tag,className,text)=>{const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n};
+function button(label,action,className='fj-button'){const b=el('button',className,label);b.type='button';b.onclick=action;return b}
+pop.replaceChildren();pop.classList.add('family-jukebox','fj-v2');pop.setAttribute('aria-label','Family Jukebox');
+const head=el('div','family-jukebox-head'),title=el('strong','','Family Jukebox');
+const min=button('−',()=>{if(pop.classList.contains('jukebox-minimized')){openHome();return}dispose();pop.classList.add('jukebox-minimized');min.textContent='+';min.setAttribute('aria-label','Restore jukebox');trigger.setAttribute('aria-expanded','false')},'jukebox-mini');min.setAttribute('aria-label','Minimize jukebox');
+const close=button('×',()=>hide(),'jukebox-close');close.setAttribute('aria-label','Close jukebox');head.append(title,min,close);
+const back=button('‹ Back',()=>goBack(),'fj-back');back.setAttribute('aria-label','Back to previous jukebox screen');
+const tabs=el('div','music-tabs');
+const body=el('div','family-jukebox-body');
+const playlist=el('details','fj-playlist');playlist.append(el('summary','','Add to your playlist ⌄'));
+const playlistBody=el('div','fj-playlist-body');playlist.append(playlistBody);
+const playlistHint=el('p','fj-small','Save selections with ♡, add a YouTube link, or upload your own audio. Saved videos and audio stay in this browser.');
+const savedButton=button('Open My Playlist',()=>go({type:'list',section:'Music',category:'My playlist'}));
+const form=el('form','fj-add-link');const linkLabel=el('label','','YouTube video URL');const linkInput=el('input');linkInput.type='url';linkInput.required=true;linkInput.placeholder='https://www.youtube.com/watch?v=…';linkLabel.append(linkInput);
+const nameLabel=el('label','','Title (optional)');const nameInput=el('input');nameInput.maxLength=120;nameLabel.append(nameInput);
+const submit=button('Add video',()=>{});submit.type='submit';form.append(linkLabel,nameLabel,submit);
+const uploadLabel=el('label','fj-upload','Upload audio from your device');const files=el('input');files.type='file';files.accept='audio/*,.mp3,.wav,.m4a,.ogg,.flac';files.multiple=true;uploadLabel.append(files);
+const playlistStatus=el('p','fj-small');playlistStatus.setAttribute('role','status');
+playlistBody.append(playlistHint,savedButton,form,uploadLabel,playlistStatus);
+const brand=el('div','family-jukebox-brand');const logo=el('img');logo.src='https://raw.githubusercontent.com/inactentertainment/ie/main/assets/ie-logo.svg';logo.alt='InAct Entertainment logo';logo.width=22;logo.height=22;brand.append(logo,el('span','','Brought to you by InAct Entertainment'));
+const navigation=el('div','fj-navigation');navigation.append(head,back,tabs);pop.append(navigation,body,playlist,brand);
+let screen={type:'home'},history=[],player=null,ready=false,audio=null,epoch=0,apiPromise=null,clock=null,shuffle=false,repeat=false,volume=75,viewControls=null;
+for(const section of sections){const b=button(section,()=>go({type:'categories',section}));b.dataset.section=section;tabs.append(b)}
+function persist(){try{localStorage.setItem('wdw-family-jukebox-favorites',JSON.stringify(favorites));localStorage.setItem('wdw-family-jukebox-links',JSON.stringify(custom));return true}catch{playlistStatus.textContent='Playlist available for this visit. Browser saving is unavailable.';return false}}
+function toggleFavorite(t){const id=key(t);favorites=favorites.includes(id)?favorites.filter(x=>x!==id):favorites.concat(id);persist()}
+function favoriteButton(t){const b=button('',()=>{toggleFavorite(t);paint()});function paint(){const saved=favorites.includes(key(t));b.textContent=saved?'♥ Saved · remove':'♡ Add to my playlist';b.setAttribute('aria-pressed',String(saved))}paint();return b}
+function dispose(){epoch++;clearInterval(clock);clock=null;try{player?.destroy()}catch{}player=null;ready=false;if(audio){audio.pause();audio.removeAttribute('src');audio.load();audio=null}body.querySelectorAll('iframe,audio').forEach(n=>n.remove());viewControls=null;trigger.classList.remove('playing')}
+function pause(){if(audio)audio.pause();try{if(ready)player.pauseVideo()}catch{}trigger.classList.remove('playing')}
+function go(next){history.push(screen);screen=next;render()}
+function goBack(){if(!history.length)return;screen=history.pop();render()}
+function openHome(){dispose();history=[];screen={type:'home'};pop.classList.remove('jukebox-minimized');min.textContent='−';min.setAttribute('aria-label','Minimize jukebox');playlist.open=false;pop.hidden=false;trigger.setAttribute('aria-expanded','true');render();tabs.firstElementChild.focus({preventScroll:true})}
+function hide(){dispose();pop.hidden=true;trigger.setAttribute('aria-expanded','false');trigger.focus({preventScroll:true})}
+trigger.onclick=()=>{if(!pop.hidden&&!pop.classList.contains('jukebox-minimized'))hide();else openHome()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){e.preventDefault();hide()}});
+function render(){
+ dispose();body.replaceChildren();pop.scrollTop=0;body.scrollTop=0;
+ back.disabled=!history.length;back.title=history.length?'Return to '+(history.at(-1).category||history.at(-1).section||'four choices'):'You are at the four choices';
+ tabs.querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b.dataset.section===screen.section);b.setAttribute('aria-pressed',String(b.dataset.section===screen.section))});
+ body.hidden=screen.type==='home';
+ if(screen.type==='categories'){
+  body.append(el('h3','fj-heading',screen.section));const grid=el('div','family-jukebox-categories');
+  for(const category of categories(screen.section))grid.append(button(category,()=>go({type:'list',section:screen.section,category}),'family-category-btn'));
+  body.append(grid);
+ }else if(screen.type==='list'){
+  body.append(el('h3','fj-heading',screen.category));const list=entries(screen.section,screen.category),root=el('div','family-music-links');
+  for(const t of list){const row=el('div','fj-choice-row');const choice=button(t.title,()=>go({type:'player',section:screen.section,category:screen.category,item:t,queue:list}),'family-video-choice');choice.append(el('small','',t.artist||t.genre||'Personal selection'));row.append(choice,favoriteButton(t));
+   if(screen.category==='My playlist')row.append(button('Remove from playlist',()=>{favorites=favorites.filter(x=>x!==key(t));persist();render()}));root.append(row);
+  }
+  if(!list.length)root.append(el('p','fj-small','Your playlist is empty. Save a selection with ♡ or add music below.'));
+  body.append(root);
+ }else if(screen.type==='player')renderPlayer();
+ if(screen.section==='Family Guidance'&&screen.type!=='home')body.append(el('p','fj-small','Educational perspectives for reflection and discussion; not personalized therapy or treatment.'));
 }
-function sourceSearch(label,query){
- const a=document.createElement('a');a.href='https://www.youtube.com/results?search_query='+encodeURIComponent(query);
- a.target='_blank';a.rel='noopener noreferrer';a.textContent='Find videos: '+label;choices.append(a);
+function youtubeAPI(){
+ if(window.YT?.Player)return Promise.resolve(window.YT);if(apiPromise)return apiPromise;
+ apiPromise=new Promise((resolve,reject)=>{const prior=window.onYouTubeIframeAPIReady;const timeout=setTimeout(()=>{apiPromise=null;reject(Error('Player API unavailable'))},12000);window.onYouTubeIframeAPIReady=()=>{try{prior?.()}finally{clearTimeout(timeout);resolve(window.YT)}};const s=el('script');s.src='https://www.youtube.com/iframe_api';s.onerror=()=>{clearTimeout(timeout);apiPromise=null;reject(Error('Player API unavailable'))};document.head.append(s)});return apiPromise;
 }
-function choose(name,button){
- categoriesEl.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button));
- choices.replaceChildren();clearPlayer();
- if(active==='Music'){
-  for(const t of tracks.filter(t=>t.genre===name))item(t.artist+' — '+t.title,t.videoId);
- }else if(active==='Movies'){
-  for(const m of movieCatalog.filter(m=>m.category===name))item(m.title+' · Trailer',m.video);
+function playback(){try{return audio?{time:audio.currentTime||0,duration:Number.isFinite(audio.duration)?audio.duration:0,playing:!audio.paused}:ready?{time:player.getCurrentTime()||0,duration:player.getDuration()||0,playing:player.getPlayerState()===1}:{time:0,duration:0,playing:false}}catch{return{time:0,duration:0,playing:false}}}
+function time(n){n=Math.floor(Math.max(0,n||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}
+function seek(value){const p=playback();if(!p.duration)return;value=Math.max(0,Math.min(value,p.duration));if(audio)audio.currentTime=value;else if(ready)player.seekTo(value,true);updateClock()}
+function updateClock(){if(!viewControls)return;const p=playback(),c=viewControls;c.elapsed.textContent=time(p.time);c.duration.textContent=p.duration?time(p.duration):'—';c.seek.disabled=!p.duration;c.seek.max=String(p.duration||1);if(document.activeElement!==c.seek)c.seek.value=String(p.time);c.seek.setAttribute('aria-valuetext',time(p.time)+' of '+time(p.duration));c.pause.disabled=!(audio||ready);c.play.disabled=!(audio||ready);c.stop.disabled=!(audio||ready);c.rewind.disabled=c.forward.disabled=!p.duration;c.volume.disabled=!(audio||ready);c.speed.disabled=!(audio||ready);trigger.classList.toggle('playing',p.playing)}
+function step(delta){const q=screen.queue||[];if(!q.length)return;let i=q.findIndex(t=>key(t)===key(screen.item));if(shuffle&&q.length>1){const others=q.filter(t=>key(t)!==key(screen.item));screen={...screen,item:others[Math.floor(Math.random()*others.length)]}}else screen={...screen,item:q[(i+delta+q.length)%q.length]};render()}
+function ended(){if(repeat){seek(0);if(audio)audio.play().catch(()=>{});else if(ready)player.playVideo()}else if((screen.queue||[]).length>1)step(1)}
+function renderPlayer(){
+ const t=screen.item;const panel=el('section','family-embedded-player');const frameWrap=el('div','family-player-frame');
+ const controls=el('div','fj-transport');controls.setAttribute('role','group');controls.setAttribute('aria-label','Playback controls');
+ const prev=button('⏮ Previous',()=>step(-1)),play=button('▶ Play',()=>{if(audio)audio.play().catch(()=>status.textContent='Press Play on the audio player.');else if(ready)player.playVideo()}),pauseButton=button('Ⅱ Pause',pause),stop=button('■ Stop',()=>{if(audio){audio.pause();audio.currentTime=0}else if(ready){player.pauseVideo();player.seekTo(0,true)}updateClock()}),rewind=button('↶ 10s',()=>seek(playback().time-10)),forward=button('10s ↷',()=>seek(playback().time+10)),next=button('Next ⏭',()=>step(1));
+ const shuffleButton=button('Shuffle',()=>{shuffle=!shuffle;shuffleButton.setAttribute('aria-pressed',String(shuffle))}),repeatButton=button('Repeat',()=>{repeat=!repeat;repeatButton.setAttribute('aria-pressed',String(repeat))});shuffleButton.setAttribute('aria-pressed',String(shuffle));repeatButton.setAttribute('aria-pressed',String(repeat));
+ prev.disabled=next.disabled=shuffleButton.disabled=(screen.queue||[]).length<2;
+ controls.append(prev,play,pauseButton,stop,rewind,forward,next,shuffleButton,repeatButton);
+ const timeline=el('div','fj-timeline');const elapsed=el('span','','0:00'),duration=el('span','','—'),range=el('input');range.type='range';range.min='0';range.max='1';range.value='0';range.step='1';range.setAttribute('aria-label','Playback position');range.onchange=()=>seek(Number(range.value));timeline.append(elapsed,range,duration);
+ const settings=el('div','fj-settings');const volumeLabel=el('label','','Volume');const volumeSlider=el('input');volumeSlider.type='range';volumeSlider.min='0';volumeSlider.max='100';volumeSlider.value=String(volume);volumeSlider.setAttribute('aria-label','Volume');volumeSlider.oninput=()=>{volume=Number(volumeSlider.value);if(audio)audio.volume=volume/100;else if(ready)player.setVolume(volume)};volumeLabel.append(volumeSlider);
+ const speedLabel=el('label','','Speed');const speed=el('select');speed.setAttribute('aria-label','Playback speed');for(const n of [.5,.75,1,1.25,1.5,2]){const o=el('option','',n+'×');o.value=String(n);o.selected=n===1;speed.append(o)}speed.onchange=()=>{if(audio)audio.playbackRate=Number(speed.value);else if(ready)player.setPlaybackRate(Number(speed.value))};speedLabel.append(speed);settings.append(volumeLabel,speedLabel);
+ if(!t.local)settings.append(button('⛶ Fullscreen',()=>{const f=frameWrap.querySelector('iframe');f?.requestFullscreen?.().catch(()=>status.textContent='Use the fullscreen control inside the video.')}));
+ const status=el('p','fj-small','Loading publisher player…');status.setAttribute('role','status');
+ panel.append(frameWrap,controls,timeline,settings,status,el('h3','fj-heading',t.title),el('p','fj-meta',[t.artist,t.meta,t.genre].filter(Boolean).join(' · ')),el('p','fj-description',t.description||'A personal playlist selection.'),el('p','fj-discussion','Family reflection: '+(t.discussion||'What does this selection mean to you?')),favoriteButton(t));
+ if(t.source){const source=el('a','fj-source','About this resource ↗');source.href=t.source;source.target='_blank';source.rel='noopener noreferrer';panel.append(source)}
+ const fallback=el('a','fj-source','Publisher unavailable here? Open this video on YouTube ↗');if(!t.local){fallback.href='https://www.youtube.com/watch?v='+t.videoId;fallback.target='_blank';fallback.rel='noopener noreferrer';panel.append(fallback)}
+ body.append(panel);viewControls={elapsed,duration,seek:range,play,pause:pauseButton,stop,rewind,forward,volume:volumeSlider,speed};
+ if(t.local){audio=el('audio');audio.controls=true;audio.src=t.src;audio.volume=volume/100;frameWrap.classList.add('fj-audio-frame');frameWrap.append(audio);status.textContent='Your audio · stored on this device.';audio.onended=ended;audio.ontimeupdate=updateClock;audio.onloadedmetadata=updateClock;audio.onplay=updateClock;audio.onpause=updateClock;audio.onerror=()=>status.textContent='This audio format could not be played. Try MP3, WAV or another supported file.';audio.play().catch(()=>status.textContent='Press Play to begin.');
  }else{
-  const sources=active==='Motivation'?motivations[name]||[]:guides[name]||[];
-  for(const person of sources)sourceSearch(person,person+' '+name+' family advice videos');
+  const frame=el('iframe');frame.id='family-youtube-'+epoch;frame.title=t.title;frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(t.videoId)+'?enablejsapi=1&autoplay=1&playsinline=1&rel=0&origin='+encodeURIComponent(location.origin);frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';frameWrap.append(frame);
+  const activeEpoch=epoch;youtubeAPI().then(YT=>{if(activeEpoch!==epoch)return;player=new YT.Player(frame.id,{events:{onReady:e=>{if(activeEpoch!==epoch)return;ready=true;e.target.setVolume(volume);const rates=[1,...(e.target.getAvailablePlaybackRates?.()||[])];[...speed.options].forEach(o=>o.disabled=!rates.includes(Number(o.value)));status.textContent='Publisher player · use Play if playback does not start.';updateClock()},onStateChange:e=>{if(activeEpoch!==epoch)return;updateClock();if(e.data===1){const rates=[1,...(player.getAvailablePlaybackRates?.()||[])];[...speed.options].forEach(o=>o.disabled=!rates.includes(Number(o.value)))}if(e.data===0)ended()},onPlaybackRateChange:e=>{if(activeEpoch===epoch)speed.value=String(e.data)},onAutoplayBlocked:()=>{if(activeEpoch===epoch)status.textContent='Press Play to begin.'},onError:()=>{if(activeEpoch===epoch){status.textContent='The publisher has restricted or removed this video. Choose another selection, or use the optional YouTube link below.';ready=false;updateClock()}}}})}).catch(()=>{if(activeEpoch===epoch)status.textContent='Shared controls could not connect. Use the controls inside the video.'});
  }
+ clock=setInterval(updateClock,500);updateClock();
 }
-let active=null;
-function activate(name,button){
- active=name;tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button));
- categoriesEl.replaceChildren();choices.replaceChildren();clearPlayer();
- for(const category of categories[name]){
-  const b=document.createElement('button');b.type='button';b.className='family-category-btn';
-  b.textContent=category;b.onclick=()=>choose(category,b);categoriesEl.append(b);
- }
-}
-for(const label of ['Music','Movies','Motivation','Family Guidance']){
- const button=document.createElement('button');button.type='button';button.textContent=label;
- button.onclick=()=>activate(label,button);tabs.append(button);
-}
-min.onclick=()=>{const collapsed=pop.classList.toggle('jukebox-minimized');min.textContent=collapsed?'+':'−';if(collapsed)clearPlayer()};
-close.onclick=()=>{clearPlayer();pop.hidden=true;trigger?.setAttribute('aria-expanded','false')};
-trigger?.addEventListener('click',()=>{if(pop.hidden)clearPlayer()});
+function youtubeId(raw){try{const u=new URL(raw);let id;if(['youtube.com','www.youtube.com','m.youtube.com','music.youtube.com'].includes(u.hostname))id=u.searchParams.get('v')||u.pathname.match(/^\/(?:shorts|embed|live)\/([\w-]{11})/)?.[1];else if(u.hostname==='youtu.be')id=u.pathname.slice(1);return /^[\w-]{11}$/.test(id||'')?id:null}catch{return null}}
+form.onsubmit=e=>{e.preventDefault();const id=youtubeId(linkInput.value.trim());if(!id){playlistStatus.textContent='Enter a YouTube video link, rather than a channel or playlist link.';return}if(!catalog().some(t=>t.videoId===id))custom.push({videoId:id,title:nameInput.value.trim()||'My YouTube selection',artist:'Personal playlist',section:'Music',category:'My links',custom:true,description:'A YouTube video you added to this device. Edit the optional title when adding a link to describe your selection.'});if(!favorites.includes(id))favorites.push(id);const saved=persist();playlistStatus.textContent=saved?'Video added to your saved playlist.':'Added for this visit; browser saving is unavailable.';linkInput.value='';nameInput.value='';};
+let database=null;
+function db(){if(database)return database;database=new Promise((resolve,reject)=>{const request=indexedDB.open('wdw-family-jukebox',1);request.onupgradeneeded=()=>request.result.createObjectStore('audio',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});return database}
+async function storeAudio(record){const d=await db();return new Promise((resolve,reject)=>{const tx=d.transaction('audio','readwrite');tx.objectStore('audio').put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+function localRecord(r){return{id:r.id,title:r.title,artist:'Your audio',genre:'My audio',local:true,section:'Music',category:'My playlist',src:URL.createObjectURL(r.blob),description:'Audio added from your device. This file is kept in this browser and is not uploaded to the family website.'}}
+files.onchange=async()=>{const incoming=[...files.files];let count=0,persistent=true;for(const f of incoming){if(!f.type.startsWith('audio/')&&!/\.(mp3|wav|m4a|ogg|flac)$/i.test(f.name))continue;const record={id:'audio-'+(crypto.randomUUID?.()||Date.now()+'-'+Math.random()),title:f.name.replace(/\.[^.]+$/,''),blob:f};try{await storeAudio(record)}catch{persistent=false}const t=localRecord(record);locals.push(t);favorites.push(t.id);count++}persist();playlistStatus.textContent=count+' audio file(s) added'+(persistent?' on this device.':' for this visit; browser audio storage is unavailable.');files.value='';if(screen.category==='My playlist'&&screen.type==='list')render()};
+db().then(d=>new Promise((resolve,reject)=>{const r=d.transaction('audio').objectStore('audio').getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})).then(records=>{for(const r of records)locals.push(localRecord(r));if(screen.category==='My playlist'&&screen.type==='list')render()}).catch(()=>{});
+window.addEventListener('pagehide',()=>{dispose();for(const t of locals)URL.revokeObjectURL(t.src)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
+render();
 })();
