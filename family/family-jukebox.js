@@ -1,93 +1,105 @@
-/* Family Jukebox: category buttons, resource links, compact chrome. */
-(()=>{'use strict';
-const pop=document.getElementById('musicPop'),trigger=document.getElementById('musicToggle');
-if(!pop)return;pop.replaceChildren();pop.classList.add('family-jukebox');
-const header=document.createElement('div');header.className='family-jukebox-head';
-const title=document.createElement('strong');title.textContent='Family Jukebox';
-const mini=document.createElement('button');mini.type='button';mini.className='jukebox-mini';mini.textContent='−';mini.title='Minimize';
-const close=document.createElement('button');close.type='button';close.className='jukebox-close';close.textContent='×';close.title='Close Family Jukebox';
-header.append(title,mini,close);pop.append(header);
-const tabs=document.createElement('div');tabs.className='music-tabs';pop.append(tabs);
-const body=document.createElement('div');body.className='family-jukebox-body';pop.append(body);
-const foot=document.createElement('div');foot.className='family-jukebox-brand';foot.textContent='Brought to you by InAct Entertainment LLC';pop.append(foot);
-const youtube=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+/* Family Jukebox: compact IEPLR-inspired branching selection and in-panel playback. */
+(()=>{
+'use strict';
+const pop=document.getElementById('musicPop');
+const trigger=document.getElementById('musicToggle');
+if(!pop)return;
+const movieCatalog=[{"title":"Daughters of the Dust","video":"zdMxR2M_ddM","category":"Family Heritage"},{"title":"A Raisin in the Sun","video":"g4nRjTRDo6E","category":"Family Relationships"},{"title":"Crooklyn","video":"HYVHCtw3DdQ","category":"Family Heritage"},{"title":"Sounder","video":"N_arLbvbsFo","category":"Family Heritage"},{"title":"Claudine","video":"UP-v7kxrwdE","category":"Family Relationships"},{"title":"Coming to America","video":"e5BtKlO-LnA","category":"Family Comedy"},{"title":"Fences","video":"spCxVd9ctFs","category":"Family Relationships"},{"title":"To Sleep with Anger","video":"JyQNmlioEeE","category":"Family Heritage"},{"title":"Miss Juneteenth","video":"Vb3oREG_DdA","category":"Family Relationships"},{"title":"Soul Food","video":"uqg19AMm07Q","category":"Family Heritage"},{"title":"Fast Color","video":"tySUZIiXObc","category":"Family Heritage"},{"title":"The Burial of Kojo","video":"PNe5rdF3JIM","category":"Family Heritage"}];
 const tracks=window.FAMILY_IEPLR_TRACKS||[];
-const genres=[...new Set(tracks.map(t=>t.genre))].sort((a,b)=>a.localeCompare(b));
-const categories={
- Music:genres,
- Movies:['Family Gatherings','Black Family Classics','Comedy & Family','Parents & Children','Family Heritage','Animated Family Stories'],
- Motivation:['Purpose & Legacy','Encouragement','Resilience','Gratitude','Positive Family Bonds'],
- 'Family Guidance':['Communication & Listening','Healthy Boundaries','Conflict & Forgiveness','Marriage & Partnership','Parenting & Teens','Adult Children & Parents','Caregiving & Aging','Grief & Loss','Mental Health Support','Addiction & Recovery','Trust & Rebuilding','Blended Families']
-};
-const films={
- 'Family Gatherings':['Soul Food','This Christmas','The Best Man Holiday','The Family Stone'],
- 'Black Family Classics':['Soul Food','Crooklyn','The Inkwell','The Preacher’s Wife'],
- 'Comedy & Family':['Madea’s Family Reunion','My Big Fat Greek Wedding','Meet the Parents','Johnson Family Vacation'],
- 'Parents & Children':['The Pursuit of Happyness','Parenthood','Instant Family','The Blind Side'],
- 'Family Heritage':['The Color Purple (1985)','The Farewell','Fences','Coco'],
- 'Animated Family Stories':['Encanto','Coco','Soul','Inside Out']
-};
 const guides={
- 'Communication & Listening':[['The Gottman Institute','active listening and family communication'],['Esther Perel','how to have better conversations']],
- 'Healthy Boundaries':[['Nedra Glover Tawwab','setting boundaries with family'],['Esther Perel','healthy relationship boundaries']],
- 'Conflict & Forgiveness':[['Dr. John Gottman','repair after arguments'],['Esther Perel','relationship conflict and repair']],
- 'Marriage & Partnership':[['The Gottman Institute','marriage communication four horsemen'],['Esther Perel','relationships and emotional intimacy']],
- 'Parenting & Teens':[['Dr. Becky Kennedy','parenting with connection'],['Child Mind Institute','communicating with teenagers']],
- 'Adult Children & Parents':[['Dr. Ramani Durvasula','adult family boundaries'],['Nedra Glover Tawwab','boundaries with parents']],
- 'Caregiving & Aging':[['AARP','caregiving family support'],['Family Caregiver Alliance','caregiver stress family']],
- 'Grief & Loss':[['Megan Devine','how to support someone grieving'],['David Kessler','grief and family healing']],
- 'Mental Health Support':[['NAMI','supporting a family member with mental illness'],['Dr. Thema Bryant','family emotional wellness']],
- 'Addiction & Recovery':[['SAMHSA','helping a family member with substance use'],['Hazelden Betty Ford','family support addiction recovery']],
- 'Trust & Rebuilding':[['Brené Brown','anatomy of trust'],['Esther Perel','rebuilding trust']],
- 'Blended Families':[['Stepfamily Foundation','blended family tips'],['family therapists','blended family support strategies']]
+ 'Communication & Listening':['The Gottman Institute','Esther Perel'],
+ 'Healthy Boundaries':['Nedra Glover Tawwab','Esther Perel'],
+ 'Conflict & Forgiveness':['John Gottman','Esther Perel'],
+ 'Marriage & Partnership':['The Gottman Institute','Esther Perel'],
+ 'Parenting & Teens':['Dr. Becky Kennedy','Child Mind Institute'],
+ 'Adult Children & Parents':['Nedra Glover Tawwab','Dr. Ramani'],
+ 'Caregiving & Aging':['AARP Family Caregiving','Family Caregiver Alliance'],
+ 'Grief & Loss':['David Kessler','Megan Devine'],
+ 'Mental Health Support':['NAMI','Dr. Thema Bryant'],
+ 'Addiction & Recovery':['SAMHSA','Hazelden Betty Ford'],
+ 'Trust & Rebuilding':['Brené Brown','Esther Perel'],
+ 'Blended Families':['Stepfamily Foundation','Family Therapy']
 };
-const motivation={
- 'Purpose & Legacy':['Les Brown family legacy motivation','Brené Brown living with purpose'],
- 'Encouragement':['Les Brown you can do it motivation','Steve Harvey motivation family'],
- 'Resilience':['Maya Angelou resilience wisdom','Dr. Thema Bryant resilience'],
- 'Gratitude':['gratitude TED talk family relationships','Oprah gratitude life lessons'],
- 'Positive Family Bonds':['family bonding inspirational TEDx talk','building strong family relationships TEDx']
+const motivations={
+ 'Purpose & Legacy':['Les Brown','Maya Angelou'],
+ 'Encouragement':['Steve Harvey','Les Brown'],
+ 'Resilience':['Brené Brown','Dr. Thema Bryant'],
+ 'Gratitude':['Oprah Winfrey','TEDx'],
+ 'Positive Family Bonds':['TEDx family relationships','Family Legacy']
 };
-let active='Music';
-function addLink(target,label,url){
- const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';
- a.textContent=label;target.append(a);
+const categories={
+ Music:[...new Set(tracks.map(t=>t.genre))].sort(),
+ Movies:['Family Heritage','Family Relationships','Family Comedy'],
+ Motivation:Object.keys(motivations),
+ 'Family Guidance':Object.keys(guides)
+};
+pop.replaceChildren();pop.classList.add('family-jukebox');
+const head=document.createElement('div');head.className='family-jukebox-head';
+const title=document.createElement('strong');title.textContent='Family Jukebox';
+const min=document.createElement('button');min.type='button';min.textContent='−';min.setAttribute('aria-label','Minimize jukebox');
+const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label','Close jukebox');
+head.append(title,min,close);pop.append(head);
+const tabs=document.createElement('div');tabs.className='music-tabs';
+const content=document.createElement('div');content.className='family-jukebox-body';
+const categoriesEl=document.createElement('div');categoriesEl.className='family-jukebox-categories';
+const choices=document.createElement('div');choices.className='family-music-links';
+const player=document.createElement('section');player.className='family-embedded-player';player.hidden=true;
+const playerTitle=document.createElement('div');playerTitle.className='family-player-title';
+const frameWrap=document.createElement('div');frameWrap.className='family-player-frame';
+const stop=document.createElement('button');stop.type='button';stop.className='navbtn';stop.textContent='■ Stop video';stop.onclick=clearPlayer;
+player.append(playerTitle,frameWrap,stop);
+content.append(categoriesEl,choices,player);
+pop.append(tabs,content);
+const brand=document.createElement('div');brand.className='family-jukebox-brand';
+const logo=document.createElement('img');
+logo.src='https://raw.githubusercontent.com/inactentertainment/ie/main/assets/ie-logo.svg';
+logo.alt='InAct Entertainment logo';logo.loading='lazy';logo.width=22;logo.height=22;
+const brandText=document.createElement('span');brandText.textContent='Brought to you by InAct Entertainment';
+brand.append(logo,brandText);pop.append(brand);
+function clearPlayer(){frameWrap.replaceChildren();player.hidden=true;playerTitle.textContent=''}
+function play(item){
+ clearPlayer();playerTitle.textContent=item.label;
+ const frame=document.createElement('iframe');
+ frame.title=item.label;frame.loading='eager';
+ frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(item.video)+'?rel=0&playsinline=1&autoplay=1';
+ frame.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+ frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';
+ frameWrap.append(frame);player.hidden=false;
 }
-function renderGroup(group,slot){
- slot.replaceChildren();
+function item(label,video){
+ const button=document.createElement('button');button.type='button';button.className='family-video-choice';
+ button.textContent='▶ '+label;button.onclick=()=>play({label,video});choices.append(button);
+}
+function sourceSearch(label,query){
+ const a=document.createElement('a');a.href='https://www.youtube.com/results?search_query='+encodeURIComponent(query);
+ a.target='_blank';a.rel='noopener noreferrer';a.textContent='Find videos: '+label;choices.append(a);
+}
+function choose(name,button){
+ categoriesEl.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button));
+ choices.replaceChildren();clearPlayer();
  if(active==='Music'){
-  const matches=tracks.filter(t=>t.genre===group);
-  for(const t of matches)addLink(slot,t.artist+' — '+t.title,'https://www.youtube.com/watch?v='+encodeURIComponent(t.videoId));
+  for(const t of tracks.filter(t=>t.genre===name))item(t.artist+' — '+t.title,t.videoId);
  }else if(active==='Movies'){
-  for(const movie of films[group]||[])addLink(slot,movie+' · Trailer',youtube(movie+' official trailer'));
- }else if(active==='Motivation'){
-  for(const term of motivation[group]||[])addLink(slot,term,youtube(term));
+  for(const m of movieCatalog.filter(m=>m.category===name))item(m.title+' · Trailer',m.video);
  }else{
-  for(const [person,topic]of guides[group]||[])addLink(slot,person+' · '+group,youtube(person+' '+topic));
+  const sources=active==='Motivation'?motivations[name]||[]:guides[name]||[];
+  for(const person of sources)sourceSearch(person,person+' '+name+' family advice videos');
  }
 }
-function render(name){
- active=name;tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.textContent===name));
- body.replaceChildren();
- const categoriesWrap=document.createElement('div');categoriesWrap.className='family-jukebox-categories';
- const links=document.createElement('div');links.className='family-music-links';
- for(const [index,category] of categories[name].entries()){
+let active=null;
+function activate(name,button){
+ active=name;tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button));
+ categoriesEl.replaceChildren();choices.replaceChildren();clearPlayer();
+ for(const category of categories[name]){
   const b=document.createElement('button');b.type='button';b.className='family-category-btn';
-  b.textContent=category;
-  b.addEventListener('click',()=>{
-    categoriesWrap.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
-    renderGroup(category,links);
-  });
-  categoriesWrap.append(b);
-  if(index===0){b.classList.add('active');renderGroup(category,links)}
+  b.textContent=category;b.onclick=()=>choose(category,b);categoriesEl.append(b);
  }
- body.append(categoriesWrap,links);
 }
 for(const label of ['Music','Movies','Motivation','Family Guidance']){
- const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>render(label));tabs.append(b);
+ const button=document.createElement('button');button.type='button';button.textContent=label;
+ button.onclick=()=>activate(label,button);tabs.append(button);
 }
-close.addEventListener('click',()=>{pop.hidden=true;trigger?.setAttribute('aria-expanded','false')});
-mini.addEventListener('click',()=>{const collapsed=pop.classList.toggle('jukebox-minimized');mini.textContent=collapsed?'+':'−';mini.title=collapsed?'Expand':'Minimize'});
-const footnote=document.createElement('small');footnote.textContent='YouTube opens separately. Family Guidance is educational, not a substitute for professional help.';body.append(footnote);
-render('Music');
+min.onclick=()=>{const collapsed=pop.classList.toggle('jukebox-minimized');min.textContent=collapsed?'+':'−';if(collapsed)clearPlayer()};
+close.onclick=()=>{clearPlayer();pop.hidden=true;trigger?.setAttribute('aria-expanded','false')};
+trigger?.addEventListener('click',()=>{if(pop.hidden)clearPlayer()});
 })();
