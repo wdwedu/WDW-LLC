@@ -23,3 +23,16 @@ body.dark .family-art-tile{background-image:url('./assets/tree-dark.jpg');opacit
 .music-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
 .music-tabs button{white-space:normal}
 @media(max-width:750px){nav .tools{overflow-x:auto;justify-content:flex-start}.family-art-tile{opacity:.34}body.dark .family-art-tile{opacity:.36}#expandFamily{position:relative}}
+
+/* Seasonal single-mural replacement. Full family and its SVG lines always show. */
+#familyArtNine{display:none!important}
+#familySeasonalBackdrop{
+ position:absolute;left:0;top:0;width:12000px;height:5200px;
+ background-position:center center;background-size:100% 100%;
+ background-repeat:no-repeat;opacity:1;pointer-events:none;z-index:0
+}
+#canvas #links{visibility:visible;z-index:2}
+#canvas .person{z-index:4}
+#canvas .person.family-collapsed{display:flex!important}
+#familySeasonPicker{max-width:148px;min-width:102px;cursor:pointer}
+@media(max-width:750px){#familySeasonPicker{max-width:112px}}
