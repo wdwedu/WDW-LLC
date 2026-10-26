@@ -1,0 +1,31 @@
+name: Family tree draft checks
+on:
+  pull_request:
+    paths:
+      - 'family/**'
+      - '.github/workflows/family-tree-checks.yml'
+  workflow_dispatch:
+jobs:
+  family-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Family identity and privacy tests
+        run: node family/tests/family-relationships.test.cjs
+      - name: Confirm no private photo folder is tracked
+        run: |
+          if git ls-files 'family/assets/williams-private/*' | grep -q .; then
+            echo 'ERROR: restricted portraits tracked in public repository'
+            exit 1
+          fi
+      - name: Confirm no static public private portrait path
+        run: |
+          if grep -Fq "assets/williams-private/" family/family-photo-extension.js; then
+            echo 'ERROR: restricted portrait URL must not be public'
+            exit 1
+          fi
