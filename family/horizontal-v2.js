@@ -4,7 +4,7 @@
  'use strict';
  const familyId=(id)=>byId.get(id);
  const law=familyId('w1'), ger=familyId('w2');
- const siblings=['wa-larry','wa-jimmy','wa-roseanne','wa-gary','w0','wa-derek','wa-brody','wa-patrice','wa-thelma','wa-elaine','wa-teresa','wa-fred'];
+ const siblings=['wa-larry','wa-jimmy','wa-roseanne','wa-gary','wa-fred','wa-derek','wa-brody','wa-patrice','wa-thelma','wa-elaine','wa-teresa','w0'];
  const cousinFamilies={
    'wa-elaine':['wa-henderson-derek','wa-henderson-wendy','wa-henderson-reginald'],
    'wa-brody':['wa-brody-isaiah','wa-brody-jason','wa-brody-justin','wa-brody-brianna','wa-brody-unknown'],
@@ -22,11 +22,12 @@
  const railX=pos[ger.id].x-20;
  const firstY=CENTER.y+180,spacing=177;
  const activeSiblings=siblings.filter(id=>id!=='w0');
- const fatherReference={x:railX,y:firstY+siblings.indexOf('w0')*spacing};
+ const migrateFred=Number(saved.layoutVersion||2)<3;
  for(const [i,id] of siblings.entries()){
-   if(id==='w0')continue; // Show a reference in the siblings column but keep Wayne Sr.'s single identity.
-   extraPosition(id,railX,firstY+i*spacing);
+   if(id==='w0')continue; // Wayne Sr. appears once, beside Jacqueline at the center.
+   if(id==='wa-fred'&&migrateFred)position(id,railX,firstY+i*spacing);else extraPosition(id,railX,firstY+i*spacing);
  }
+ saved.layoutVersion=3;
  const unknownId='wa-lawrence-other-partner';
  extraPosition(unknownId,pos[law.id].x-250,CENTER.y-740);
  for(let k=0;k<9;k++){
@@ -39,22 +40,20 @@
  }
  for(const person of extras){
    if(!pos[person.id])continue;
-   layoutCard(person);
+   if(!cardEls.has(person.id))layoutCard(person);else placeOne(person.id);
    const card=cardEls.get(person.id);
    if(card){card.dataset.kind=person.kind;
      if(person.unconfirmed)card.classList.add('needs-check');
      if(person.kind==='cousin')card.classList.add('cousin');
    }
  }
- const dadReference=document.createElement('button');dadReference.type='button';dadReference.className='person family-reference';dadReference.style.left=fatherReference.x+'px';dadReference.style.top=fatherReference.y+'px';dadReference.innerHTML='<span class="visual"><span class="fallback">W</span></span><span class="details"><span class="name">Wayne Williams Sr.</span><span class="relation">Father · see center ↗</span></span>';dadReference.addEventListener('click',()=>openEditor(dad.id));board.append(dadReference);
- const fatherPhoto=getPic(dad);if(fatherPhoto){const im=document.createElement('img');im.src=fatherPhoto;im.alt='Wayne Sr.';dadReference.querySelector('.visual').replaceChildren(im)}
  const marriagePairs=[['w0',ma.id],['w1','w2'],['w3','w4'],['w5','w6']];
  const rawDrawLines=drawLines;
  function addLine(a,b,kind=''){
    if(!pos[a]||!pos[b])return;
    edge(a,b,false);
    const el=wire.lastElementChild;
-   if(el)el.classList.add(kind);
+   if(el&&kind)el.classList.add(kind);
  }
  function curveBetween(a,b,kind){
    const A=pos[a],B=pos[b];if(!A||!B)return;
@@ -72,14 +71,6 @@
       if(id==='w0')continue;
       addLine(law.id,id);
       addLine(ger.id,id);
-   }
-   // Reference for the existing Wayne Sr. card completes the visible group of 12.
-   for(const parent of [law.id,ger.id]){
-     const A=pos[parent];if(!A)continue;
-     const x1=A.x+CW/2,y1=A.y+CH/2,x2=fatherReference.x+CW/2,y2=fatherReference.y+CH/2;
-     const line=document.createElementNS('http://www.w3.org/2000/svg','path');
-     line.setAttribute('d',`M ${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}`);
-     line.setAttribute('class','connect');wire.append(line);
    }
    for(const id of otherSlots){addLine(law.id,id,'provisional');addLine(unknownId,id,'provisional')}
    for(const [parent,children] of Object.entries(cousinFamilies))
@@ -101,16 +92,13 @@
  updateZoom(zoom); // The whole map extends further up/down without losing horizontal pan.
  document.querySelector('#viewport')?.setAttribute('aria-label','Scrollable two-dimensional Williams and Goodson family map');
  document.querySelector('nav a[href="./classic.html"]')?.remove();
- const maphelp=document.querySelector('.maphelp');if(maphelp)maphelp.innerHTML='<strong>Wayne is your center.</strong> Scroll left for Williams, right for Goodson, and up or down for the growing branches. Drag empty space to pan. Turn on Arrange to move people.';
- const legend=document.createElement('div');legend.id='familyLegend';legend.innerHTML='<span class="dot"></span> dotted black/white = marriage &nbsp;&nbsp; <span class="dot purple"></span> purple = cousin branch';
- document.body.append(legend);
  // Parent/cousin family detail defaults, editable in the individual person card.
  if(!saved.profiles||typeof saved.profiles!=='object')saved.profiles={};
  const defaults={
-  [me?.id]:{relationship:'You',occupation:'Educator, curriculum designer, instructional designer and family historian',notes:'Wayne Williams is an educator and lifelong learner dedicated to preserving the Williams and Goodson family history. Through curriculum design, creative projects and family storytelling, he is building a legacy for the next generation.'},
-  [girl?.id]:{parents:'Wayne Williams and Michelle Joseph',relationship:'Daughter',notes:'Michelle Joseph is the other parent and is not displayed in this blood-relative tree.'},
-  [boy?.id]:{parents:'Wayne Williams and Anika Fountain',relationship:'Son',notes:'Anika Fountain is the other parent and is not displayed in this blood-relative tree.'},
-  [ma?.id]:{relationship:'Mother',occupation:'Registered nurse',children:'Wayne Williams Jr.'},
+  [me?.id]:{lifeStatus:'living',relationship:'You',parents:'Wayne Williams Sr. and Jacqueline Marie Louise Goodson',children:'Jasmine Williams, Jordan Williams',occupation:'Educator, curriculum designer, instructional designer and family historian',notes:'Wayne Williams is an educator and lifelong learner dedicated to preserving the Williams and Goodson family history. Through curriculum design, creative projects and family storytelling, he is building a legacy for the next generation.'},
+  [girl?.id]:{lifeStatus:'living',parents:'Wayne Williams and Michelle Joseph',relationship:'Daughter',notes:'Michelle Joseph is the other parent and is not displayed in this blood-relative tree.'},
+  [boy?.id]:{lifeStatus:'living',parents:'Wayne Williams and Anika Fountain',relationship:'Son',notes:'Anika Fountain is the other parent and is not displayed in this blood-relative tree.'},
+  [ma?.id]:{lifeStatus:'living',relationship:'Mother',occupation:'Registered nurse',children:'Wayne Williams Jr.'},
   [dad?.id]:{relationship:'Father',parents:'Lawrence Williams and Gertrude Smith',children:'Wayne Williams Jr.'},
   [law.id]:{relationship:'Paternal grandfather',spouse:'Gertrude Smith; other partner name unknown',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred'},
   [ger.id]:{relationship:'Paternal grandmother',spouse:'Lawrence Williams',children:'Larry, Jimmy, Roseanne, Gary, Wayne Sr., Derek, Brody, Patrice, Thelma, Elaine, Teresa, Fred'},
@@ -127,46 +115,47 @@
  for(const id of siblings){
     defaults[id]={parents:'Lawrence Williams and Gertrude Smith',siblings:siblingNames.filter(x=>x!==shortName(byId.get(id)?.name||'')).join(', '),...(defaults[id]||{})};
  }
- const getProfile=id=>({...defaults[id],...(saved.profiles?.[id]||{})});
+ const getProfile=id=>{const p=byId.get(id),year=p?.name.match(/\((\d{4})\s*[–-]/)?.[1]||'';return{birthDate:year,deathDate:'',lifeStatus:'unknown',...defaults[id],...(saved.profiles?.[id]||{})}};
  const drawer=document.getElementById('drawer');
  const relation=document.getElementById('personRelation');
- const heading=document.createElement('h3');heading.textContent='Family profile';heading.id='profileHeading';
+ const heading=document.createElement('h3');heading.textContent='';heading.hidden=true;heading.id='profileHeading';
  const summary=document.createElement('div');summary.className='family-summary';summary.id='familySummary';
  relation.insertAdjacentElement('afterend',heading);heading.insertAdjacentElement('afterend',summary);
- const fields=[['relationship','Relationship to Wayne'],['parents','Parents'],['spouse','Spouse / partner'],['children','Children'],['siblings','Brothers and sisters'],['occupation','Occupation / life history'],['notes','Biography / memories']];
- const fieldWrap=document.createElement('section');fieldWrap.id='profileFields';
+ const fields=[['birthDate','Born (date or year)'],['deathDate','Died (date or year)'],['lifeStatus','Life status'],['relationship','Relationship to Wayne'],['parents','Parents'],['spouse','Spouse / partner'],['children','Children'],['siblings','Brothers and sisters'],['occupation','Occupation / life history'],['notes','Biography / memories']];
+ const fieldWrap=document.createElement('section');fieldWrap.id='profileFields';fieldWrap.hidden=true;
  const selectors={};
  for(const [key,title]of fields){
    const label=document.createElement('label');label.textContent=title;label.htmlFor='profile-'+key;
-   const el=document.createElement(key==='notes'?'textarea':'input');
-   el.id='profile-'+key;if(key!=='notes')el.type='text';el.placeholder='Add details';
+   const el=document.createElement(key==='lifeStatus'?'select':key==='notes'?'textarea':'input');
+   el.id='profile-'+key;if(key==='lifeStatus'){for(const [value,text]of [['unknown','Not yet recorded'],['living','Living'],['deceased','Deceased']]){const option=document.createElement('option');option.value=value;option.textContent=text;el.append(option)}}else{if(key!=='notes')el.type='text';el.placeholder='Not yet recorded'}
    fieldWrap.append(label,el);selectors[key]=el;
  }
  const addNote=document.createElement('p');addNote.className='fieldhint';addNote.textContent='Edit these details and choose Save Profile. Changes stay in this browser until you Export and send the backup for publishing.';
  const saveProfile=document.createElement('button');saveProfile.className='navbtn profile-save';saveProfile.type='button';saveProfile.textContent='Save Profile';
  fieldWrap.append(addNote,saveProfile);
  summary.insertAdjacentElement('afterend',fieldWrap);
+ const lifeDates=document.createElement('div');lifeDates.id='familyLifeDates';lifeDates.className='family-life-dates';
  function profileText(p){
-   const x=getProfile(p.id),family=[];
-   if(x.parents)family.push('Parents: '+x.parents);
-   else if(p.parent && byId.has(p.parent))family.push('Parent / ancestor connection: '+shortName(byId.get(p.parent).name));
-   if(x.spouse)family.push('Partner: '+x.spouse);
-   if(x.children)family.push('Children: '+x.children);
-   if(x.siblings)family.push('Siblings: '+x.siblings);
-   if(x.occupation)family.push('Occupation: '+x.occupation);
-   if(x.notes)family.push(x.notes);
-   if(!family.length)family.push('Family information is ready to be added.');
-   summary.replaceChildren();
-   for(const item of family){const line=document.createElement('div');line.textContent=item;line.style.marginBottom='8px';summary.append(line)}
+   const x=getProfile(p.id);summary.replaceChildren();lifeDates.replaceChildren();
+   const item=(root,label,value)=>{const row=document.createElement('div');row.className='family-fact';const term=document.createElement('dt'),detail=document.createElement('dd');term.textContent=label;detail.textContent=value||'Not yet recorded';if(!value)detail.className='family-missing';row.append(term,detail);root.append(row)};
+   const dates=document.createElement('dl');item(dates,'Born',x.birthDate);
+   if(x.lifeStatus==='living')item(dates,'Life status','Living');else {item(dates,'Died',x.deathDate);if(x.lifeStatus==='deceased')item(dates,'Life status','Deceased');else item(dates,'Life status','Not yet recorded')}
+   lifeDates.append(dates);
+   const bioTitle=document.createElement('h3');bioTitle.textContent='Biography';const bio=document.createElement('p');bio.textContent=x.notes||'A life story is waiting to be added.';if(!x.notes)bio.className='family-missing';summary.append(bioTitle,bio);
+   if(x.occupation){const work=document.createElement('p');work.className='family-life-work';work.textContent=x.occupation;summary.append(work)}
+   const familyTitle=document.createElement('h3');familyTitle.textContent='Family';const family=document.createElement('dl');
+   for(const [key,label]of [['parents','Parents'],['spouse','Spouse / partner'],['children','Children'],['siblings','Brothers and sisters']])item(family,label,x[key]);
+   summary.append(familyTitle,family);
  }
+ window.FAMILY_PROFILE={get:getProfile,render:profileText,lifeDates};
  const originalOpenEditor=openEditor;
  openEditor=function(id){originalOpenEditor(id);const p=byId.get(id);if(!p)return;
-   const x=getProfile(id);for(const [key]of fields)selectors[key].value=x[key]||'';
+   const x=getProfile(id);for(const [key]of fields)selectors[key].value=x[key]||(key==='lifeStatus'?'unknown':'');
    profileText(p);
    document.getElementById('personRelation').textContent=x.relationship||p.role;
  };
  saveProfile.onclick=()=>{
-    if(!focused)return;
+    if(!arrange||!focused)return;
     const data={};for(const [key]of fields)data[key]=selectors[key].value.trim();
     saved.profiles[focused]=data;
     writeSave();profileText(byId.get(focused));
@@ -208,5 +197,5 @@
  renderMusic('Motivation');
  const textUnder=document.querySelector('.musicpop p:last-child');if(textUnder?.textContent?.includes('placeholders'))textUnder.textContent='Listening and video links open external searches; no autoplay or downloads.';
  const count=document.getElementById('countLabel');count.textContent=PERSONS.length+' family and placeholder cards · Williams ← Wayne → Goodson';
- focus(CENTER.x,CENTER.y,true);
+ focusWayne(true);
 })();
