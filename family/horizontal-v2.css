@@ -48,3 +48,13 @@ body.dark #familyLegend .purple{border-color:#c9a8ef}
 .person.family-reference{border:2px dashed var(--royal);opacity:.94}.person.family-reference .relation{font-size:10px}
 
 .person[data-kind='maternal-robertson']{border-color:#9471bf;background:var(--panel)}
+
+/* Release-safe artwork restoration: explicitly render all four mirrored tiles.
+   Tiles remain behind cards; dark and light modes show only their correct artwork. */
+#canvas .tree-art.upper,#canvas .tree-art.lower{display:block;pointer-events:none;z-index:0;background-repeat:no-repeat;background-size:100% 100%}
+#canvas .tree-art.light.upper,#canvas .tree-art.light.lower{background-image:url('./assets/tree-light.jpg');opacity:.24}
+#canvas .tree-art.night.upper,#canvas .tree-art.night.lower{background-image:url('./assets/tree-dark.jpg');opacity:0}
+body.dark #canvas .tree-art.light.upper,body.dark #canvas .tree-art.light.lower{opacity:0}
+body.dark #canvas .tree-art.night.upper,body.dark #canvas .tree-art.night.lower{opacity:.30}
+#canvas #links{z-index:1}
+#canvas .person{z-index:2}
