@@ -107,6 +107,7 @@
  // Parent/cousin family detail defaults, editable in the individual person card.
  if(!saved.profiles||typeof saved.profiles!=='object')saved.profiles={};
  const defaults={
+  [me?.id]:{relationship:'You',occupation:'Educator, curriculum designer, instructional designer and family historian',notes:'Wayne Williams is an educator and lifelong learner dedicated to preserving the Williams and Goodson family history. Through curriculum design, creative projects and family storytelling, he is building a legacy for the next generation.'},
   [girl?.id]:{parents:'Wayne Williams and Michelle Joseph',relationship:'Daughter',notes:'Michelle Joseph is the other parent and is not displayed in this blood-relative tree.'},
   [boy?.id]:{parents:'Wayne Williams and Anika Fountain',relationship:'Son',notes:'Anika Fountain is the other parent and is not displayed in this blood-relative tree.'},
   [ma?.id]:{relationship:'Mother',occupation:'Registered nurse',children:'Wayne Williams Jr.'},
