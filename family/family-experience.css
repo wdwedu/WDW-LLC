@@ -142,3 +142,28 @@ body.dark #canvas .person{box-shadow:0 0 0 2px rgba(255,233,164,.72),0 0 20px 6p
 
 .fj-v2 .fj-navigation{position:sticky;top:-14px;z-index:5;background:var(--panel);padding-top:10px;padding-bottom:1px;margin-top:-10px}
 .fj-v2.jukebox-minimized .fj-navigation{position:static;padding-top:0;margin-top:0}
+
+
+/* Public life stories are separate from device-local editing controls. */
+#drawer[hidden],#drawer [hidden]{display:none!important}
+#drawer{width:min(420px,96vw);box-sizing:border-box;padding:22px;overscroll-behavior:contain}
+#drawer #closeDrawer{float:right;background:#2455d6;color:#fff;border:1px solid #6c91f5;border-radius:8px}
+#drawer #personTitle{padding-right:35px;font:700 24px/1.2 Georgia,serif;margin:9px 0}
+#drawer #personRelation{font:600 13px/1.5 Georgia,serif;color:var(--royal);margin-bottom:13px}
+#drawer .photo-stage,#drawer .family-photo-frame{height:260px;margin:12px 0;border-radius:14px}
+#drawer .family-portrait-placeholder{display:grid;place-items:center;height:150px;border:1px dashed var(--border);border-radius:14px;color:var(--sub);background:var(--toolbar);font:italic 15px Georgia,serif}
+#drawer .family-life-dates{border-block:1px solid var(--border);margin:14px 0;padding:10px 0}
+#drawer dl{margin:0}
+#drawer .family-fact{display:grid;grid-template-columns:minmax(82px,.8fr) minmax(0,1.5fr);gap:12px;padding:7px 0;font-size:12px;line-height:1.5}
+#drawer dt{font-weight:700;color:var(--sub)}
+#drawer dd{margin:0;color:var(--text);overflow-wrap:anywhere}
+#drawer .family-summary{background:transparent;padding:0;color:var(--text)}
+#drawer .family-summary h3{font:700 18px Georgia,serif;text-transform:none;letter-spacing:0;margin:19px 0 9px;color:var(--text)}
+#drawer .family-summary p{font:14px/1.65 Georgia,serif;white-space:pre-line;color:var(--text)}
+#drawer .family-missing{color:var(--sub);font-style:italic}
+#drawer .family-life-work{border-left:3px solid var(--royal);padding-left:11px}
+#drawer .editor-only,#drawer #profileFields{border-top:1px solid var(--border);margin-top:22px;padding-top:14px}
+#drawer #profileFields select{width:100%;padding:10px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:8px;font:13px Arial,sans-serif}
+#drawer .family-private-hint{font-size:11px}
+#canvas .marriage{display:none!important}
+@media(max-width:600px){#drawer{padding:17px;top:116px}#drawer #personTitle{font-size:22px}#drawer .photo-stage{height:225px}}
